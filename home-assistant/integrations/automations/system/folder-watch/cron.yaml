@@ -1,0 +1,32 @@
+alias: 'HA 📂 Folder Watch : /config/integrations/cron'
+
+mode: restart
+
+id: 65d39cad-1756-4630-a8e5-3b0ed22732d6
+
+trigger:
+  - platform: event
+    event_type: folder_watcher
+    event_data:
+      event_type: created
+
+  - platform: event
+    event_type: folder_watcher
+    event_data:
+      event_type: deleted
+
+  - platform: event
+    event_type: folder_watcher
+    event_data:
+      event_type: modified
+
+condition:
+  - condition: template
+    value_template: "{{ 'cron' in  trigger.event.data.folder }}"
+
+action:
+  - service: shell_command.cron_restart
+  - service: notify.persistent_notification
+    data:
+      title: Cron
+      message: 'Status : Reloaded'

@@ -1,0 +1,16 @@
+---
+alias: "HA : 👀 Watchman Report"
+
+id: 88352359-0fb3-40f0-944b-4941d063f0e1
+
+description: >-
+  Auto runs Watchman Service to find which entities are not loaded / missing
+
+mode: single
+
+trigger:
+  - platform: time
+    at: '06:00:00'
+
+action:
+  - service: watchman.report

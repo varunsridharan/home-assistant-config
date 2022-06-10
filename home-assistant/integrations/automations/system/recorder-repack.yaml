@@ -1,0 +1,25 @@
+---
+alias: "HA : 💽 Recorder - Repack"
+
+description: >-
+    Sunday morning, early morning, repack the recorder database.
+    This keeps the disk usage low and nice by reclaiming space.
+
+id: 0b48950d-3358-4a4f-9a1e-8b303d866fea
+
+mode: single
+
+trigger:
+    - platform: time
+      at: "05:55"
+
+condition:
+    - condition: time
+      weekday:
+          - sun
+
+action:
+    - service: recorder.purge
+      data:
+          keep_days: 100
+          repack: true

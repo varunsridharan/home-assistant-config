@@ -1,0 +1,331 @@
+alias: "🏢 Office : ❄️ AC Controller"
+description: Control Office Room AC Via Wifi Remote Controller
+mode: parallel
+id: "b3f6a363-cda1-4900-8cd7-5f968393d2dd1"
+
+trigger:
+    - platform: state
+      entity_id: input_number.office_ac_temp
+      id: ac-temp
+
+    - platform: state
+      entity_id: input_boolean.office_ac_power_on_off
+      id: ac-power-on
+      to: "on"
+      from: "off"
+
+    - platform: state
+      entity_id: input_number.office_ac_fan_speed
+      id: ac-fan-speed
+
+    - platform: state
+      entity_id: input_boolean.office_ac_power_on_off
+      id: ac-power-off
+      to: "off"
+      from: "on"
+
+    #- platform: template
+    #  value_template: >-
+    #      {{( states("sensor.universal_remote_control_temperature") | round(2) <= states("input_number.office_ac_temp")| round(2))}}
+    #  id: temp-reached
+
+    - platform: state
+      entity_id: input_boolean.office_ac_power_on_off
+      id: ac-power-on-3m
+      to: "on"
+      from: "off"
+      for:
+          hours: 0
+          minutes: 3
+          seconds: 0
+
+    - platform: state
+      entity_id: input_boolean.office_ac_power_on_off
+      id: ac-power-on-6m
+      to: "on"
+      from: "off"
+      for:
+          hours: 0
+          minutes: 6
+          seconds: 0
+
+    - platform: state
+      entity_id: input_boolean.office_ac_power_on_off
+      id: ac-power-on-2h
+      to: "on"
+      from: "off"
+      for:
+          hours: 2
+          minutes: 0
+          seconds: 0
+
+    - platform: state
+      entity_id: input_boolean.office_ac_power_on_off
+      id: ac-power-on-10m
+      to: "on"
+      from: "off"
+      for:
+          hours: 0
+          minutes: 10
+          seconds: 0
+
+    - platform: state
+      entity_id: input_boolean.office_ac_power_on_off
+      id: ac-power-off-2m
+      to: "off"
+      from: "on"
+      for:
+          hours: 0
+          minutes: 2
+          seconds: 0
+
+    - platform: state
+      entity_id: input_boolean.office_ac_power_on_off
+      id: ac-power-off-4m
+      to: "off"
+      from: "on"
+      for:
+          hours: 0
+          minutes: 4
+          seconds: 0
+
+    - platform: state
+      entity_id: input_boolean.office_ac_power_on_off
+      id: ac-power-off-6m
+      to: "off"
+      from: "on"
+      for:
+          hours: 0
+          minutes: 6
+          seconds: 0
+
+action:
+    - choose:
+          # AC Power On
+          - conditions:
+                - condition: trigger
+                  id: ac-power-on
+            sequence:
+                - service: remote.send_command
+                  target:
+                      entity_id: remote.universal_remote_control_remote
+                  data:
+                      device: office-ac
+                      command:
+                          - power-on
+                          - >-
+                              mode-cool-temp-{{ states("input_number.office_ac_temp") | int }}-fan-{{states("input_number.office_ac_fan_speed") | int }}
+
+          # AC Power Off
+          - conditions:
+                - condition: trigger
+                  id: ac-power-off
+            sequence:
+                - service: remote.send_command
+                  target:
+                      entity_id: remote.universal_remote_control_remote
+                  data:
+                      device: office-ac
+                      command: power-off
+
+          # Room Temp Reached AC Temp ( Auto Off )
+          - conditions:
+                - condition: trigger
+                  id: temp-reached
+            sequence:
+                - delay:
+                      hours: 0
+                      minutes: 2
+                      seconds: 0
+                      milliseconds: 0
+                - service: remote.send_command
+                  target:
+                      entity_id: remote.universal_remote_control_remote
+                  data:
+                      device: office-ac
+                      command: power-off
+                - service: input_boolean.turn_off
+                  target:
+                      entity_id: input_boolean.office_ac_power_on_off
+
+      default:
+          - condition: state
+            entity_id: input_boolean.office_ac_power_on_off
+            state: "on"
+          - service: remote.send_command
+            target:
+                entity_id: remote.universal_remote_control_remote
+            data:
+                device: office-ac
+                command: >-
+                    mode-cool-temp-{{ states("input_number.office_ac_temp") | int }}-fan-{{ states("input_number.office_ac_fan_speed") | int }}
+
+    - choose:
+          # AC Power On Office Mode
+          - conditions:
+                - condition: and
+                  conditions:
+                      - condition: trigger
+                        id: ac-power-on
+                      - condition: state
+                        entity_id: input_select.ac_operation_mode
+                        state: Office
+            sequence:
+                - service: fan.set_percentage
+                  data:
+                      percentage: 100
+                  target:
+                      entity_id: fan.office_fan
+                - service: input_number.set_value
+                  data:
+                      value: 3
+                  target:
+                      entity_id: input_number.office_ac_fan_speed
+
+          # AC Power On Night Mode
+          - conditions:
+                - condition: and
+                  conditions:
+                      - condition: trigger
+                        id: ac-power-on
+                      - condition: state
+                        entity_id: input_select.ac_operation_mode
+                        state: Night
+            sequence:
+                - service: fan.set_percentage
+                  data:
+                      percentage: 100
+                  target:
+                      entity_id: fan.office_fan
+
+          # AC Power On Office Mode After 3 Min
+          - conditions:
+                - condition: and
+                  conditions:
+                      - condition: trigger
+                        id: ac-power-on-3m
+                      - condition: state
+                        entity_id: input_select.ac_operation_mode
+                        state: Office
+            sequence:
+                - service: fan.set_percentage
+                  data:
+                      percentage: 70
+                  target:
+                      entity_id: fan.office_fan
+                - service: input_number.set_value
+                  data:
+                      value: 2
+                  target:
+                      entity_id: input_number.office_ac_fan_speed
+
+          # AC Power On Office Mode After 6 Min
+          - conditions:
+                - condition: and
+                  conditions:
+                      - condition: trigger
+                        id: ac-power-on-6m
+                      - condition: state
+                        entity_id: input_select.ac_operation_mode
+                        state: Office
+            sequence:
+                - service: fan.set_percentage
+                  data:
+                      percentage: 45
+                  target:
+                      entity_id: fan.office_fan
+                - service: input_number.set_value
+                  data:
+                      value: 1
+                  target:
+                      entity_id: input_number.office_ac_fan_speed
+
+          # AC Power On Office Mode After 10 Min
+          - conditions:
+                - condition: and
+                  conditions:
+                      - condition: trigger
+                        id: ac-power-on-10m
+                      - condition: state
+                        entity_id: input_select.ac_operation_mode
+                        state: Office
+            sequence:
+                - service: fan.set_percentage
+                  data:
+                      percentage: 20
+                  target:
+                      entity_id: fan.office_fan
+                - service: input_number.set_value
+                  data:
+                      value: 1
+                  target:
+                      entity_id: input_number.office_ac_fan_speed
+
+          # AC Power Off Office Mode After 2 Min
+          - conditions:
+                - condition: and
+                  conditions:
+                      - condition: trigger
+                        id: ac-power-off-2m
+                      - condition: state
+                        entity_id: input_select.ac_operation_mode
+                        state: Office
+            sequence:
+                - service: fan.set_percentage
+                  data:
+                      percentage: 40
+                  target:
+                      entity_id: fan.office_fan
+
+          # AC Power Off Office Mode After 4 Min
+          - conditions:
+                - condition: and
+                  conditions:
+                      - condition: trigger
+                        id: ac-power-off-4m
+                      - condition: state
+                        entity_id: input_select.ac_operation_mode
+                        state: Office
+            sequence:
+                - service: fan.set_percentage
+                  data:
+                      percentage: 70
+                  target:
+                      entity_id: fan.office_fan
+
+          # AC Power Off Office Mode After 6 Min
+          - conditions:
+                - condition: and
+                  conditions:
+                      - condition: trigger
+                        id: ac-power-off-6m
+                      - condition: state
+                        entity_id: input_select.ac_operation_mode
+                        state: Office
+            sequence:
+                - service: fan.set_percentage
+                  data:
+                      percentage: 100
+                  target:
+                      entity_id: fan.office_fan
+
+          # Auto AC Power Off After 2 hrs
+          - conditions:
+                - condition: and
+                  conditions:
+                      - condition: trigger
+                        id: ac-power-on-2h
+                      - condition: state
+                        entity_id: input_select.ac_operation_mode
+                        state: Night
+            sequence:
+                - service: fan.set_percentage
+                  data:
+                      percentage: 0
+                  target:
+                      entity_id: fan.office_fan
+                - service: input_boolean.turn_off
+                  data: {}
+                  target:
+                      entity_id: input_boolean.office_ac_power_on_off
+      default: []

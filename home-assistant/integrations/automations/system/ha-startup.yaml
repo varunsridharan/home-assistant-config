@@ -1,0 +1,15 @@
+alias: 'HA : 🟢 Startup'
+
+id: 98a5ba8d-12b5-4cf0-a93f-0a1ec9cdbf94
+
+description: Do Some Basic ENV Setup
+
+mode: single
+
+trigger:
+  - platform: homeassistant
+    event: start
+
+action:
+  - service: shell_command.update_shell_script_permission
+  - service: shell_command.setup_env

@@ -1,0 +1,13 @@
+image_processing:
+    - platform: deepstack_face
+      ip_address: !secret deepstack_host
+      port: !secret deepstack_host_port
+      timeout: 5
+      detect_only: False
+      save_file_folder: /config/www/deepstack/snapshots/
+      save_faces: True
+      save_faces_folder: /config/www/deepstack/faces/
+      show_boxes: True
+      source:
+          - entity_id: camera.front_camera
+            name: "Front Camera : Face Recognition"

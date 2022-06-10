@@ -1,0 +1,28 @@
+hall_announcer_light_power_cut_warning:
+    alias: " 📣 Hall Announcer : Lights Power Cut Warning"
+    mode: restart
+    icon: mdi:alert
+    sequence:
+        - condition: or
+          conditions:
+              - condition: state
+                entity_id: light.back_corridor_9w_philips_light
+                state: unavailable
+
+              - condition: state
+                entity_id: light.kitchen_9w
+                state: unavailable
+
+        - service: script.hall_announcer_notify
+          data:
+              message: >-
+                  எச்சரிக்கை .
+                  {% if states("light.back_corridor_9w_philips_light") == 'unavailable' %}
+                      பின் தாழ்வாரம் விளக்கு அணைக்கப்பட்டுள்ளது
+                  {% endif %}
+
+                  {% if states("light.kitchen_9w") == 'unavailable' %}
+                      c
+                  {% endif %}
+
+                  தயவுசெய்து விளக்குகளை மீண்டும் இயக்கவும்

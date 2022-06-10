@@ -1,0 +1,39 @@
+# https://www.home-assistant.io/integrations/time_date
+- platform: time_date
+  display_options:
+      - "time"
+      - "date"
+
+# https://www.home-assistant.io/integrations/waqi/
+- platform: waqi
+  token: !secret waqi
+  locations:
+      - Chennai
+
+# https://www.home-assistant.io/integrations/integration#energy
+- platform: integration
+  source: sensor.smart_plug_nas_vault1_watts
+  name: SP - NAS Vault-1 - W To kWh
+  unit_prefix: k
+  round: 2
+
+- platform: integration
+  source: sensor.smart_plug_cctv_monitor_watts
+  name: SP - CCTV Monitor - W To kWh
+  unit_prefix: k
+  round: 2
+
+- platform: integration
+  source: sensor.smart_plug_personal_mobile_charger_watts
+  #name: SP - NAS - Watts To KilloWatts
+  name: SP - Personal Mobile Charger - W To kWh
+  unit_prefix: k
+  round: 2
+
+- platform: integration
+  source: sensor.smart_plug_proxmox_backup_watts
+  #name: SP - NAS - Watts To KilloWatts
+  name: SP - Proxmox Backup - W To kWh
+  unit_prefix: k
+  round: 2
+  

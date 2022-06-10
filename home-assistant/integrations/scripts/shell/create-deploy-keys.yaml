@@ -1,0 +1,15 @@
+shell_create_deploy_keys:
+  alias: "Shell : 🔑 Create Deploy Keys"
+  icon: mdi:shield-key
+
+  fields:
+    identity:
+      name: "Deploy Key Name"
+      required: true
+      selector:
+        text:
+
+  sequence:
+    - service: shell_command.create_deploykeys
+      data:
+        identity: "{{ identity }}"

@@ -1,0 +1,22 @@
+#################
+# https://github.com/frenck/home-assistant-config/blob/master/automations/system/recorder_purge.yaml
+#################
+---
+alias: "HA : 💽 Recorder - Purge"
+
+description: >-
+    Purge my recorder database every hour, to keep things nice and tight.
+    While Home Assistant does this daily, I like to do it every hour.
+
+id: 6cf148ab-a2fc-46c1-977d-958e27e43cef
+
+mode: single
+
+trigger:
+    - platform: time_pattern
+      minutes: 12
+
+action:
+    - service: recorder.purge
+      data:
+          keep_days: 100

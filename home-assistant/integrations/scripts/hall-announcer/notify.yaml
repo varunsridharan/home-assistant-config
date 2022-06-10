@@ -1,0 +1,57 @@
+hall_announcer_notify:
+    alias: " 📣 Hall Announcer : TTS"
+    mode: restart
+    icon: mdi:account-voice
+
+    fields:
+        message:
+            name: "TTS Message"
+            selector:
+                text:
+                    multiline: true
+        google_voice:
+            name: "Google TTS Voice"
+            selector:
+                text:
+        volume:
+            name: "Google TTS Voice"
+            selector:
+                number:
+                    min: 0
+                    max: 100
+
+    variables:
+        hour24: "{{ now().timestamp() | timestamp_custom('%H', true) | int }}"
+        notify_system: "notify.mobile_app_hall_announcer"
+        #{% elif (hour24 >= 8 and hour24 <= 9) %}10
+        notify_volume: 100
+
+    sequence:
+        - service: tts.google_translate_say
+          data:
+              entity_id: media_player.hall_smart_speaker
+              message: "{{ message }}"
+              language: "{{ google_voice }}"
+
+        #- service: "{{ notify_system }}"
+        #  data:
+        #      message: "command_volume_level"
+        #      title: "{{ (notify_volume) | int }}"
+        #      data:
+        #          channel: "music_stream"
+
+        #- service: "{{ notify_system }}"
+        #  data:
+        #      title: "{{ message }}"
+        #      message: TTS
+        #      data:
+        #          channel: "music_stream"
+
+        - service: logbook.log
+          data:
+              name: Hall Announcer
+              entity_id: script.hall_announcer_notify
+              message: >-
+                  Volume : {{ notify_volume }} | 
+
+                  TTS Message  : {{ message }}

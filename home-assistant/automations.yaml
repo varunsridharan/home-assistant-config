@@ -1,0 +1,762 @@
+- id: '1637636693089'
+  alias: 🏠 House :💡 Gate Lights
+  description: Automate Front Gate Lights
+  trigger:
+  - platform: sun
+    event: sunset
+    offset: -00:10:00
+    id: lights-on
+  - platform: sun
+    event: sunset
+    offset: +00:30:00
+    id: lights-dim-75
+  - platform: sun
+    event: sunset
+    offset: +00:60:00
+    id: lights-dim-50
+  - platform: time
+    at: '20:00:00'
+    id: lights-off
+  - platform: state
+    entity_id: light.gate_light_1
+    to: 'on'
+    id: gate-light-1-on
+  - platform: state
+    entity_id: light.gate_light_2
+    to: 'on'
+    id: gate-light-2-on
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id: lights-off
+      sequence:
+      - service: script.gate_light
+        data:
+          action: Power Off
+    - conditions:
+      - condition: trigger
+        id: lights-on
+      sequence:
+      - service: script.gate_light
+        data:
+          action: Power On
+    - conditions:
+      - condition: trigger
+        id: lights-dim-75
+      sequence:
+      - service: script.gate_light
+        data:
+          action: Power 75%
+    - conditions:
+      - condition: trigger
+        id: lights-dim-50
+      sequence:
+      - service: script.gate_light
+        data:
+          action: Power 50%
+    - conditions:
+      - condition: time
+        after: '20:00:00'
+        before: '17:00:00'
+      sequence:
+      - service: script.gate_light
+        data:
+          action: Power Off
+    default: []
+  mode: single
+- id: '1637664778822'
+  alias: '🏠 House : 💡 Entrance Light'
+  description: Automate House Entrance Light
+  trigger:
+  - platform: sun
+    event: sunset
+    offset: -00:10:00
+    id: lights-on
+  - platform: sun
+    event: sunset
+    offset: +01:00:00
+    id: lights-dim-75
+  - platform: sun
+    event: sunset
+    offset: +01:30:00
+    id: lights-dim-50
+  - platform: time
+    at: '20:30:00'
+    id: lights-dim-25
+  - platform: time
+    at: '22:00:00'
+    id: lights-night-mode-on
+  - platform: sun
+    event: sunrise
+    offset: -00:30:00
+    id: light-morning-mode-on
+  - platform: sun
+    event: sunrise
+    offset: +00:01:00
+    id: light-off
+  condition: []
+  action:
+  - if:
+    - condition: or
+      conditions:
+      - condition: trigger
+        id: lights-on
+      - condition: trigger
+        id: light-morning-mode-on
+    then:
+    - service: script.light_handler
+      data:
+        light:
+          entity_id: light.house_entrance_9w_philips_light
+        power_mode: White Lamp
+        brightness: 100
+  - if:
+    - condition: trigger
+      id: lights-dim-75
+    then:
+    - service: script.light_handler
+      data:
+        light:
+          entity_id: light.house_entrance_9w_philips_light
+        power_mode: White Lamp
+        brightness: 75
+  - if:
+    - condition: trigger
+      id: lights-dim-50
+    then:
+    - service: script.light_handler
+      data:
+        light:
+          entity_id: light.house_entrance_9w_philips_light
+        power_mode: White Lamp
+        brightness: 50
+  - if:
+    - condition: trigger
+      id: lights-dim-25
+    then:
+    - service: script.light_handler
+      data:
+        light:
+          entity_id: light.house_entrance_9w_philips_light
+        power_mode: White Lamp
+        brightness: 25
+  - if:
+    - condition: trigger
+      id: lights-night-mode-on
+    then:
+    - service: script.light_handler
+      data:
+        light:
+          entity_id: light.house_entrance_9w_philips_light
+        power_mode: Outdoor Night Lamp
+        brightness: 6
+  - if:
+    - condition: trigger
+      id: light-off
+    then:
+    - service: script.light_handler
+      data:
+        light:
+          entity_id: light.house_entrance_9w_philips_light
+        power_mode: 'Off'
+        brightness: 1
+  mode: single
+- id: '1637717292445'
+  alias: '🏢 Office : 💡Lights'
+  description: Handles Office Light Automation
+  trigger:
+  - platform: time
+    at: '22:00:00'
+    id: power-down
+  - platform: time
+    at: 05:45:00
+    id: power-on-all
+  - platform: time
+    at: 06:00:00
+    id: reduce-usage
+  - platform: state
+    entity_id: light.office_light_1
+    to: 'on'
+    id: office_light_1_on
+  - platform: state
+    entity_id: light.office_light_2
+    to: 'on'
+    id: office_light_2_on
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id: power-down
+      sequence:
+      - service: script.office_lights
+        data:
+          action: Power Off
+          target:
+            entity_id:
+            - light.office_light_1
+            - light.office_light_2
+    - conditions:
+      - condition: trigger
+        id: power-on-all
+      sequence:
+      - service: script.office_lights
+        data:
+          action: Power On
+          target:
+            entity_id:
+            - light.office_light_1
+            - light.office_light_2
+    - conditions:
+      - condition: trigger
+        id: reduce-usage
+      sequence:
+      - service: script.office_lights
+        data:
+          action: Power Off
+          target:
+            entity_id: light.office_light_2
+      - service: script.office_lights
+        data:
+          action: Power 5%
+          target:
+            entity_id: light.office_light_1
+    - conditions:
+      - condition: or
+        conditions:
+        - condition: trigger
+          id: office_light_1_on
+        - condition: trigger
+          id: office_light_2_on
+      - condition: time
+        after: '22:00:00'
+        before: 05:40:00
+      sequence:
+      - service: script.office_lights
+        data:
+          action: Power Off
+          target:
+            entity_id:
+            - light.office_light_1
+            - light.office_light_2
+    default: []
+  mode: restart
+- id: '1638692365205'
+  alias: 📣 Hall Announcer
+  description: Automation To Handle Announcement Every 30min / Other Related Stuff
+  trigger:
+  - platform: time_pattern
+    minutes: /15
+    id: time-announcer
+  - platform: state
+    entity_id: light.back_corridor_9w_philips_light
+    to: unavailable
+    for:
+      hours: 0
+      minutes: 0
+      seconds: 0
+    id: back-cooridor-lights-cutoff
+  - platform: state
+    entity_id: light.kitchen_9w
+    to: unavailable
+    for:
+      hours: 0
+      minutes: 0
+      seconds: 0
+    id: kitchen-lights-cutoff
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id: time-announcer
+      sequence:
+      - service: script.hall_announcer_time_announcer
+        data: {}
+    - conditions:
+      - condition: or
+        conditions:
+        - condition: trigger
+          id: back-cooridor-lights-cutoff
+        - condition: trigger
+          id: kitchen-lights-cutoff
+      sequence:
+      - repeat:
+          count: '10'
+          sequence:
+          - service: script.hall_announcer_light_power_cut_warning
+            data: {}
+          - delay:
+              hours: 0
+              minutes: 0
+              seconds: 15
+              milliseconds: 0
+    - conditions:
+      - condition: trigger
+        id: tell-time-full
+      sequence:
+      - service: script.hall_announcer_time_announcer
+        data:
+          tts_mode: weather
+    default:
+    - service: script.hall_announcer_time_announcer
+      data: {}
+  mode: queued
+  max: 10
+- id: '1638975397121'
+  alias: 📱Personal Mobile - Automations
+  description: Personal Mobile Related Automation
+  trigger:
+  - platform: state
+    entity_id: sensor.sribhuvan_mobile_op6_battery_level
+    id: battery-charged
+    to: '100'
+  - platform: state
+    entity_id: sensor.sribhuvan_mobile_op6_charger_type
+    id: charger-removed
+    from: ac
+    to: none
+  - platform: state
+    entity_id: sensor.sribhuvan_mobile_op6_charger_type
+    id: charger-connected
+    from: none
+    to: ac
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id: battery-charged
+      - condition: state
+        entity_id: switch.smart_plug_personal_mobile_charger
+        state: 'on'
+      sequence:
+      - service: switch.turn_off
+        target:
+          entity_id: switch.smart_plug_personal_mobile_charger
+    - conditions:
+      - condition: trigger
+        id: charger-removed
+      - condition: numeric_state
+        entity_id: sensor.sribhuvan_mobile_op6_battery_level
+        below: '99'
+      - condition: state
+        entity_id: switch.smart_plug_personal_mobile_charger
+        state: 'on'
+      sequence:
+      - delay:
+          hours: 0
+          minutes: 5
+          seconds: 0
+          milliseconds: 0
+      - service: switch.turn_off
+        target:
+          entity_id: switch.smart_plug_personal_mobile_charger
+    default: []
+  mode: restart
+- id: '1639062091039'
+  alias: '🏠 House : 💡Back Corridor '
+  description: ''
+  trigger:
+  - platform: sun
+    event: sunrise
+    offset: -00:15:00
+    id: power-on-bright-mode
+  - platform: sun
+    event: sunrise
+    offset: -00:05:00
+    id: power-off
+  - platform: time
+    at: '20:30:00'
+    id: power-on-night-mode
+  - platform: state
+    entity_id: light.back_corridor_9w_philips_light
+    to: 'on'
+    id: power-back
+  condition: []
+  action:
+  - choose:
+    - alias: OK Good
+      conditions:
+      - condition: trigger
+        id: power-on-bright-mode
+      sequence:
+      - service: script.back_corridor_light
+        data:
+          action: Power On
+    - conditions:
+      - condition: trigger
+        id: power-off
+      sequence:
+      - service: script.back_corridor_light
+        data:
+          action: Power Off
+    - conditions:
+      - condition: trigger
+        id: power-on-night-mode
+      sequence:
+      - service: script.back_corridor_light
+        data:
+          action: Night Mode
+    - conditions:
+      - condition: time
+        after: '20:30:00'
+        before: 05:00:00
+      - condition: trigger
+        id: power-back
+      sequence:
+      - service: script.back_corridor_light
+        data:
+          action: Night Mode
+    default:
+    - service: script.back_corridor_light
+      data:
+        action: Power Off
+  mode: single
+- id: '1639216987013'
+  alias: 💻 Personal PC - Automation
+  description: Office Automation Based On Personal PC Status
+  trigger:
+  - platform: state
+    entity_id: sensor.sribhuvanpc_status
+    id: pc-locked
+    to: Locked
+    from: InUse
+  - platform: state
+    entity_id: sensor.sribhuvanpc_status
+    id: pc-unlocked
+    from: Locked
+    to: InUse
+  - platform: state
+    entity_id: sensor.sribhuvanpc_status
+    id: pc-sleep
+    from: InUse
+    to: unavailable
+  - platform: state
+    entity_id: sensor.sribhuvanpc_status
+    id: pc-awake
+    to: InUse
+    from: unavailable
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id: pc-locked
+      sequence:
+      - service: script.office_lights
+        data:
+          action: Save State
+      - service: script.office_lights
+        data:
+          action: Power Off
+          target:
+            entity_id: light.office_light_2
+      - service: script.office_lights
+        data:
+          action: Power 5%
+          target:
+            entity_id: light.office_light_1
+      - delay:
+          hours: 0
+          minutes: 0
+          seconds: 5
+          milliseconds: 0
+      - service: script.office_lights
+        data:
+          action: Power Off
+          target:
+            entity_id: light.office_light_1
+    - conditions:
+      - condition: or
+        conditions:
+        - condition: trigger
+          id: pc-unlocked
+        - condition: trigger
+          id: pc-awake
+      sequence:
+      - service: script.office_lights
+        data:
+          action: Restore State
+      - service: fan.turn_on
+        target:
+          entity_id: fan.office_fan
+        data: {}
+    - conditions:
+      - condition: trigger
+        id: pc-active
+      - condition: state
+        entity_id: sensor.sribhuvanpc_status
+        state: Locked
+      sequence:
+      - service: script.office_lights
+        data:
+          action: Power 5%
+          target:
+            entity_id: light.office_light_1
+      - delay:
+          hours: 0
+          minutes: 0
+          seconds: 15
+          milliseconds: 0
+      - service: script.office_lights
+        data:
+          action: Power Off
+          target:
+            entity_id: light.office_light_1
+    - conditions:
+      - condition: trigger
+        id: pc-sleep
+      sequence:
+      - delay:
+          hours: 0
+          minutes: 1
+          seconds: 0
+          milliseconds: 0
+      - service: script.office_lights
+        data:
+          action: Save State
+      - service: script.office_lights
+        data:
+          action: Power Off
+          target:
+            entity_id:
+            - light.office_light_1
+            - light.office_light_2
+      - service: switch.turn_off
+        target:
+          entity_id: switch.smart_plug_cctv_monitor
+      - service: fan.turn_off
+        target:
+          entity_id: fan.office_fan
+    default: []
+  mode: restart
+- id: '1639471882632'
+  alias: 🏠 House :💡 Kitchen Light
+  description: ''
+  trigger:
+  - platform: time
+    at: '17:00:00'
+    id: power-on
+  - platform: time
+    at: '17:30:00'
+    id: power-75
+  - platform: time
+    at: '18:00:00'
+    id: power-50
+  - platform: time
+    at: '19:00:00'
+    id: power-100
+  - platform: time
+    at: '20:00:00'
+    id: power-50
+  - platform: time
+    at: '20:30:00'
+    id: power-25
+  - platform: time
+    at: '20:45:00'
+    id: night-mode
+  - platform: state
+    entity_id: light.kitchen_9w
+  - platform: time
+    at: 05:30:00
+    id: morning
+  - platform: time
+    at: 05:45:00
+    id: power-off
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: or
+        conditions:
+        - condition: trigger
+          id: power-on
+        - condition: trigger
+          id: morning
+        - condition: trigger
+          id: power-100
+      sequence:
+      - service: script.kitchen_light
+        data:
+          action: Power On
+    - conditions:
+      - condition: trigger
+        id: power-75
+      sequence:
+      - service: script.kitchen_light
+        data:
+          action: Power 75%
+    - conditions:
+      - condition: trigger
+        id: power-50
+      sequence:
+      - service: script.kitchen_light
+        data:
+          action: Power 50%
+    - conditions:
+      - condition: trigger
+        id: power-25
+      sequence:
+      - service: script.kitchen_light
+        data:
+          action: Power 25%
+    - conditions:
+      - condition: trigger
+        id: night-mode
+      sequence:
+      - service: script.kitchen_light
+        data:
+          action: Night Mode
+    default:
+    - condition: time
+      after: 05:45:00
+      before: '17:00:00'
+    - service: script.kitchen_light
+      data:
+        action: Power Off
+  mode: single
+- id: '1639739782881'
+  alias: 🏠 House :💡 Parents Bedroom Lights
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: light.bedroom_parents_light_9w
+    to: 'on'
+    id: light-back-on
+  - platform: time
+    at: '18:00:00'
+    id: power-50
+  - platform: time
+    at: '20:00:00'
+    id: power-25
+  - platform: time
+    at: '20:20:00'
+    id: power-on
+  - platform: time
+    at: '21:40:00'
+    id: power-75
+  - platform: time
+    at: '21:50:00'
+    id: power-50
+  - platform: time
+    at: '22:00:00'
+    id: power-25
+  - platform: time
+    at: '22:10:00'
+    id: night-mode
+  - platform: time
+    at: 06:00:00
+    id: power-off
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id: power-50
+      sequence:
+      - service: script.parents_bedroom_light
+        data:
+          action: Power 50%
+    - conditions:
+      - condition: trigger
+        id: power-25
+      sequence:
+      - service: script.parents_bedroom_light
+        data:
+          action: Power 25%
+    - conditions:
+      - condition: trigger
+        id: power-on
+      sequence:
+      - service: script.parents_bedroom_light
+        data:
+          action: Power On
+    - conditions:
+      - condition: trigger
+        id: power-75
+      sequence:
+      - service: script.parents_bedroom_light
+        data:
+          action: Power 75%
+    - conditions:
+      - condition: trigger
+        id: power-off
+      sequence:
+      - service: script.parents_bedroom_light
+        data:
+          action: Power Off
+    - conditions:
+      - condition: trigger
+        id: night-mode
+      sequence:
+      - service: script.parents_bedroom_light
+        data:
+          action: Night Mode
+    default:
+    - service: script.parents_bedroom_light
+      data:
+        action: Power 75%
+  mode: single
+- id: '1641721874740'
+  alias: 🖥️ Home Server
+  description: Automate Scheduled On / Off
+  trigger:
+  - platform: webhook
+    webhook_id: nas-vault1-status-on
+    id: auto-turn-on-nas-vault1
+  - platform: webhook
+    webhook_id: nas-vault1-status-off
+    id: auto-turn-off-nas-vault1
+  - platform: webhook
+    webhook_id: pbs-status-off
+    id: auto-turn-off-pbs
+  - platform: webhook
+    webhook_id: pbs-status-on
+    id: auto-turn-on-pbs
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id: auto-turn-on-nas-vault1
+      sequence:
+      - service: switch.turn_on
+        target:
+          entity_id: switch.smart_plug_nas_vault1
+    - conditions:
+      - condition: trigger
+        id: auto-turn-off-nas-vault1
+      sequence:
+      - delay:
+          hours: 0
+          minutes: 5
+          seconds: 0
+          milliseconds: 0
+      - service: switch.turn_off
+        target:
+          entity_id: switch.smart_plug_nas_vault1
+    - conditions:
+      - condition: trigger
+        id: auto-turn-off-pbs
+      sequence:
+      - delay:
+          hours: 0
+          minutes: 5
+          seconds: 0
+          milliseconds: 0
+      - service: switch.turn_off
+        target:
+          entity_id: switch.smart_plug_proxmox_backup
+    - conditions:
+      - condition: trigger
+        id: auto-turn-on-pbs
+      sequence:
+      - service: switch.turn_on
+        target:
+          entity_id: switch.smart_plug_proxmox_backup
+    default: []
+  mode: parallel
+  max: 10

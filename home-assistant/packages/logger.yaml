@@ -1,0 +1,36 @@
+
+---
+# The logger integration lets you define the level of logging activities in Home Assistant.
+#
+# https://www.home-assistant.io/integrations/logger/
+#
+logger:
+  default: warning
+  filters:
+    homeassistant:
+      # This can happen during restart having Ingress tabs open.
+      # I really don't care about it.
+      - "Error doing job: Task exception was never retrieved"
+
+    homeassistant.components.websocket_api.http.connection:
+      - "Error handling message: Unknown error"
+
+    homeassistant.components.zeroconf:
+      # Yes I am aware, I develop on the thing, I don't rely on it...
+      # Don't bother me about it again.
+      - "instance with identical name present in the local network"
+
+    homeassistant.util.yaml.loader:
+      # I use YAML anchors and aliasses, causing duplicate keys in YAML.
+      # For this use-case, that is on purpose, as an alias is used, but
+      # with some overrides.
+      # While a good warning, I'm going to disable it.
+      - "contains duplicate key"
+  logs:
+    hacs: warning
+    custom_components.hacs: debug
+    queueman: warning
+    aiogithubapi: warning
+    custom_components.localtuya: warning
+    homeassistant.components.wiz_light: warning
+    homeassistant.components.shell_command: debug

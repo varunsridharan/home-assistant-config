@@ -1,0 +1,83 @@
+office_lights:
+    alias: "💡Office Light Handler"
+
+    mode: restart
+
+    icon: mdi:lightbulb
+
+    fields:
+        action:
+            name: "Action"
+            required: true
+            selector:
+                select:
+                    options:
+                        - Power On
+                        - Power Off
+                        - Power 5%
+                        - Restore State
+                        - Save State
+                        - Visitor Notification
+        target:
+            name: "Light"
+            selector:
+                target:
+                    entity:
+                        domain: light
+    sequence:
+        choose:
+            # Save State For Given Lights
+            - conditions:
+                  - condition: template
+                    value_template: "{{ action == 'Save State' }}"
+              sequence:
+                  - service: scene.create
+                    data:
+                        scene_id: "lightoffice_light_1"
+                        snapshot_entities: light.office_light_1
+                  - service: scene.create
+                    data:
+                        scene_id: "lightoffice_light_2"
+                        snapshot_entities: light.office_light_2
+
+            # Restore State For Given Lights
+            - conditions:
+                  - condition: template
+                    value_template: "{{ action == 'Restore State' }}"
+              sequence:
+                  - service: scene.turn_on
+                    target:
+                        entity_id: "scene.lightoffice_light_1"
+                  - service: scene.turn_on
+                    target:
+                        entity_id: "scene.lightoffice_light_2"
+
+            # Power Off Given Lights
+            - conditions:
+                  - condition: template
+                    value_template: "{{ action == 'Power Off' }}"
+              sequence:
+                  - service: light.turn_off
+                    target: "{{ target }}"
+
+            # Power 5%
+            - conditions:
+                  - condition: template
+                    value_template: "{{ action == 'Power 5%' }}"
+              sequence:
+                  - service: light.turn_on
+                    target: "{{ target }}"
+                    data:
+                        color_temp: 153
+                        brightness_pct: 5
+
+            # Power On
+            - conditions:
+                  - condition: template
+                    value_template: "{{ action == 'Power On' }}"
+              sequence:
+                  - service: light.turn_on
+                    target: "{{ target }}"
+                    data:
+                        color_temp: 153
+                        brightness_pct: 100

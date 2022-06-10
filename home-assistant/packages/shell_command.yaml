@@ -1,0 +1,22 @@
+# This integration can expose regular shell commands as services.
+# Services can be called from a script or in automation.
+# Shell commands aren’t allowed for a camel-case naming, please use lowercase naming only
+# and separate the names with underscores
+#
+# https://www.home-assistant.io/integrations/shell_command/
+#
+shell_command:
+    create_deploykeys: /bin/bash /config/integrations/shell_scripts/create-deploy-keys.sh {{ identity }}
+
+    upload_config_to_github: /bin/bash /config/integrations/shell_scripts/upload-config-github.sh
+
+    setup_env: /bin/bash /config/integrations/shell_scripts/setup-ha-env.sh
+    
+    update_shell_script_permission: chmod -R 775 /config/integrations/shell_scripts/
+
+    ## CRON Service
+    cron_start: /bin/bash /config/integrations/shell_scripts/setup-cron.sh start
+
+    cron_restart: /bin/bash /config/integrations/shell_scripts/setup-cron.sh restart
+
+    cron_stop: /bin/bash /config/integrations/shell_scripts/setup-cron.sh stop

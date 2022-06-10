@@ -1,0 +1,22 @@
+---
+
+# iframe Panel
+#
+# The panel_iframe support allows you to add additional panels to your Home Assistant frontend.
+#
+# https://www.home-assistant.io/integrations/panel_iframe/
+#
+
+panel_iframe:
+
+    portainer:
+        title: "Portainer"
+        icon: mdi:docker
+        url: !secret iframe_url_portainer
+        require_admin: true
+
+    proxy_manager:
+        title: "Proxy Manager"
+        icon: mdi:arrow-decision-auto
+        url: !secret iframe_url_proxy_manager
+        require_admin: true
