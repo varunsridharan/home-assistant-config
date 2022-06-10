@@ -9,18 +9,21 @@ Blablabla... I'm bad at introductions 😉
 <!-- START contributing.mustache  -->
 ## 🤝 Contributing
 If you would like to help, please take a look at the list of [issues](https://github.com/varunsridharan/home-assistant-config/issues/).
+
 <!-- END contributing.mustache  -->
 
 <!-- START license-and-conduct.mustache -->
 ## 📜  License & Conduct
 - [**GNU General Public License v3.0**](https://github.com/varunsridharan/home-assistant-config/blob/main/LICENSE) © [Varun Sridharan](website)
 - [Code of Conduct](https://github.com/varunsridharan/.github/blob/main/CODE_OF_CONDUCT.md)
+
 <!-- END license-and-conduct.mustache -->
 
 <!-- START feedback.mustache -->
 ## 📣 Feedback
 - ⭐ This repository if this project helped you! :wink:
 - Create An [🔧 Issue](https://github.com/varunsridharan/home-assistant-config/issues/) if you need help / found a bug
+
 <!-- END feedback.mustache -->
 
 <!-- START sponsor.mustache -->
@@ -38,6 +41,7 @@ If you, or your company, use any of my projects or like what I’m doing, kindly
 [buymeacoffee]: https://sva.onl/buymeacoffee
 [twitter]: https://sva.onl/twitter/
 [website]: https://sva.onl/website/
+
 <!-- END sponsor.mustache -->
 
 <!-- START connect-and-say-hi.mustache -->
@@ -52,6 +56,7 @@ If you, or your company, use any of my projects or like what I’m doing, kindly
 [github]: https://sva.onl/github/
 [twitter]: https://sva.onl/twitter/
 [telegram]: https://sva.onl/telegram/
+
 <!-- END connect-and-say-hi.mustache -->
 
 <!-- START footer.mustache -->
@@ -64,4 +69,5 @@ If you, or your company, use any of my projects or like what I’m doing, kindly
 </p>
 
 ---
+
 <!-- END footer.mustache -->
