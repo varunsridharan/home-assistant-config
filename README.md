@@ -1,3 +1,11 @@
+# Varun Sridharan's Home Automation Configs
+
+I am sharing my personal Home Assistant & Its addon's configuration.
+
+Blablabla... I'm bad at introductions 😉
+
+---
+
 <!-- START contributing.mustache  -->
 ## 🤝 Contributing
 If you would like to help, please take a look at the list of [issues](https://github.com/varunsridharan/home-assistant-config/issues/).
