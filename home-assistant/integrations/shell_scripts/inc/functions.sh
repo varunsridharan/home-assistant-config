@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 key_storage_location(){
     echo "/config/.deploy-keys"
@@ -99,16 +99,17 @@ setup_github_repo(){
 }
 
 ha_secrets(){
-  grep ^$1: /config/secrets.yaml | sed 's/^[^:]*: //' | sed 's/ //g'
+  #grep ^$1: /config/secrets.yaml | sed 's/^[^:]*: //' | sed 's/ //g'
+  #grep ^$1: /config/secrets.yaml | sed 's/^[^:]*: //' | sed 's/ //g'
+  #cat /config/secrets.yaml | grep ^$1: | sed 's/ //g' | grep -Eo ':.*' | tr -d ':'
+  cat /config/secrets.yaml | grep ^$1: | grep -oP '(?<=:).*' | sed 's/ //g'
 }
 
 ha_api_trigger(){
-  echo "http://127.0.0.1:8123/api/webhook/$1"
   curl -X POST "http://127.0.0.1:8123/api/webhook/$1"
 }
 
 ha_api_trigger_secret(){
-  KEY=$(ha_secrets $1)
-  ha_api_trigger "$KEY"
+  ha_api_trigger $(ha_secrets $1)
 }
 
