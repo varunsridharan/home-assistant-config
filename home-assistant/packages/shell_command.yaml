@@ -16,7 +16,5 @@ shell_command:
 
     ## CRON Service
     cron_start: /bin/bash /config/integrations/shell_scripts/setup-cron.sh start
-
     cron_restart: /bin/bash /config/integrations/shell_scripts/setup-cron.sh restart
-
     cron_stop: /bin/bash /config/integrations/shell_scripts/setup-cron.sh stop

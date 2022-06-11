@@ -25,8 +25,33 @@ condition:
     value_template: "{{ 'cron' in  trigger.event.data.folder }}"
 
 action:
-  - service: shell_command.cron_restart
-  - service: notify.persistent_notification
+  - service: persistent_notification.create
     data:
-      title: Cron
-      message: 'Status : Reloaded'
+      notification_id: vs-cron-status
+      message: Stopping
+      title: Cron Status
+
+  - service: shell_command.cron_stop
+
+  - service: persistent_notification.create
+    data:
+      notification_id: vs-cron-status
+      message: Stopped
+      title: Cron Status
+
+  - delay:
+      seconds: 3
+
+  - service: persistent_notification.create
+    data:
+      notification_id: vs-cron-status
+      message: Starting
+      title: Cron Status
+
+  - service: shell_command.cron_start
+
+  - service: persistent_notification.create
+    data:
+      notification_id: vs-cron-status
+      message: Started
+      title: Cron Status

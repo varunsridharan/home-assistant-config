@@ -44,7 +44,6 @@ push_repo(){
     run_ssh_cmd "$1" "git push $2"
 }
 
-
 setup_github_repo(){
     REPO="$1"
     NAME="$2"
@@ -98,3 +97,17 @@ setup_github_repo(){
         echo " "
     fi
 }
+
+ha_secrets(){
+  grep ^$1: /config/secrets.yaml | sed 's/^[^:]*: //' | sed 's/ //g'
+}
+
+ha_api_trigger(){
+  curl -X POST "http://127.0.0.1:8123/api/webhook/$1"
+}
+
+ha_api_trigger_secret(){
+  KEY="$(ha_secrets "$1")"
+  ha_api_trigger "$KEY"
+}
+

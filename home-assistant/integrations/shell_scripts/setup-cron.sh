@@ -7,9 +7,6 @@ CRON_FILE="/tmp/custom-cron.txt"
 pkill crond
 
 if [ "start" == "${STATUS}" ] || [ "restart" == "${STATUS}" ]; then
-	# Kill Existing CROND Service
-	pkill crond
-	
 	if [ -f "$CRON_FILE" ]; then
 		rm -r "$CRON_FILE"
 	fi
@@ -20,16 +17,16 @@ if [ "start" == "${STATUS}" ] || [ "restart" == "${STATUS}" ]; then
 		FILE_CONTENT=$(cat "$FILE")
 		echo "$FILE_CONTENT" >> "${CRON_FILE}"
 	done
-	
-	
+
 	# Update Cron With New File
 	/usr/bin/crontab ${CRON_FILE}
 
 	# Resetup CROND Service
 	crond -l 2 -f > /dev/stdout 2> /dev/stderr &
 
+  exit 0
 	# List New Cron
-	/usr/bin/crontab -l > /dev/stdout
+	#/usr/bin/crontab -l > /dev/stdout
 fi
 
 exit 0

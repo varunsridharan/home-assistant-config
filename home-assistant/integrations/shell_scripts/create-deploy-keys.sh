@@ -7,7 +7,7 @@ if [ -z "$KEYNAME" ]; then
     exit 1
 fi
 
-source /config/integrations/shell_scripts/functions.sh
+source /config/integrations/shell_scripts/inc/functions.sh
 
 # Generates Key Storage Path
 KEY_STORAGE="$(locate_key "$KEYNAME")"

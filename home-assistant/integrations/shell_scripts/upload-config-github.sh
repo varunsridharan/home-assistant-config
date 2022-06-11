@@ -1,6 +1,6 @@
 #!/bin/sh
 
-source /config/integrations/shell_scripts/functions.sh
+source /config/integrations/shell_scripts/inc/functions.sh
 
 REPOSITORY="varunsridharan/home-assistant-config"
 REPOSITORY_FOLDER="$(locate_repo "$REPOSITORY")"
@@ -53,4 +53,6 @@ if [ "$(git status --porcelain)" != "" ]; then
     git add "$REPOSITORY_FOLDER/esphome/*"
     git commit -m "💾  Config Updated"
     push_repo "$REPOSITORY"
+
+    exit 0
 fi
