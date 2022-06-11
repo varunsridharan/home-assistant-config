@@ -49,4 +49,4 @@ ozw_log.txt
 home-assistant/custom_components/
 home-assistant/backups/
 home-assistant/image/
-.esphome
+esphome/.esphome
