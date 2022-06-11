@@ -1,0 +1,28 @@
+alias: 'Backup : 💾 HA Config'
+
+id: 023d99c2-acdd-4880-9bc5-1f5bf84f4412
+
+mode: single
+
+trigger:
+  - platform: webhook
+    webhook_id: !secret start_github_config_share
+
+action:
+  - service: logbook.log
+    data:
+      name: Upload Config To Github
+      message: Started
+
+  - service: shell_command.upload_config_to_github
+
+  - wait_for_trigger:
+    - platform: webhook
+      webhook_id: !secret success_github_config_share
+    timeout: '00:01:00'
+    continue_on_timeout: false
+
+  - service: logbook.log
+    data:
+      name: Upload Config To Github
+      message: Finished
