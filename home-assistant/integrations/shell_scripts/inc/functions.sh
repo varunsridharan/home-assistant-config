@@ -103,11 +103,13 @@ ha_secrets(){
 }
 
 ha_api_trigger(){
+  echo "http://127.0.0.1:8123/api/webhook/$1"
   curl -X POST "http://127.0.0.1:8123/api/webhook/$1"
 }
 
 ha_api_trigger_secret(){
   KEY="$(ha_secrets "$1")"
+  echo "$KEY"
   ha_api_trigger "$KEY"
 }
 
