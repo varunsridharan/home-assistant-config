@@ -47,6 +47,6 @@ ozw_log.txt
 
 # Development files
 custom_components
-backups/
+/backups/
 image
 .esphome
