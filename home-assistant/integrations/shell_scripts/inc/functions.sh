@@ -108,8 +108,7 @@ ha_api_trigger(){
 }
 
 ha_api_trigger_secret(){
-  KEY="$(ha_secrets "$1")"
-  echo "$KEY"
+  KEY=$(ha_secrets $1)
   ha_api_trigger "$KEY"
 }
 
