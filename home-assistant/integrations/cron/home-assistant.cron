@@ -1,2 +1,2 @@
 # Home Assistant Backups
-* * * * * bash /config/integrations/shell_scripts/trigger-ha-api.sh "start_github_config_share"
+0 6 * * * bash /config/integrations/shell_scripts/trigger-ha-api.sh "start_github_config_share"
