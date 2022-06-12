@@ -11,7 +11,7 @@ trigger:
 action:
   - service: logbook.log
     data:
-      name: Upload Config To Github
+      name: Github Config Share
       message: Started
 
   - service: shell_command.upload_config_to_github
@@ -24,5 +24,5 @@ action:
 
   - service: logbook.log
     data:
-      name: Upload Config To Github
+      name: Github Config Share
       message: Finished
