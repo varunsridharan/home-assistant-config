@@ -8,13 +8,16 @@
 shell_command:
     create_deploykeys: /bin/bash /config/integrations/shell_scripts/create-deploy-keys.sh {{ identity }}
 
-    upload_config_to_github: /bin/bash /config/integrations/shell_scripts/upload-config-github.sh
-
     setup_env: /bin/bash /config/integrations/shell_scripts/setup-ha-env.sh
-    
     update_shell_script_permission: chmod -R 775 /config/integrations/shell_scripts/
 
     ## CRON Service
     cron_start: /bin/bash /config/integrations/shell_scripts/setup-cron.sh start
     cron_restart: /bin/bash /config/integrations/shell_scripts/setup-cron.sh restart
     cron_stop: /bin/bash /config/integrations/shell_scripts/setup-cron.sh stop
+
+    # Backup PFSense Config
+    pfsense_backup: /bin/bash /config/integrations/shell_scripts/pfsense-backup.sh
+
+    # Backup Home Assistant & Esphome Config
+    homeassistant_backup: /bin/bash /config/integrations/shell_scripts/upload-config-github.sh

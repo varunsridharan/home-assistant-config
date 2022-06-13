@@ -1,0 +1,77 @@
+alias: "🏠 House :💡 Hall 9W Light"
+id: 68ab71e9-6ed6-43b4-a543-28368ef93e40
+mode: restart
+
+trigger:
+  - platform: time
+    at: '17:00:00'
+    id: evening-mode-start
+
+  - platform: time
+    at: '18:00:00'
+    id: evening-mode-stop
+
+  - platform: time
+    at: '19:30:00'
+    id: night-mode-start
+
+  - platform: time
+    at: '20:30:00'
+    id: night-lamp-on
+
+  - platform: time
+    at: '05:30:00'
+    id: morning-mode-start
+
+  - platform: time
+    at: '05:45:00'
+    id: power-off
+
+
+action:
+  # Power On 100%
+  - if:
+      - condition: or
+        conditions:
+          - condition: trigger
+            id: evening-mode-start
+          - condition: trigger
+            id: night-mode-start
+          - condition: trigger
+            id: morning-mode-start
+    then:
+      - service: script.light_handler
+        data:
+          light:
+            entity_id: light.hall_9w_philips_light
+          power_mode: 'On'
+          brightness: 100
+
+
+  # Power Off
+  - if:
+      - condition: or
+        conditions:
+          - condition: trigger
+            id: evening-mode-stop
+          - condition: trigger
+            id: power-off
+    then:
+      - service: script.light_handler
+        data:
+          light:
+            entity_id: light.hall_9w_philips_light
+          power_mode: 'Off'
+          brightness: 1
+
+  # Night Lamp
+  - if:
+      - condition: trigger
+        id: night-lamp-on
+    then:
+      - service: script.light_handler
+        data:
+          light:
+            entity_id: light.hall_9w_philips_light
+          power_mode: Indoor Night Lamp
+          brightness: 25

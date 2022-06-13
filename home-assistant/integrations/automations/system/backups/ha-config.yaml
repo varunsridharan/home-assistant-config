@@ -5,24 +5,23 @@ id: 023d99c2-acdd-4880-9bc5-1f5bf84f4412
 mode: single
 
 trigger:
-  - platform: webhook
-    webhook_id: !secret start_github_config_share
+  #- platform: webhook
+  #  webhook_id: !secret start_github_config_share
+  - platform: time_pattern
+    hours: '6'
+    minutes: '0'
+    seconds: '0'
 
 action:
-  - service: logbook.log
-    data:
-      name: Github Config Share
-      message: Started
+  - service: shell_command.homeassistant_backup
 
-  - service: shell_command.upload_config_to_github
+#  - wait_for_trigger:
+#    - platform: webhook
+#      webhook_id: !secret success_github_config_share
+#    timeout: '00:01:00'
+#    continue_on_timeout: false
 
-  - wait_for_trigger:
-    - platform: webhook
-      webhook_id: !secret success_github_config_share
-    timeout: '00:01:00'
-    continue_on_timeout: false
-
-  - service: logbook.log
-    data:
-      name: Github Config Share
-      message: Finished
+#  - service: logbook.log
+#    data:
+#      name: Home Assistant Config
+#      message: Uploaded To Github
