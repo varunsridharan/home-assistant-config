@@ -36,4 +36,9 @@
   name: SP - Proxmox Backup - W To kWh
   unit_prefix: k
   round: 2
-  
+
+- platform: template
+  sensors:
+    count_entities:
+      module: count_entities
+      class: CountEntities

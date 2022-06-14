@@ -3,6 +3,13 @@ id: 68ab71e9-6ed6-43b4-a543-28368ef93e40
 mode: restart
 
 trigger:
+  - platform: state
+    id: power-restored
+    entity_id:
+      - light.hall_9w_philips_light
+    from: unavailable
+    to: 'on'
+
   - platform: time
     at: '17:00:00'
     id: evening-mode-start
@@ -56,6 +63,8 @@ action:
             id: evening-mode-stop
           - condition: trigger
             id: power-off
+          - condition: trigger
+            id: power-restored
     then:
       - service: script.light_handler
         data:
