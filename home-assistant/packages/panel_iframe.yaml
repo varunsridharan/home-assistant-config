@@ -9,6 +9,12 @@
 
 panel_iframe:
 
+    esphome:
+        title: "ESPHome"
+        icon: mdi:car-esp
+        url: !secret iframe_url_esphome
+        require_admin: true
+
     portainer:
         title: "Portainer"
         icon: mdi:docker
