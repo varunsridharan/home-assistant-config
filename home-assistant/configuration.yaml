@@ -2,6 +2,7 @@ homeassistant:
     # Load packages
     packages: !include_dir_named ./packages/
     allowlist_external_dirs:
+        - /config/
         - /config/integrations/cron/
         - /config/integrations/shell_scripts/
         - /config/integrations/automations/
