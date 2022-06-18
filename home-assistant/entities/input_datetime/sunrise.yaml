@@ -1,0 +1,71 @@
+sunrise_5min_after:
+  name: 'Sunrise 5 Min After'
+  icon: mdi:weather-sunny
+  has_date: false
+  has_time: true
+
+sunrise_10min_after:
+  name: 'Sunrise 10 Min After'
+  icon: mdi:weather-sunny
+  has_date: false
+  has_time: true
+
+sunrise_15min_after:
+  name: 'Sunrise 15 Min After'
+  icon: mdi:weather-sunny
+  has_date: false
+  has_time: true
+
+sunrise_20min_after:
+  name: 'Sunrise 20 Min After'
+  icon: mdi:weather-sunny
+  has_date: false
+  has_time: true
+
+sunrise_25min_after:
+  name: 'Sunrise 25 Min After'
+  icon: mdi:weather-sunny
+  has_date: false
+  has_time: true
+
+sunrise_30min_after:
+  name: 'Sunrise 30 Min After'
+  icon: mdi:weather-sunny
+  has_date: false
+  has_time: true
+
+sunrise_35min_after:
+  name: 'Sunrise 35 Min After'
+  icon: mdi:weather-sunny
+  has_date: false
+  has_time: true
+
+sunrise_40min_after:
+  name: 'Sunrise 40 Min After'
+  icon: mdi:weather-sunny
+  has_date: false
+  has_time: true
+
+sunrise_45min_after:
+  name: 'Sunrise 45 Min After'
+  icon: mdi:weather-sunny
+  has_date: false
+  has_time: true
+
+sunrise_50min_after:
+  name: 'Sunrise 50 Min After'
+  icon: mdi:weather-sunny
+  has_date: false
+  has_time: true
+
+sunrise_55min_after:
+  name: 'Sunrise 55 Min After'
+  icon: mdi:weather-sunny
+  has_date: false
+  has_time: true
+
+sunrise_60min_after:
+  name: 'Sunrise 60 Min After'
+  icon: mdi:weather-sunny
+  has_date: false
+  has_time: true

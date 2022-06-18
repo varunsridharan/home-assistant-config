@@ -18,7 +18,7 @@ recorder:
             - sensor.gigaworld_memory_*
 
         entities:
-            - sun.sun
+            #- sun.sun
             - sensor.date
             - sensor.time
             - sensor.office_fan_speed

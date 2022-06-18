@@ -1,0 +1,143 @@
+sunset_5min_before:
+  name: 'Sunset 5 Min Before'
+  icon: mdi:weather-sunny-off
+  has_date: false
+  has_time: true
+
+sunset_10min_before:
+  name: 'Sunset 10 Min Before'
+  icon: mdi:weather-sunny-off
+  has_date: false
+  has_time: true
+
+sunset_15min_before:
+  name: 'Sunset 15 Min Before'
+  icon: mdi:weather-sunny-off
+  has_date: false
+  has_time: true
+
+sunset_20min_before:
+  name: 'Sunset 20 Min Before'
+  icon: mdi:weather-sunny-off
+  has_date: false
+  has_time: true
+
+sunset_25min_before:
+  name: 'Sunset 25 Min Before'
+  icon: mdi:weather-sunny-off
+  has_date: false
+  has_time: true
+
+sunset_30min_before:
+  name: 'Sunset 30 Min Before'
+  icon: mdi:weather-sunny-off
+  has_date: false
+  has_time: true
+
+sunset_35min_before:
+  name: 'Sunset 35 Min Before'
+  icon: mdi:weather-sunny-off
+  has_date: false
+  has_time: true
+
+sunset_40min_before:
+  name: 'Sunset 40 Min Before'
+  icon: mdi:weather-sunny-off
+  has_date: false
+  has_time: true
+
+sunset_45min_before:
+  name: 'Sunset 45 Min Before'
+  icon: mdi:weather-sunny-off
+  has_date: false
+  has_time: true
+
+sunset_50min_before:
+  name: 'Sunset 50 Min Before'
+  icon: mdi:weather-sunny-off
+  has_date: false
+  has_time: true
+
+sunset_55min_before:
+  name: 'Sunset 55 Min Before'
+  icon: mdi:weather-sunny-off
+  has_date: false
+  has_time: true
+
+sunset_60min_before:
+  name: 'Sunset 60 Min Before'
+  icon: mdi:weather-sunny-off
+  has_date: false
+  has_time: true
+
+sunset_5min_after:
+  name: 'Sunset 5 Min After'
+  icon: mdi:weather-sunny-off
+  has_date: false
+  has_time: true
+
+sunset_10min_after:
+  name: 'Sunset 10 Min After'
+  icon: mdi:weather-sunny-off
+  has_date: false
+  has_time: true
+
+sunset_15min_after:
+  name: 'Sunset 15 Min After'
+  icon: mdi:weather-sunny-off
+  has_date: false
+  has_time: true
+
+sunset_20min_after:
+  name: 'Sunset 20 Min After'
+  icon: mdi:weather-sunny-off
+  has_date: false
+  has_time: true
+
+sunset_25min_after:
+  name: 'Sunset 25 Min After'
+  icon: mdi:weather-sunny-off
+  has_date: false
+  has_time: true
+
+sunset_30min_after:
+  name: 'Sunset 30 Min After'
+  icon: mdi:weather-sunny-off
+  has_date: false
+  has_time: true
+
+sunset_35min_after:
+  name: 'Sunset 35 Min After'
+  icon: mdi:weather-sunny-off
+  has_date: false
+  has_time: true
+
+sunset_40min_after:
+  name: 'Sunset 40 Min After'
+  icon: mdi:weather-sunny-off
+  has_date: false
+  has_time: true
+
+sunset_45min_after:
+  name: 'Sunset 45 Min After'
+  icon: mdi:weather-sunny-off
+  has_date: false
+  has_time: true
+
+sunset_50min_after:
+  name: 'Sunset 50 Min After'
+  icon: mdi:weather-sunny-off
+  has_date: false
+  has_time: true
+
+sunset_55min_after:
+  name: 'Sunset 55 Min After'
+  icon: mdi:weather-sunny-off
+  has_date: false
+  has_time: true
+
+sunset_60min_after:
+  name: 'Sunset 60 Min After'
+  icon: mdi:weather-sunny-off
+  has_date: false
+  has_time: true

@@ -1,0 +1,239 @@
+alias: ☀️Time Updates
+
+id: effd85a2-515c-42fa-8b35-0b6e2f1685f5
+
+mode: restart
+
+trigger:
+  - platform: state
+    entity_id:
+      - sun.sun
+
+action:
+  ######################################################################################################################
+  # SUN SET TIME BEFORE
+  ######################################################################################################################
+
+  - service: input_datetime.set_datetime
+    target:
+      entity_id: input_datetime.sunset_5min_before
+    data:
+      time: "{{ ( as_timestamp(state_attr('sun.sun','next_setting')) - ( 60 * 5 ) ) | timestamp_custom('%I:%M')  }}"
+
+  - service: input_datetime.set_datetime
+    target:
+      entity_id: input_datetime.sunset_10min_before
+    data:
+      time: "{{ ( as_timestamp(state_attr('sun.sun','next_setting')) - ( 60 * 10 ) ) | timestamp_custom('%I:%M')  }}"
+
+  - service: input_datetime.set_datetime
+    target:
+      entity_id: input_datetime.sunset_15min_before
+    data:
+      time: "{{ ( as_timestamp(state_attr('sun.sun','next_setting')) - ( 60 * 15 ) ) | timestamp_custom('%I:%M')  }}"
+
+  - service: input_datetime.set_datetime
+    target:
+      entity_id: input_datetime.sunset_20min_before
+    data:
+      time: "{{ ( as_timestamp(state_attr('sun.sun','next_setting')) - ( 60 * 20 ) ) | timestamp_custom('%I:%M')  }}"
+
+  - service: input_datetime.set_datetime
+    target:
+      entity_id: input_datetime.sunset_25min_before
+    data:
+      time: "{{ ( as_timestamp(state_attr('sun.sun','next_setting')) - ( 60 * 25 ) ) | timestamp_custom('%I:%M')  }}"
+
+  - service: input_datetime.set_datetime
+    target:
+      entity_id: input_datetime.sunset_30min_before
+    data:
+      time: "{{ ( as_timestamp(state_attr('sun.sun','next_setting')) - ( 60 * 30 ) ) | timestamp_custom('%I:%M')  }}"
+
+  - service: input_datetime.set_datetime
+    target:
+      entity_id: input_datetime.sunset_35min_before
+    data:
+      time: "{{ ( as_timestamp(state_attr('sun.sun','next_setting')) - ( 60 * 35 ) ) | timestamp_custom('%I:%M')  }}"
+
+  - service: input_datetime.set_datetime
+    target:
+      entity_id: input_datetime.sunset_40min_before
+    data:
+      time: "{{ ( as_timestamp(state_attr('sun.sun','next_setting')) - ( 60 * 40 ) ) | timestamp_custom('%I:%M')  }}"
+
+  - service: input_datetime.set_datetime
+    target:
+      entity_id: input_datetime.sunset_45min_before
+    data:
+      time: "{{ ( as_timestamp(state_attr('sun.sun','next_setting')) - ( 60 * 45 ) ) | timestamp_custom('%I:%M')  }}"
+
+  - service: input_datetime.set_datetime
+    target:
+      entity_id: input_datetime.sunset_50min_before
+    data:
+      time: "{{ ( as_timestamp(state_attr('sun.sun','next_setting')) - ( 60 * 50 ) ) | timestamp_custom('%I:%M')  }}"
+
+  - service: input_datetime.set_datetime
+    target:
+      entity_id: input_datetime.sunset_55min_before
+    data:
+      time: "{{ ( as_timestamp(state_attr('sun.sun','next_setting')) - ( 60 * 55 ) ) | timestamp_custom('%I:%M')  }}"
+
+  - service: input_datetime.set_datetime
+    target:
+      entity_id: input_datetime.sunset_60min_before
+    data:
+      time: "{{ ( as_timestamp(state_attr('sun.sun','next_setting')) - ( 60 * 60 ) ) | timestamp_custom('%I:%M')  }}"
+
+
+  ######################################################################################################################
+  # SUN SET TIME AFTER
+  ######################################################################################################################
+  - service: input_datetime.set_datetime
+    target:
+      entity_id: input_datetime.sunset_5min_after
+    data:
+      time: "{{ ( as_timestamp(state_attr('sun.sun','next_setting')) + ( 60 * 5 ) ) | timestamp_custom('%I:%M')  }}"
+
+  - service: input_datetime.set_datetime
+    target:
+      entity_id: input_datetime.sunset_10min_after
+    data:
+      time: "{{ ( as_timestamp(state_attr('sun.sun','next_setting')) + ( 60 * 10 ) ) | timestamp_custom('%I:%M')  }}"
+
+  - service: input_datetime.set_datetime
+    target:
+      entity_id: input_datetime.sunset_15min_after
+    data:
+      time: "{{ ( as_timestamp(state_attr('sun.sun','next_setting')) + ( 60 * 15 ) ) | timestamp_custom('%I:%M')  }}"
+
+  - service: input_datetime.set_datetime
+    target:
+      entity_id: input_datetime.sunset_20min_after
+    data:
+      time: "{{ ( as_timestamp(state_attr('sun.sun','next_setting')) + ( 60 * 20 ) ) | timestamp_custom('%I:%M')  }}"
+
+  - service: input_datetime.set_datetime
+    target:
+      entity_id: input_datetime.sunset_25min_after
+    data:
+      time: "{{ ( as_timestamp(state_attr('sun.sun','next_setting')) + ( 60 * 25 ) ) | timestamp_custom('%I:%M')  }}"
+
+  - service: input_datetime.set_datetime
+    target:
+      entity_id: input_datetime.sunset_30min_after
+    data:
+      time: "{{ ( as_timestamp(state_attr('sun.sun','next_setting')) + ( 60 * 30 ) ) | timestamp_custom('%I:%M')  }}"
+
+  - service: input_datetime.set_datetime
+    target:
+      entity_id: input_datetime.sunset_35min_after
+    data:
+      time: "{{ ( as_timestamp(state_attr('sun.sun','next_setting')) + ( 60 * 35 ) ) | timestamp_custom('%I:%M')  }}"
+
+  - service: input_datetime.set_datetime
+    target:
+      entity_id: input_datetime.sunset_40min_after
+    data:
+      time: "{{ ( as_timestamp(state_attr('sun.sun','next_setting')) + ( 60 * 40 ) ) | timestamp_custom('%I:%M')  }}"
+
+  - service: input_datetime.set_datetime
+    target:
+      entity_id: input_datetime.sunset_45min_after
+    data:
+      time: "{{ ( as_timestamp(state_attr('sun.sun','next_setting')) + ( 60 * 45 ) ) | timestamp_custom('%I:%M')  }}"
+
+  - service: input_datetime.set_datetime
+    target:
+      entity_id: input_datetime.sunset_50min_after
+    data:
+      time: "{{ ( as_timestamp(state_attr('sun.sun','next_setting')) + ( 60 * 50 ) ) | timestamp_custom('%I:%M')  }}"
+
+  - service: input_datetime.set_datetime
+    target:
+      entity_id: input_datetime.sunset_55min_after
+    data:
+      time: "{{ ( as_timestamp(state_attr('sun.sun','next_setting')) + ( 60 * 55 ) ) | timestamp_custom('%I:%M')  }}"
+
+  - service: input_datetime.set_datetime
+    target:
+      entity_id: input_datetime.sunset_60min_after
+    data:
+      time: "{{ ( as_timestamp(state_attr('sun.sun','next_setting')) + ( 60 * 60 ) ) | timestamp_custom('%I:%M')  }}"
+
+
+  ######################################################################################################################
+  # SUN RISE TIME AFTER
+  ######################################################################################################################
+  - service: input_datetime.set_datetime
+    target:
+      entity_id: input_datetime.sunrise_5min_after
+    data:
+      time: "{{ ( as_timestamp(state_attr('sun.sun','next_rising')) + ( 60 * 5 ) ) | timestamp_custom('%I:%M')  }}"
+
+  - service: input_datetime.set_datetime
+    target:
+      entity_id: input_datetime.sunrise_10min_after
+    data:
+      time: "{{ ( as_timestamp(state_attr('sun.sun','next_rising')) + ( 60 * 10 ) ) | timestamp_custom('%I:%M')  }}"
+
+  - service: input_datetime.set_datetime
+    target:
+      entity_id: input_datetime.sunrise_15min_after
+    data:
+      time: "{{ ( as_timestamp(state_attr('sun.sun','next_rising')) + ( 60 * 15 ) ) | timestamp_custom('%I:%M')  }}"
+
+  - service: input_datetime.set_datetime
+    target:
+      entity_id: input_datetime.sunrise_20min_after
+    data:
+      time: "{{ ( as_timestamp(state_attr('sun.sun','next_rising')) + ( 60 * 20 ) ) | timestamp_custom('%I:%M')  }}"
+
+  - service: input_datetime.set_datetime
+    target:
+      entity_id: input_datetime.sunrise_25min_after
+    data:
+      time: "{{ ( as_timestamp(state_attr('sun.sun','next_rising')) + ( 60 * 25 ) ) | timestamp_custom('%I:%M')  }}"
+
+  - service: input_datetime.set_datetime
+    target:
+      entity_id: input_datetime.sunrise_30min_after
+    data:
+      time: "{{ ( as_timestamp(state_attr('sun.sun','next_rising')) + ( 60 * 30 ) ) | timestamp_custom('%I:%M')  }}"
+
+  - service: input_datetime.set_datetime
+    target:
+      entity_id: input_datetime.sunrise_35min_after
+    data:
+      time: "{{ ( as_timestamp(state_attr('sun.sun','next_rising')) + ( 60 * 35 ) ) | timestamp_custom('%I:%M')  }}"
+
+  - service: input_datetime.set_datetime
+    target:
+      entity_id: input_datetime.sunrise_40min_after
+    data:
+      time: "{{ ( as_timestamp(state_attr('sun.sun','next_rising')) + ( 60 * 40 ) ) | timestamp_custom('%I:%M')  }}"
+
+  - service: input_datetime.set_datetime
+    target:
+      entity_id: input_datetime.sunrise_45min_after
+    data:
+      time: "{{ ( as_timestamp(state_attr('sun.sun','next_rising')) + ( 60 * 45 ) ) | timestamp_custom('%I:%M')  }}"
+
+  - service: input_datetime.set_datetime
+    target:
+      entity_id: input_datetime.sunrise_50min_after
+    data:
+      time: "{{ ( as_timestamp(state_attr('sun.sun','next_rising')) + ( 60 * 50 ) ) | timestamp_custom('%I:%M')  }}"
+
+  - service: input_datetime.set_datetime
+    target:
+      entity_id: input_datetime.sunrise_55min_after
+    data:
+      time: "{{ ( as_timestamp(state_attr('sun.sun','next_rising')) + ( 60 * 55 ) ) | timestamp_custom('%I:%M')  }}"
+
+  - service: input_datetime.set_datetime
+    target:
+      entity_id: input_datetime.sunrise_60min_after
+    data:
+      time: "{{ ( as_timestamp(state_attr('sun.sun','next_rising')) + ( 60 * 60 ) ) | timestamp_custom('%I:%M')  }}"
