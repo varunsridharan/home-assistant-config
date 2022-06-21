@@ -760,3 +760,47 @@
     default: []
   mode: parallel
   max: 10
+- id: '1655731255520'
+  alias: 📲 Auto Location Updates
+  description: ''
+  trigger:
+  - platform: time_pattern
+    hours: '*'
+    minutes: /5
+    seconds: '0'
+  condition: []
+  action:
+  - service: notify.mobile_app_varun_sridharan
+    data:
+      title: turn_on
+      message: command_high_accuracy_mode
+  - service: notify.mobile_app_galaxy_m32
+    data:
+      message: command_high_accuracy_mode
+      title: turn_on
+  - service: notify.mobile_app_dad
+    data:
+      message: command_high_accuracy_mode
+      title: turn_on
+  - service: notify.mobile_app_dad
+    data:
+      message: request_location_update
+  - service: notify.mobile_app_varun_sridharan
+    data:
+      message: request_location_update
+  - service: notify.mobile_app_galaxy_m32
+    data:
+      message: request_location_update
+  - service: notify.mobile_app_varun_sridharan
+    data:
+      title: turn_off
+      message: command_high_accuracy_mode
+  - service: notify.mobile_app_galaxy_m32
+    data:
+      message: command_high_accuracy_mode
+      title: turn_off
+  - service: notify.mobile_app_dad
+    data:
+      message: command_high_accuracy_mode
+      title: turn_off
+  mode: single
