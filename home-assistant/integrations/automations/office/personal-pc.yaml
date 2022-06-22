@@ -1,0 +1,87 @@
+alias: "💻 - Personal Laptop"
+
+id: 64708b85-77f6-46c4-b778-1fb6b9aa7ec4
+
+mode: restart
+
+trigger:
+  # Laptop Unlock Trigger
+  - platform: state
+    entity_id:
+      - sensor.sribhuvan_laptop_status
+    from: locked
+    to: inuse
+    id: pc-unlocked
+
+  # Laptop Unlock Trigger
+  - platform: state
+    entity_id:
+      - sensor.sribhuvan_laptop_status
+    from: inuse
+    to: locked
+    id: pc-locked
+
+  # Laptop Locked For 25S
+  - platform: state
+    id: pc-locked-for-25s
+    entity_id:
+      - sensor.sribhuvan_laptop_status
+    to: locked
+    for:
+      hours: 0
+      minutes: 0
+      seconds: 25
+
+
+action:
+  # Run If PC Is Locked
+  - if:
+      - condition: trigger
+        id: pc-locked
+    then:
+      # Save Current State
+      - service: script.office_lights
+        data:
+          action: Save State
+          target:
+            entity_id:
+              - light.office_light_1
+              - light.office_light_2
+
+      # Power Light @ 5%
+      - service: script.office_lights
+        data:
+          action: Power 5%
+          target:
+            entity_id:
+              - light.office_light_1
+
+      # Power Off Another Light
+      - service: script.office_lights
+        data:
+          action: Power Off
+          target:
+            entity_id:
+              - light.office_light_2
+
+  # Restore Light State Of PC Unlocked
+  - if:
+      - condition: trigger
+        id: pc-unlocked
+    then:
+      - service: script.office_lights
+        data:
+          action: Restore State
+
+  # Power Off All Office Lights After PC Locked
+  - if:
+      - condition: trigger
+        id: pc-locked-for-25s
+    then:
+      - service: script.office_lights
+        data:
+          action: Power Off
+          target:
+            entity_id:
+              - light.office_light_2
+              - light.office_light_1

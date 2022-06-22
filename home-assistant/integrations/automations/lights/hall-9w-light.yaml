@@ -19,7 +19,7 @@ trigger:
     id: evening-mode-stop
 
   - platform: time
-    at: '19:30:00'
+    at: '20:00:00'
     id: night-mode-start
 
   - platform: time

@@ -768,7 +768,10 @@
     hours: '*'
     minutes: /5
     seconds: '0'
-  condition: []
+  condition:
+  - condition: time
+    before: '22:00:00'
+    after: 06:00:00
   action:
   - service: notify.mobile_app_varun_sridharan
     data:

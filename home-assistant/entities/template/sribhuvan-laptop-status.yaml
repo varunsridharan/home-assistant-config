@@ -1,0 +1,7 @@
+- trigger:
+  - platform: webhook
+    webhook_id: sribhuvan-laptop-status-3p4g69c8ut
+
+  sensor:
+    - name: "Sribhuvan Laptop Status"
+      state: "{{ trigger.json.status }}"
