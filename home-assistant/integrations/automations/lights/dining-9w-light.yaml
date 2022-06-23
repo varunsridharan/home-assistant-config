@@ -14,6 +14,9 @@ trigger:
     at: '05:30:00'
 
   - platform: time
+    at: '06:00:00'
+
+  - platform: time
     at: '20:30:00'
 
   - platform: state
@@ -33,7 +36,7 @@ action:
                 after: '17:00:00'
 
               - condition: time
-                before: '06:00:00'
+                before: '05:59:55'
                 after: '05:30:00'
 
         sequence:
@@ -42,6 +45,7 @@ action:
               light:
                 entity_id: light.dining_9w_philips_light
               power_mode: 'On'
+              brightness: '100'
 
       - conditions:
           - condition: time
@@ -54,7 +58,7 @@ action:
               light:
                 entity_id: light.dining_9w_philips_light
               power_mode: Indoor Night Lamp
-              brightness: 10
+              brightness: '10'
 
     default:
       - service: script.light_handler
