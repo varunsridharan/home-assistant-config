@@ -38,6 +38,11 @@ action:
   - if:
       - condition: trigger
         id: pc-locked
+
+      - condition: time
+        before: '07:59:55'
+        after: '08:59:55'
+
     then:
       # Save Current State
       - service: script.office_lights
@@ -68,6 +73,11 @@ action:
   - if:
       - condition: trigger
         id: pc-unlocked
+
+      - condition: time
+        before: '07:59:55'
+        after: '08:59:55'
+
     then:
       - service: script.office_lights
         data:
@@ -77,6 +87,10 @@ action:
   - if:
       - condition: trigger
         id: pc-locked-for-25s
+
+      - condition: time
+        before: '07:59:55'
+        after: '08:59:55'
     then:
       - service: script.office_lights
         data:
