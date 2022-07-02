@@ -49,4 +49,4 @@ back_corridor_light:
                     target: "{{ light_entity }}"
                     data:
                         color_temp: 454
-                        brightness_pct: 10
+                        brightness_pct: 25
