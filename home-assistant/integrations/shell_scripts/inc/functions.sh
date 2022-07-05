@@ -16,6 +16,14 @@ locate_repo(){
     echo "$(git_repo_path)/${1}"
 }
 
+run_ssh_cmd_pass(){
+  HOST="$1"
+  USER="$2"
+  PASS="$3"
+  CMD="$4"
+  sshpass -p "$PASS" ssh "${USER}@${HOST}" "$CMD"
+}
+
 run_ssh_cmd(){
     REPO="$1"
     CMD="$2"
