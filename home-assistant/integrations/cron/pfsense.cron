@@ -1,2 +1,2 @@
 # PFSense Backups
-# * * * * * bash /config/integrations/shell_scripts/trigger-ha-api.sh "start_pfsense_backup"
+* * * * * bash /config/integrations/shell_scripts/trigger-ha-api.sh "start_pfsense_backup"

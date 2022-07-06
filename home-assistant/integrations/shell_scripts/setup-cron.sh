@@ -23,7 +23,7 @@ if [ "start" == "${STATUS}" ] || [ "restart" == "${STATUS}" ]; then
 
 	# Resetup CROND Service
 	#crond -l 0 -f > /dev/stdout 2> /dev/stderr &
-	crond -l 0 -f > /tmp/cron.log 2> /dev/stderr &
+	crond -l 0 -f > "$(cron_log_file)" 2> /dev/stderr &
 
   exit 0
 	# List New Cron

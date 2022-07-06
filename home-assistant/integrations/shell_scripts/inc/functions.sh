@@ -1,5 +1,13 @@
 #!/bin/bash
 
+cron_log_file(){
+  echo "/tmp/cron.log"
+}
+
+cron_log(){
+  echo "$1" >> "$(cron_log_file)"
+}
+
 key_storage_location(){
     echo "/config/.deploy-keys"
 }
