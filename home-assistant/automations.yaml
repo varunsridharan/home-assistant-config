@@ -775,7 +775,8 @@
   action:
   - service: notify.mobile_app_varun_sridharan
     data:
-      title: turn_on
+      data:
+        command: turn_on
       message: command_high_accuracy_mode
   - service: notify.mobile_app_galaxy_m32
     data:
@@ -796,7 +797,8 @@
       message: request_location_update
   - service: notify.mobile_app_varun_sridharan
     data:
-      title: turn_off
+      data:
+        command: turn_off
       message: command_high_accuracy_mode
   - service: notify.mobile_app_galaxy_m32
     data:
