@@ -8,6 +8,7 @@
 *.crt
 *.csr
 *.key
+.cron.log
 .google.token
 .uuid
 .storage
