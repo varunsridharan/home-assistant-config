@@ -11,3 +11,5 @@
 
 # 10 PM Every Day
 0 21 * * * bash /config/integrations/shell_scripts/trigger-ha-api.sh "stop_vault1"
+
+* * * * * echo "Hello World" >> /config/cron.log

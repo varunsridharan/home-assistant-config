@@ -18,16 +18,22 @@ if [ "start" == "${STATUS}" ] || [ "restart" == "${STATUS}" ]; then
 		echo "$FILE_CONTENT" >> "${CRON_FILE}"
 	done
 
+  # Remove Lines With Comments
+  echo "$(grep -E -v '^# (\s|.+)' "${CRON_FILE}")" > "${CRON_FILE}"
+  echo "$(grep -E -v '^#.+' "${CRON_FILE}")" > "${CRON_FILE}"
+
+  # Remove Empty Lines
+  echo "$(grep -E -v '^$' "${CRON_FILE}")" > "${CRON_FILE}"
+
 	# Update Cron With New File
 	/usr/bin/crontab ${CRON_FILE}
 
 	# Resetup CROND Service
-	#crond -l 0 -f > /dev/stdout 2> /dev/stderr &
-	crond -l 0 -f > "$(cron_log_file)" 2> /dev/stderr &
+	crond -l 0 -f > /dev/stdout 2> /dev/stderr &
+	#crond -l 0 -f > "$(cron_log_file)" 2> /dev/stderr &
 
   exit 0
-	# List New Cron
-	#/usr/bin/crontab -l > /dev/stdout
+
 fi
 
 exit 0

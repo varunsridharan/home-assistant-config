@@ -18,9 +18,8 @@ cd "$REPOSITORY_FOLDER"
 if [ "$(git status --porcelain)" != "" ]; then
   git add "$REPOSITORY_FOLDER/config.xml"
   git commit -m "💾 Configuration Backup"
-
   push_repo "$REPOSITORY"
-
-  git tag -a "$(date +"%Y.%m.%d.%H.%M.%p")" -m "Auto Backup On $(date +"%B - %d/%m/%Y") @  $(date +%r)"
-  push_repo "$REPOSITORY" " --tags"
 fi
+
+git tag -a "$(date +"%Y.%m.%d.%H.%M.%p")" -m "Auto Backup On $(date +"%B - %d/%m/%Y") @  $(date +%r)"
+push_repo "$REPOSITORY" " --tags"
