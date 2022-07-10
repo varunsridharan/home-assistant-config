@@ -1,11 +1,15 @@
 #!/bin/bash
 
 cron_log_file(){
-  echo "/tmp/cron.log"
+  echo "/config/.cron.log"
 }
 
 cron_log(){
-  echo "$1" >> "$(cron_log_file)"
+  if [ -z "$1" ]; then
+    echo "" >> "$(cron_log_file)"
+  else
+    echo "[ $(date +"%T %d/%M/%Y") ] $1" >> "$(cron_log_file)"
+  fi
 }
 
 key_storage_location(){
