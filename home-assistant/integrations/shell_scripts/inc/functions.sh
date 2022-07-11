@@ -8,7 +8,7 @@ cron_log(){
   if [ -z "$1" ]; then
     echo "" >> "$(cron_log_file)"
   else
-    echo "[ $(date +"%T %d/%M/%Y") ] $1" >> "$(cron_log_file)"
+    echo "[ $(date +"%T %d/%m/%Y") ] $1" >> "$(cron_log_file)"
   fi
 }
 

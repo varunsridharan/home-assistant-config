@@ -24,4 +24,4 @@ fi
 #ssh-keyscan -H github.com >> ~/.ssh/known_hosts
 
 # Setup Cron
-bash /config/integrations/shell_scripts/setup-cron.sh
+bash /config/integrations/shell_scripts/setup-cron.sh "start"
