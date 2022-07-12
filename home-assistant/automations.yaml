@@ -1,5 +1,5 @@
 - id: '1637636693089'
-  alias: 🏠 House :💡 Gate Lights
+  alias: "\U0001F3E0 House :\U0001F4A1 Gate Lights"
   description: Automate Front Gate Lights
   trigger:
   - platform: sun
@@ -67,7 +67,7 @@
     default: []
   mode: single
 - id: '1637664778822'
-  alias: '🏠 House : 💡 Entrance Light'
+  alias: "\U0001F3E0 House : \U0001F4A1 Entrance Light"
   description: Automate House Entrance Light
   trigger:
   - platform: sun
@@ -164,7 +164,7 @@
         brightness: 1
   mode: single
 - id: '1637717292445'
-  alias: '🏢 Office : 💡Lights'
+  alias: "\U0001F3E2 Office : \U0001F4A1Lights"
   description: Handles Office Light Automation
   trigger:
   - platform: time
@@ -244,7 +244,7 @@
     default: []
   mode: restart
 - id: '1638692365205'
-  alias: 📣 Hall Announcer
+  alias: "\U0001F4E3 Hall Announcer"
   description: Automation To Handle Announcement Every 30min / Other Related Stuff
   trigger:
   - platform: time_pattern
@@ -306,7 +306,7 @@
   mode: queued
   max: 10
 - id: '1638975397121'
-  alias: 📱Personal Mobile - Automations
+  alias: "\U0001F4F1Personal Mobile - Automations"
   description: Personal Mobile Related Automation
   trigger:
   - platform: state
@@ -357,7 +357,7 @@
     default: []
   mode: restart
 - id: '1639062091039'
-  alias: '🏠 House : 💡Back Corridor '
+  alias: "\U0001F3E0 House : \U0001F4A1Back Corridor "
   description: ''
   trigger:
   - platform: sun
@@ -375,13 +375,35 @@
     entity_id: light.back_corridor_9w_philips_light
     to: 'on'
     id: power-back
+  - platform: state
+    entity_id:
+    - binary_sensor.hall_rear_door
+    to: 'on'
+    from: 'off'
+    id: door-opened
+  - platform: state
+    entity_id:
+    - binary_sensor.hall_rear_door
+    to: 'off'
+    from: 'on'
+    id: door-closed
   condition: []
   action:
   - choose:
     - alias: OK Good
       conditions:
-      - condition: trigger
-        id: power-on-bright-mode
+      - condition: or
+        conditions:
+        - condition: trigger
+          id: power-on-bright-mode
+        - condition: and
+          conditions:
+          - condition: trigger
+            id: door-opened
+          - condition: time
+            before: 05:30:00
+            after: '20:00:00'
+            enabled: true
       sequence:
       - service: script.back_corridor_light
         data:
@@ -394,8 +416,18 @@
         data:
           action: Power Off
     - conditions:
-      - condition: trigger
-        id: power-on-night-mode
+      - condition: or
+        conditions:
+        - condition: trigger
+          id: power-on-night-mode
+        - condition: and
+          conditions:
+          - condition: trigger
+            id: door-closed
+          - condition: time
+            before: 05:30:00
+            after: '20:00:00'
+            enabled: true
       sequence:
       - service: script.back_corridor_light
         data:
@@ -411,12 +443,18 @@
         data:
           action: Night Mode
     default:
-    - service: script.back_corridor_light
-      data:
-        action: Power Off
+    - if:
+      - condition: time
+        before: '19:59:55'
+        after: 06:01:00
+      then:
+      - service: script.back_corridor_light
+        data:
+          action: Power Off
+        enabled: true
   mode: single
 - id: '1639216987013'
-  alias: 💻 Personal PC - Automation
+  alias: "\U0001F4BB Personal PC - Automation"
   description: Office Automation Based On Personal PC Status
   trigger:
   - platform: state
@@ -534,7 +572,7 @@
     default: []
   mode: restart
 - id: '1639471882632'
-  alias: 🏠 House :💡 Kitchen Light
+  alias: "\U0001F3E0 House :\U0001F4A1 Kitchen Light"
   description: ''
   trigger:
   - platform: time
@@ -566,6 +604,18 @@
   - platform: time
     at: 05:45:00
     id: power-off
+  - platform: state
+    entity_id:
+    - binary_sensor.kitchen_door
+    to: 'on'
+    from: 'off'
+    id: door-opened
+  - platform: state
+    entity_id:
+    - binary_sensor.kitchen_door
+    to: 'off'
+    from: 'on'
+    id: door-closed
   condition: []
   action:
   - choose:
@@ -578,6 +628,13 @@
           id: morning
         - condition: trigger
           id: power-100
+        - condition: and
+          conditions:
+          - condition: trigger
+            id: door-opened
+          - condition: time
+            before: 05:25:00
+            after: '20:00:00'
       sequence:
       - service: script.kitchen_light
         data:
@@ -604,8 +661,17 @@
         data:
           action: Power 25%
     - conditions:
-      - condition: trigger
-        id: night-mode
+      - condition: or
+        conditions:
+        - condition: trigger
+          id: night-mode
+        - condition: and
+          conditions:
+          - condition: trigger
+            id: door-closed
+          - condition: time
+            before: 05:25:00
+            after: '20:00:00'
       sequence:
       - service: script.kitchen_light
         data:
@@ -619,7 +685,7 @@
         action: Power Off
   mode: single
 - id: '1639739782881'
-  alias: 🏠 House :💡 Parents Bedroom Lights
+  alias: "\U0001F3E0 House :\U0001F4A1 Parents Bedroom Lights"
   description: ''
   trigger:
   - platform: state
@@ -701,7 +767,7 @@
         action: Power 75%
   mode: single
 - id: '1641721874740'
-  alias: 🖥️ Home Server
+  alias: "\U0001F5A5️ Home Server"
   description: Automate Scheduled On / Off
   trigger:
   - platform: webhook
@@ -761,7 +827,7 @@
   mode: parallel
   max: 10
 - id: '1655731255520'
-  alias: 📲 Auto Location Updates
+  alias: "\U0001F4F2 Auto Location Updates"
   description: ''
   trigger:
   - platform: time_pattern

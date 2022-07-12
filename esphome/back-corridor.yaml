@@ -10,20 +10,20 @@ logger:
 # Enable Home Assistant API
 api:
   encryption:
-    key: "OyMaOZBUb9wDe6McrXgt+GZYI0kmPDjzPwTK5QrTwss="
+    key: !secret api_key
 
 ota:
-  password: "88082546ab28e2de6bdb9042a12d79b1"
+  password: !secret ota_key
 
 wifi:
   ssid: !secret wifi_ssid_internal
   password: !secret wifi_password
-  use_address: 10.0.7.211
+  use_address: 10.0.7.22
 
-  # Enable fallback hotspot (captive portal) in case wifi connection fails
+
   ap:
     ssid: "Back-Corridor Fallback Hotspot"
-    password: "Jtmfodi4lqQE"
+    password: !secret wifi_fallback_password
 
 captive_portal:
     
@@ -31,8 +31,19 @@ binary_sensor:
   - platform: gpio
     pin:
       number: D2
-      mode: INPUT_PULLUP
+      mode:
+        input: true
+        pullup: true
     name: "Hall Rear Door"
+    device_class: door
+    
+  - platform: gpio
+    pin:
+      number: D3
+      mode:
+        input: true
+        pullup: true
+    name: "Kitchen Door"
     device_class: door
     
 text_sensor:
@@ -53,7 +64,7 @@ text_sensor:
 
 switch:
   - platform: restart
-    name: "Back Corridor : Restart"
+    name: "Back Corridor Restart"
 
   - platform: shutdown
-    name: "Back Corridor : Shutdown"
+    name: "Back Corridor Shutdown"

@@ -1,6 +1,6 @@
 #### Power On #############
 # 6:55PM Every 3 days
-55 17 * * * bash /config/integrations/shell_scripts/trigger-ha-api.sh "start_vault1"
+55 18 * * * bash /config/integrations/shell_scripts/trigger-ha-api.sh "start_vault1"
 
 # 10:55 AM On 20th of every month
 55 10 20 * * bash /config/integrations/shell_scripts/trigger-ha-api.sh "start_vault1"
