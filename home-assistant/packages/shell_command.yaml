@@ -25,3 +25,5 @@ shell_command:
     # Vault 1 Status
     #vault1_power_on: /bin/bash /config/integrations/shell_scripts/vault1-status poweron
     vault1_power_off: /bin/bash /config/integrations/shell_scripts/vault1-status.sh
+
+    pihole_updater: /bin/bash /config/integrations/shell_scripts/pihole-updater.sh {{ identity }}

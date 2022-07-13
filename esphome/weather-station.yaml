@@ -30,11 +30,6 @@ text_sensor:
     id: weather_station_version
     hide_timestamp: true
 
-  - platform: template
-    name: Uptime
-    id: weather_station_uptime_human
-    icon: mdi:clock-start
-
   - platform: wifi_info
     ip_address:
       name: IP Address
@@ -87,26 +82,3 @@ sensor:
     name: "WiFi Signal"
     id: weather_station_wifi_signal
     update_interval: 60s
-    
-  - platform: uptime
-    name: Uptime Sensor
-    id: uptime_sensor
-    update_interval: 60s
-    on_raw_value:
-      then:
-        - text_sensor.template.publish:
-            id: weather_station_uptime_human
-            state: !lambda |-
-              int seconds = round(id(uptime_sensor).raw_state);
-              int days = seconds / (24 * 3600);
-              seconds = seconds % (24 * 3600);
-              int hours = seconds / 3600;
-              seconds = seconds % 3600;
-              int minutes = seconds /  60;
-              seconds = seconds % 60;
-              return (
-                (days ? to_string(days) + "d " : "") +
-                (hours ? to_string(hours) + "h " : "") +
-                (minutes ? to_string(minutes) + "m " : "") +
-                (to_string(seconds) + "s")
-              ).c_str();
