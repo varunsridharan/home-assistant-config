@@ -642,6 +642,9 @@
     - conditions:
       - condition: trigger
         id: power-75
+      - condition: state
+        entity_id: binary_sensor.kitchen_door
+        state: 'on'
       sequence:
       - service: script.kitchen_light
         data:
@@ -649,6 +652,9 @@
     - conditions:
       - condition: trigger
         id: power-50
+      - condition: state
+        entity_id: binary_sensor.kitchen_door
+        state: 'on'
       sequence:
       - service: script.kitchen_light
         data:
@@ -656,6 +662,9 @@
     - conditions:
       - condition: trigger
         id: power-25
+      - condition: state
+        entity_id: binary_sensor.kitchen_door
+        state: 'on'
       sequence:
       - service: script.kitchen_light
         data:
