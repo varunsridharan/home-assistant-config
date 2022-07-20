@@ -45,6 +45,12 @@ binary_sensor:
         pullup: true
     name: "Kitchen Door"
     device_class: door
+
+sensor:
+  - platform: wifi_signal
+    name: "WiFi Signal"
+    id: personal_bedroom_clock_wifi_signal
+    update_interval: 60s
     
 text_sensor:
   - platform: version
