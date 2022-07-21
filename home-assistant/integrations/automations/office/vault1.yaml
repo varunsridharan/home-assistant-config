@@ -87,7 +87,7 @@ action:
               - service: shell_command.vault1_power_off
 
               - delay:
-                  minutes: 5
+                  minutes: 10
 
               - service: switch.turn_off
                 target:
