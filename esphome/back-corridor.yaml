@@ -1,13 +1,12 @@
 esphome:
-  name: back-corridor
+  name: backcorridor
 
 esp8266:
   board: nodemcuv2
 
-# Enable logging
 logger:
-
-# Enable Home Assistant API
+  level: VERY_VERBOSE
+  
 api:
   encryption:
     key: !secret api_key
@@ -18,8 +17,7 @@ ota:
 wifi:
   ssid: !secret wifi_ssid_internal
   password: !secret wifi_password
-  use_address: 10.0.7.22
-
+  use_address: 10.0.7.23
 
   ap:
     ssid: "Back-Corridor Fallback Hotspot"
