@@ -24,11 +24,6 @@ trigger:
       to: "off"
       from: "on"
 
-    #- platform: template
-    #  value_template: >-
-    #      {{( states("sensor.universal_remote_control_temperature") | round(2) <= states("input_number.office_ac_temp")| round(2))}}
-    #  id: temp-reached
-
     - platform: state
       entity_id: input_boolean.office_ac_power_on_off
       id: ac-power-on-3m
@@ -52,46 +47,6 @@ trigger:
     - platform: time
       at: '22:00:00'
       id: ac-power-on-2h
-
-#    - platform: state
-#      entity_id: input_boolean.office_ac_power_on_off
-#      id: ac-power-on-10m
-#      to: "on"
-#      from: "off"
-#      for:
-#          hours: 0
-#          minutes: 10
-#          seconds: 0
-
-#    - platform: state
-#      entity_id: input_boolean.office_ac_power_on_off
-#      id: ac-power-off-2m
-#      to: "off"
-#      from: "on"
-#      for:
-#          hours: 0
-#          minutes: 2
-#          seconds: 0
-
-#    - platform: state
-#      entity_id: input_boolean.office_ac_power_on_off
-#      id: ac-power-off-4m
-#      to: "off"
-#      from: "on"
-#      for:
-#          hours: 0
-#          minutes: 4
-#          seconds: 0
-
-#    - platform: state
-#      entity_id: input_boolean.office_ac_power_on_off
-#      id: ac-power-off-6m
-#      to: "off"
-#      from: "on"
-#      for:
-#          hours: 0
-#          minutes: 6
-#          seconds: 0
 
 action:
     - choose:
@@ -165,32 +120,11 @@ action:
                         entity_id: input_select.ac_operation_mode
                         state: Office
             sequence:
-                - service: fan.set_percentage
-                  data:
-                      percentage: 100
-                  target:
-                      entity_id: fan.office_fan
                 - service: input_number.set_value
                   data:
                       value: 3
                   target:
                       entity_id: input_number.office_ac_fan_speed
-
-          # AC Power On Night Mode
-          - conditions:
-                - condition: and
-                  conditions:
-                      - condition: trigger
-                        id: ac-power-on
-                      - condition: state
-                        entity_id: input_select.ac_operation_mode
-                        state: Night
-            sequence:
-                - service: fan.set_percentage
-                  data:
-                      percentage: 100
-                  target:
-                      entity_id: fan.office_fan
 
           # AC Power On Office Mode After 3 Min
           - conditions:
@@ -202,11 +136,6 @@ action:
                         entity_id: input_select.ac_operation_mode
                         state: Office
             sequence:
-                - service: fan.set_percentage
-                  data:
-                      percentage: 70
-                  target:
-                      entity_id: fan.office_fan
                 - service: input_number.set_value
                   data:
                       value: 2
@@ -223,11 +152,6 @@ action:
                         entity_id: input_select.ac_operation_mode
                         state: Office
             sequence:
-                - service: fan.set_percentage
-                  data:
-                      percentage: 45
-                  target:
-                      entity_id: fan.office_fan
                 - service: input_number.set_value
                   data:
                       value: 1
@@ -244,64 +168,11 @@ action:
                         entity_id: input_select.ac_operation_mode
                         state: Office
             sequence:
-                - service: fan.set_percentage
-                  data:
-                      percentage: 20
-                  target:
-                      entity_id: fan.office_fan
                 - service: input_number.set_value
                   data:
                       value: 1
                   target:
                       entity_id: input_number.office_ac_fan_speed
-
-          # AC Power Off Office Mode After 2 Min
-          - conditions:
-                - condition: and
-                  conditions:
-                      - condition: trigger
-                        id: ac-power-off-2m
-                      - condition: state
-                        entity_id: input_select.ac_operation_mode
-                        state: Office
-            sequence:
-                - service: fan.set_percentage
-                  data:
-                      percentage: 40
-                  target:
-                      entity_id: fan.office_fan
-
-          # AC Power Off Office Mode After 4 Min
-          - conditions:
-                - condition: and
-                  conditions:
-                      - condition: trigger
-                        id: ac-power-off-4m
-                      - condition: state
-                        entity_id: input_select.ac_operation_mode
-                        state: Office
-            sequence:
-                - service: fan.set_percentage
-                  data:
-                      percentage: 70
-                  target:
-                      entity_id: fan.office_fan
-
-          # AC Power Off Office Mode After 6 Min
-          - conditions:
-                - condition: and
-                  conditions:
-                      - condition: trigger
-                        id: ac-power-off-6m
-                      - condition: state
-                        entity_id: input_select.ac_operation_mode
-                        state: Office
-            sequence:
-                - service: fan.set_percentage
-                  data:
-                      percentage: 100
-                  target:
-                      entity_id: fan.office_fan
 
           # Auto AC Power Off After 2 hrs
           - conditions:
@@ -313,11 +184,6 @@ action:
                         entity_id: input_select.ac_operation_mode
                         state: Night
             sequence:
-                - service: fan.set_percentage
-                  data:
-                      percentage: 0
-                  target:
-                      entity_id: fan.office_fan
                 - service: input_boolean.turn_off
                   data: {}
                   target:
