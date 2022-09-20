@@ -19,4 +19,4 @@ trigger:
 action:
     - service: recorder.purge
       data:
-          keep_days: 100
+          keep_days: 20
