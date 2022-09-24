@@ -2,67 +2,79 @@ alias: ' 🏠 House :💡 Dining 9W Light '
 
 id: f46b9967-14e8-4a77-af4e-5124cb1b6e67
 
-description: ''
+description: ""
 
 mode: restart
 
 trigger:
-  - platform: time
-    at: '17:00:00'
-
-  - platform: time
-    at: '05:30:00'
-
-  - platform: time
-    at: '06:00:00'
-
-  - platform: time
-    at: '20:30:00'
-
   - platform: state
     entity_id:
       - light.dining_9w_philips_light
     from: unavailable
-    to: 'on'
+    to: "on"
+    id: back-online
+
+  - platform: time
+    at: "17:00:00"
+    alias: "@ 5PM"
+
+  - platform: time
+    at: "05:30:00"
+    alias: "@ 05:30 AM"
+
+  - platform: time
+    at: "06:00:00"
+    alias: "@ 06:00 AM"
+
+  - platform: time
+    at: "20:30:00"
+    alias: "@ 08:30 PM"
 
 action:
-  - choose:
-
-      - conditions:
-          - condition: or
-            conditions:
-              - condition: time
-                before: '20:00:00'
-                after: '17:00:00'
-
-              - condition: time
-                before: '05:59:55'
-                after: '05:30:00'
-
-        sequence:
-          - service: script.light_handler
-            data:
-              light:
-                entity_id: light.dining_9w_philips_light
-              power_mode: 'On'
-              brightness: '100'
-
-      - conditions:
+  - if:
+      - condition: or
+        conditions:
           - condition: time
-            before: '05:29:55'
-            after: '20:29:55'
-
-        sequence:
-          - service: script.light_handler
-            data:
-              light:
-                entity_id: light.dining_9w_philips_light
-              power_mode: Indoor Night Lamp
-              brightness: '10'
-
-    default:
+            before: "20:29:55"
+            after: "16:59:55"
+            alias: "Is Time Now Between : 5PM - 8PM"
+          - condition: time
+            before: "05:59:55"
+            after: "05:29:55"
+            alias: "Is Time Now Between : 5:30 AM - 6AM"
+        alias: 5:30 AM - 6:00AM || 5PM - 8PM
+    then:
       - service: script.light_handler
         data:
           light:
             entity_id: light.dining_9w_philips_light
-          power_mode: 'Off'
+          power_mode: "On"
+          brightness: "100"
+
+  - if:
+      - condition: time
+        before: "05:29:55"
+        after: "20:29:55"
+        alias: 8:30PM - 5:30AM
+    then:
+      - service: script.light_handler
+        data:
+          light:
+            entity_id: light.dining_9w_philips_light
+          power_mode: Indoor Night Lamp
+          brightness: "10"
+
+  - if:
+      - condition: time
+        before: "16:59:10"
+        after: "05:59:55"
+        alias: 6AM - 5PM
+      - condition: trigger
+        id: back-online
+    then:
+      - service: script.light_handler
+        data:
+          light:
+            entity_id: light.dining_9w_philips_light
+          power_mode: "Off"
+    alias: 6AM - 5PM & Back Online
