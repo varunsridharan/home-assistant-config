@@ -152,6 +152,13 @@
           entity_id: light.house_entrance_9w_philips_light
         power_mode: Outdoor Night Lamp
         brightness: 6
+      enabled: false
+    - service: script.light_handler
+      data:
+        light:
+          entity_id: light.house_entrance_9w_philips_light
+        power_mode: White Lamp
+        brightness: 26
   - if:
     - condition: trigger
       id: light-off
