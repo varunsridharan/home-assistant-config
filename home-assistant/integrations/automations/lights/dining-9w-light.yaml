@@ -13,23 +13,19 @@ trigger:
     from: unavailable
     to: "on"
     id: back-online
-
   - platform: time
     at: "17:00:00"
     alias: "@ 5PM"
-
   - platform: time
     at: "05:30:00"
     alias: "@ 05:30 AM"
-
   - platform: time
     at: "06:00:00"
     alias: "@ 06:00 AM"
-
+    id: morning
   - platform: time
     at: "20:30:00"
     alias: "@ 08:30 PM"
-
 action:
   - if:
       - condition: or
@@ -50,7 +46,6 @@ action:
             entity_id: light.dining_9w_philips_light
           power_mode: "On"
           brightness: "100"
-
   - if:
       - condition: time
         before: "05:29:55"
@@ -63,14 +58,20 @@ action:
             entity_id: light.dining_9w_philips_light
           power_mode: Indoor Night Lamp
           brightness: "10"
-
   - if:
-      - condition: time
-        before: "16:59:10"
-        after: "05:59:55"
-        alias: 6AM - 5PM
-      - condition: trigger
-        id: back-online
+      - condition: or
+        conditions:
+          - condition: and
+            conditions:
+              - condition: time
+                before: "16:59:10"
+                after: "05:59:55"
+                alias: 6AM - 5PM
+              - condition: trigger
+                id: back-online
+            alias: Auto Turn Off If Turned On From 6AM - 5PM
+          - condition: trigger
+            id: morning
     then:
       - service: script.light_handler
         data:
