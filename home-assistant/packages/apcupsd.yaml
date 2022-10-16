@@ -5,6 +5,6 @@
 #
 # https://www.home-assistant.io/integrations/apcupsd/
 #
-apcupsd:
-  host: 10.0.100.1
-  port: 3551
+#apcupsd:
+#  host: 10.0.100.1
+#  port: 3551
