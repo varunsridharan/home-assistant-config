@@ -891,3 +891,46 @@
       message: command_high_accuracy_mode
       title: turn_off
   mode: single
+- id: '1666230010825'
+  alias: "\U0001F3E2 Office - Mosquito Machine"
+  description: ''
+  trigger:
+  - platform: time_pattern
+    minutes: /20
+    id: loop-on-or-off
+  - platform: time
+    at: 07:30:00
+    id: turn-off
+  - platform: time
+    at: '17:45:00'
+    id: turn-on
+  condition: []
+  action:
+  - if:
+    - condition: trigger
+      id: turn-on
+    then:
+    - service: switch.turn_on
+      data: {}
+      target:
+        entity_id: switch.sp_office_mosquito_plug
+  - if:
+    - condition: trigger
+      id: loop-on-or-off
+    - condition: time
+      before: 07:25:00
+      after: '18:00:00'
+    then:
+    - service: switch.toggle
+      data: {}
+      target:
+        entity_id: switch.sp_office_mosquito_plug
+  - if:
+    - condition: trigger
+      id: turn-off
+    then:
+    - service: switch.turn_off
+      data: {}
+      target:
+        entity_id: switch.sp_office_mosquito_plug
+  mode: restart
