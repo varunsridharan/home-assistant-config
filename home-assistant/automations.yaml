@@ -935,3 +935,16 @@
       target:
         entity_id: switch.sp_office_mosquito_plug
   mode: restart
+- id: '1672573165389'
+  alias: Test
+  description: ''
+  trigger:
+  - platform: time
+    at: input_datetime.office_schedule_lights_off
+  condition: []
+  action:
+  - service: tts.google_translate_say
+    data:
+      entity_id: media_player.sribhuvanlaptop
+      message: Hi There
+  mode: single
