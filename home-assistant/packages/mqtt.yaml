@@ -5,17 +5,7 @@ mqtt:
       object_id: "sribhuvan_laptop_screen_brightness"
       command_topic: "homeassistant/light/SribhuvanLaptop/sribhuvan_laptop_screen_brightness/action"
       brightness_command_topic: "homeassistant/light/SribhuvanLaptop/sribhuvan_laptop_screen_brightness/action"
-      brightness_command_template: "%LOCALAPPDATA%\\Microsoft\\WindowsApps\\Monitorian.exe /set {{ value }}"
-      brightness_scale: 100
-      on_command_type: 'brightness'
-      icon: mdi:monitor-shimmer
-      
-    - name: "Sribhuvan Laptop Monitor Contrast"
-      unique_id: "sribhuvan_laptop_screen_contrast"
-      object_id: "sribhuvan_laptop_screen_contrast"
-      command_topic: "homeassistant/light/SribhuvanLaptop/sribhuvan_laptop_screen_contrast/action"
-      brightness_command_topic: "homeassistant/light/SribhuvanLaptop/sribhuvan_laptop_screen_contrast/action"
-      brightness_command_template: "%LOCALAPPDATA%\\Microsoft\\WindowsApps\\Monitorian.exe /set contrast {{ value }}"
+      brightness_command_template: "%LOCALAPPDATA%\\Microsoft\\WindowsApps\\Monitorian.exe /set contrast {{ value }} && %LOCALAPPDATA%\\Microsoft\\WindowsApps\\Monitorian.exe /set {{ value }}"
       brightness_scale: 100
       on_command_type: 'brightness'
       icon: mdi:monitor-shimmer

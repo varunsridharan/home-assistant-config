@@ -5,97 +5,105 @@ id: 64708b85-77f6-46c4-b778-1fb6b9aa7ec4
 mode: restart
 
 trigger:
-  # Laptop Unlock Trigger
   - platform: state
     entity_id:
-      - sensor.sribhuvan_laptop_status
-    from: locked
-    to: inuse
-    id: pc-unlocked
+      - sensor.sribhuvan_laptop_session_state
+    from: Locked
+    to: Unlocked
+    id: unlocked
 
-  # Laptop Unlock Trigger
   - platform: state
     entity_id:
-      - sensor.sribhuvan_laptop_status
-    from: inuse
-    to: locked
-    id: pc-locked
+      - sensor.sribhuvan_laptop_session_state
+    from: Unlocked
+    to: Locked
+    id: locked
 
-  # Laptop Locked For 25S
   - platform: state
-    id: pc-locked-for-25s
     entity_id:
-      - sensor.sribhuvan_laptop_status
-    to: locked
-    for:
-      hours: 0
-      minutes: 0
-      seconds: 25
+      - sensor.sribhuvan_laptop_session_state
+    from: Locked
+    to: unavailable
+    id: pc-off
+
+  - platform: state
+    entity_id:
+      - sensor.sribhuvan_laptop_session_state
+    from: Unlocked
+    to: unavailable
+    id: pc-off
 
 
 action:
-  # Run If PC Is Locked
   - if:
       - condition: trigger
-        id: pc-locked
-
-      - condition: time
-        before: '07:59:55'
-        after: '08:59:55'
-
+        id: locked
     then:
-      # Save Current State
-      - service: script.office_lights
-        data:
-          action: Save State
-          target:
-            entity_id:
-              - light.office_light_1
-              - light.office_light_2
-
-      # Power Light @ 5%
-      - service: script.office_lights
-        data:
-          action: Power 5%
-          target:
-            entity_id:
-              - light.office_light_1
-
-      # Power Off Another Light
-      - service: script.office_lights
-        data:
-          action: Power Off
-          target:
-            entity_id:
-              - light.office_light_2
-
-  # Restore Light State Of PC Unlocked
+      - if:
+          - condition: state
+            entity_id: >-
+              input_boolean.office_remember_light_state_when_locked_restore_when_unlocked
+            state: "on"
+        then:
+          - service: script.office_lights
+            data:
+              action: Save State
+              target:
+                entity_id:
+                  - light.office_light_1
+                  - light.office_light_2
+      - if:
+          - condition: state
+            entity_id: input_boolean.office_auto_turn_off_lights_when_pc_locked
+            state: "on"
+        then:
+          - service: script.office_lights
+            data:
+              action: On PC Lock / Shutdown
   - if:
       - condition: trigger
-        id: pc-unlocked
-
-      - condition: time
-        before: '07:59:55'
-        after: '08:59:55'
-
+        id: unlocked
     then:
-      - service: script.office_lights
-        data:
-          action: Restore State
-
-  # Power Off All Office Lights After PC Locked
+      - if:
+          - condition: state
+            entity_id: input_boolean.office_auto_turn_on_lights_when_pc_unlocked
+            state: "on"
+          - condition: state
+            entity_id: >-
+              input_boolean.office_remember_light_state_when_locked_restore_when_unlocked
+            state: "on"
+        then:
+          - service: script.office_lights
+            data:
+              action: Restore State
+      - if:
+          - condition: state
+            entity_id: input_boolean.office_auto_turn_on_lights_when_pc_unlocked
+            state: "on"
+          - condition: state
+            entity_id: >-
+              input_boolean.office_remember_light_state_when_locked_restore_when_unlocked
+            state: "off"
+        then:
+          - service: script.office_lights
+            data:
+              action: Power On
+              target:
+                entity_id: light.office_light_1
+          - service: script.office_lights
+            data:
+              action: Power Off
+              target:
+                entity_id: light.office_light_2
   - if:
       - condition: trigger
-        id: pc-locked-for-25s
-
-      - condition: time
-        before: '07:59:55'
-        after: '08:59:55'
+        id: pc-off
     then:
-      - service: script.office_lights
-        data:
-          action: Power Off
-          target:
-            entity_id:
-              - light.office_light_2
-              - light.office_light_1
+      - if:
+          - condition: state
+            entity_id: input_boolean.office_auto_turn_off_lights_when_pc_shutdown
+            state: "on"
+        then:
+          - service: script.office_lights
+            data:
+              action: On PC Lock / Shutdown

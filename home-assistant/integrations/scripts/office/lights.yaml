@@ -1,5 +1,5 @@
 office_lights:
-    alias: "💡Office Light Handler"
+    alias: "💡 Office Light Handler"
 
     mode: restart
 
@@ -18,6 +18,7 @@ office_lights:
                         - Restore State
                         - Save State
                         - Visitor Notification
+                        - On PC Lock / Shutdown
         target:
             name: "Light"
             selector:
@@ -26,6 +27,29 @@ office_lights:
                         domain: light
     sequence:
         choose:
+            # On PC Lock / Shutdown
+            - conditions:
+                  - condition: template
+                    value_template: "{{ action == 'On PC Lock / Shutdown' }}"
+              sequence:
+                  - service: light.turn_on
+                    target:
+                        entity_id: light.office_light_1
+                    data:
+                        color_temp: 153
+                        brightness_pct: 10
+                  - service: light.turn_off
+                    target:
+                        entity_id: light.office_light_2
+                  - delay:
+                      hours: 0
+                      minutes: 0
+                      seconds: "{{ ( states('input_number.office_once_locked_auto_dim_lights_for') | int ) }}"
+                      milliseconds: 0
+                  - service: light.turn_off
+                    target:
+                        entity_id: light.office_light_1
+
             # Save State For Given Lights
             - conditions:
                   - condition: template
@@ -39,6 +63,7 @@ office_lights:
                     data:
                         scene_id: "lightoffice_light_2"
                         snapshot_entities: light.office_light_2
+
 
             # Restore State For Given Lights
             - conditions:
