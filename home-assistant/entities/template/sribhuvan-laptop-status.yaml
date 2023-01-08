@@ -1,7 +1,9 @@
 - trigger:
-  - platform: webhook
-    webhook_id: sribhuvan-laptop-status-3p4g69c8ut
+  - platform: state
+    entity_id:
+      - sensor.sribhuvan_laptop_session_state
+      - sensor.sribhuvan_laptop_lastactive
 
   sensor:
-    - name: "Sribhuvan Laptop Status"
-      state: "{{ trigger.json.status }}"
+    - name: "Sribhuvan Laptop Active Status"
+      state: "{% if 'Locked' == states('sensor.sribhuvan_laptop_session_state') %}Locked{% if (as_timestamp(now(),0) - as_timestamp(states('sensor.sribhuvan_laptop_lastactive'),0) < 2) %}&Active{% else %}&InActive{% endif %}{% endif %}{% if 'Unlocked' == states('sensor.sribhuvan_laptop_session_state') %}Unlocked{% if (as_timestamp(now(),0) - as_timestamp(states('sensor.sribhuvan_laptop_lastactive'),0) < 2) %}&Active{% else %}&InActive{% endif %}{% endif %}"
