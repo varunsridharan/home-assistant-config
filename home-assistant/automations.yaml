@@ -837,8 +837,15 @@
   - platform: time_pattern
     minutes: /20
     id: loop-on-or-off
+    enabled: false
   - platform: time
-    at: 07:30:00
+    at: 07:00:00
+    id: turn-off
+  - platform: time
+    at: 05:30:00
+    id: turn-on
+  - platform: time
+    at: '22:00:00'
     id: turn-off
   - platform: time
     at: '17:45:00'
@@ -864,6 +871,7 @@
       data: {}
       target:
         entity_id: switch.sp_office_mosquito_plug
+    enabled: false
   - if:
     - condition: trigger
       id: turn-off
