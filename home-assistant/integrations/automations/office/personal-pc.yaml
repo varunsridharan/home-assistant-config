@@ -32,7 +32,20 @@ trigger:
     from: Unlocked
     to: unavailable
     id: pc-off
-
+  
+  - platform: state
+    entity_id:
+      - sensor.sribhuvan_laptop_session_state
+    to: Locked
+    id: pc-on
+    from: unavailable
+    
+  - platform: state
+    entity_id:
+      - sensor.sribhuvan_laptop_session_state
+    from: unavailable
+    to: Unlocked
+    id: pc-on
 
 action:
   - if:
@@ -107,3 +120,19 @@ action:
           - service: script.office_lights
             data:
               action: On PC Lock / Shutdown
+              
+              
+  - if:
+      - condition: trigger
+        id: pc-on
+    then:
+      - service: script.office_lights
+        data:
+          action: Power On
+          target:
+            entity_id: light.office_light_1
+      - service: script.office_lights
+        data:
+          action: Power Off
+          target:
+            entity_id: light.office_light_2
