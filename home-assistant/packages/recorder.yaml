@@ -21,4 +21,4 @@ recorder:
             #- sun.sun
             - sensor.date
             - sensor.time
-            - sensor.office_fan_speed
+            #- sensor.office_fan_speed

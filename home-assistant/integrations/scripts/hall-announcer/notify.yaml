@@ -27,11 +27,11 @@ hall_announcer_notify:
         notify_volume: 100
 
     sequence:
-        - service: tts.google_translate_say
-          data:
-              entity_id: media_player.hall_smart_speaker
-              message: "{{ message }}"
-              language: "{{ google_voice }}"
+        #- service: tts.google_translate_say
+          #data:
+              #entity_id: media_player.hall_smart_speaker
+              #message: "{{ message }}"
+              #language: "{{ google_voice }}"
 
         #- service: "{{ notify_system }}"
         #  data:
