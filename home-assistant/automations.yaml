@@ -652,3 +652,14 @@
       target:
         entity_id: switch.sp_office_mosquito_plug
   mode: restart
+- id: '1673936316227'
+  alias: Frigate Notification (0.10.0)
+  description: ''
+  use_blueprint:
+    path: hunterjm/frigate_0.10_notification.yaml
+    input:
+      notify_device: 1501dfb511ffa98a4b648856db029190
+      update_thumbnail: true
+      critical: true
+      camera: front_camera
+      loiter_timer: 7
