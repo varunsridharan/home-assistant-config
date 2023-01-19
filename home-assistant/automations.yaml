@@ -663,3 +663,5 @@
       critical: true
       camera: front_camera
       loiter_timer: 7
+      labels:
+      - person
