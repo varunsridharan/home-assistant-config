@@ -1,6 +1,0 @@
----
-# This handles the grouping of entity
-#
-# https://www.home-assistant.io/integrations/group/
-#
-group: !include_dir_merge_named ../entities/groups/
