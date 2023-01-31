@@ -1,0 +1,5 @@
+# Example configuration entry
+- sensor:
+    - name: Sun Angle
+      unit_of_measurement: "°"
+      state: "{{ '%+.1f'|format(state_attr('sun.sun', 'elevation')) }}"

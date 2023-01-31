@@ -1,0 +1,72 @@
+esphome:
+  name: personal-bedroom-clock
+
+esp8266:
+  board: d1_mini
+
+logger:
+
+api:
+
+ota:
+  password: "0cb206f6e41730303b8a2bc9666543c8"
+
+wifi:
+  ssid: !secret wifi_ssid_internal
+  password: !secret wifi_password
+  use_address: 10.0.7.16
+
+  ap:
+    ssid: "Personal-Bedroom-Clock"
+    password: "NOP8YI7w5JYH"
+
+captive_portal:
+
+text_sensor:
+  - platform: version
+    name: "Firmware Version"
+    id: personal_bedroom_clock_version
+    hide_timestamp: true
+
+  - platform: wifi_info
+    ip_address:
+      name: IP Address
+    ssid:
+      name: Connected SSID
+    bssid:
+      name: Connected BSSID
+    mac_address:
+      name: Mac Address
+
+switch:
+  - platform: restart
+    name: "Device : Restart"
+
+  - platform: shutdown
+    name: "Device : Shutdown"
+
+sensor:
+  - platform: wifi_signal
+    name: "WiFi Signal"
+    id: personal_bedroom_clock_wifi_signal
+    update_interval: 60s
+
+time:
+  - platform: homeassistant
+    id: homeassistant_time
+    timezone: Asia/Kolkata
+
+display:
+  platform: tm1637
+  clk_pin: D7
+  dio_pin: D4
+  id: tm1637_display
+  intensity: 0
+  update_interval: 500ms
+  lambda: |-
+      static int i = 0;
+      i++;
+      if ((i % 2) == 0)
+        it.strftime("%I.%M", id(homeassistant_time).now());
+      else
+        it.strftime("%I%M", id(homeassistant_time).now());

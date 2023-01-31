@@ -1,0 +1,18 @@
+- platform: systemmonitor
+  entity_namespace: "haos"
+  resources:
+      - type: memory_use_percent
+      - type: memory_use
+      - type: memory_free
+      - type: processor_use
+      - type: last_boot
+      - type: load_5m
+      - type: swap_use_percent
+      - type: swap_use
+      - type: swap_free
+      - type: disk_use_percent
+        arg: /
+      - type: disk_use
+        arg: /
+      - type: disk_free
+        arg: /

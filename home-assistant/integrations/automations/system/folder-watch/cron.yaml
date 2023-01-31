@@ -1,0 +1,57 @@
+alias: 'HA 📂 Folder Watch : /config/integrations/cron'
+
+mode: restart
+
+id: 65d39cad-1756-4630-a8e5-3b0ed22732d6
+
+trigger:
+  - platform: event
+    event_type: folder_watcher
+    event_data:
+      event_type: created
+
+  - platform: event
+    event_type: folder_watcher
+    event_data:
+      event_type: deleted
+
+  - platform: event
+    event_type: folder_watcher
+    event_data:
+      event_type: modified
+
+condition:
+  - condition: template
+    value_template: "{{ 'cron' in  trigger.event.data.folder }}"
+
+action:
+  - service: persistent_notification.create
+    data:
+      notification_id: vs-cron-status
+      message: Stopping
+      title: Cron Status
+
+  - service: shell_command.cron_stop
+
+  - service: persistent_notification.create
+    data:
+      notification_id: vs-cron-status
+      message: Stopped
+      title: Cron Status
+
+  - delay:
+      seconds: 3
+
+  - service: persistent_notification.create
+    data:
+      notification_id: vs-cron-status
+      message: Starting
+      title: Cron Status
+
+  - service: shell_command.cron_start
+
+  - service: persistent_notification.create
+    data:
+      notification_id: vs-cron-status
+      message: Started
+      title: Cron Status

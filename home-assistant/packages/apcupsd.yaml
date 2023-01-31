@@ -1,0 +1,10 @@
+---
+# Apcupsd status information can be integrated into Home Assistant when the 
+# Network Information Server (NIS) is configured on the APC device.
+# This is configured via PFSense NIS Server
+#
+# https://www.home-assistant.io/integrations/apcupsd/
+#
+#apcupsd:
+#  host: 10.0.100.1
+#  port: 3551

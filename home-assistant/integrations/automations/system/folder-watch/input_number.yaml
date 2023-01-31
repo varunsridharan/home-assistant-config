@@ -1,0 +1,24 @@
+alias: 'HA 📂 Folder Watch : /config/entities/input_number'
+
+mode: restart
+
+id: 02e032fc-ad79-4c02-a842-ab988a72a574
+
+trigger:
+  - platform: event
+    event_type: folder_watcher
+
+condition:
+  - condition: template
+    value_template: "{{ 'input_number' in  trigger.event.data.folder }}"
+
+action:
+  - delay:
+      milliseconds: 25
+
+  - service: input_number.reload
+
+  - service: notify.persistent_notification
+    data:
+      title: Input Number
+      message: 'Reloaded'

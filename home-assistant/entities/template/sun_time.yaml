@@ -1,0 +1,217 @@
+- unique_id: 'sun_time'
+  sensor:
+    - name: 'Sun Rise'
+      device_class: 'timestamp'
+      state: "{{ state_attr('sun.sun','next_rising') }}"
+
+    - name: 'Sun Rise 1min Before'
+      state: "{{ ( as_timestamp(state_attr('sun.sun','next_rising')) - ( 60 * 1 ) ) | timestamp_utc  }}"
+      device_class: 'timestamp'
+
+    - name: 'Sun Rise 5min Before'
+      state: "{{ ( as_timestamp(state_attr('sun.sun','next_rising')) - ( 60 * 5 ) ) | timestamp_utc  }}"
+      device_class: 'timestamp'
+
+    - name: 'Sun Rise 10min Before'
+      state: "{{ ( as_timestamp(state_attr('sun.sun','next_rising')) - ( 60 * 10 ) ) | timestamp_utc  }}"
+      device_class: 'timestamp'
+
+    - name: 'Sun Rise 15min Before'
+      state: "{{ ( as_timestamp(state_attr('sun.sun','next_rising')) - ( 60 * 15 ) ) | timestamp_utc  }}"
+      device_class: 'timestamp'
+
+    - name: 'Sun Rise 20min Before'
+      state: "{{ ( as_timestamp(state_attr('sun.sun','next_rising')) - ( 60 * 20 ) ) | timestamp_utc  }}"
+      device_class: 'timestamp'
+
+    - name: 'Sun Rise 25min Before'
+      state: "{{ ( as_timestamp(state_attr('sun.sun','next_rising')) - ( 60 * 25 ) ) | timestamp_utc  }}"
+      device_class: 'timestamp'
+
+    - name: 'Sun Rise 30min Before'
+      state: "{{ ( as_timestamp(state_attr('sun.sun','next_rising')) - ( 60 * 30 ) ) | timestamp_utc  }}"
+      device_class: 'timestamp'
+
+    - name: 'Sun Rise 35min Before'
+      state: "{{ ( as_timestamp(state_attr('sun.sun','next_rising')) - ( 60 * 35 ) ) | timestamp_utc  }}"
+      device_class: 'timestamp'
+
+    - name: 'Sun Rise 40min Before'
+      state: "{{ ( as_timestamp(state_attr('sun.sun','next_rising')) - ( 60 * 40 ) ) | timestamp_utc  }}"
+      device_class: 'timestamp'
+
+    - name: 'Sun Rise 45min Before'
+      state: "{{ ( as_timestamp(state_attr('sun.sun','next_rising')) - ( 60 * 45 ) ) | timestamp_utc  }}"
+      device_class: 'timestamp'
+
+    - name: 'Sun Rise 50min Before'
+      state: "{{ ( as_timestamp(state_attr('sun.sun','next_rising')) - ( 60 * 50 ) ) | timestamp_utc  }}"
+      device_class: 'timestamp'
+
+    - name: 'Sun Rise 55min Before'
+      state: "{{ ( as_timestamp(state_attr('sun.sun','next_rising')) - ( 60 * 55 ) ) | timestamp_utc  }}"
+      device_class: 'timestamp'
+
+    - name: 'Sun Rise 60min Before'
+      state: "{{ ( as_timestamp(state_attr('sun.sun','next_rising')) - ( 60 * 60 ) ) | timestamp_utc  }}"
+      device_class: 'timestamp'
+
+    - name: 'Sun Rise 1min After'
+      state : "{{ ( as_timestamp(state_attr('sun.sun','next_rising')) + ( 60 * 1 ) ) | timestamp_utc  }}"
+      device_class: 'timestamp'
+
+    - name: 'Sun Rise 5min After'
+      state : "{{ ( as_timestamp(state_attr('sun.sun','next_rising')) + ( 60 * 5 ) ) | timestamp_utc  }}"
+      device_class: 'timestamp'
+
+    - name: 'Sun Rise 10min After'
+      state : "{{ ( as_timestamp(state_attr('sun.sun','next_rising')) + ( 60 * 10 ) ) | timestamp_utc  }}"
+      device_class: 'timestamp'
+
+    - name: 'Sun Rise 15min After'
+      state : "{{ ( as_timestamp(state_attr('sun.sun','next_rising')) + ( 60 * 15 ) ) | timestamp_utc  }}"
+      device_class: 'timestamp'
+
+    - name: 'Sun Rise 20min After'
+      state : "{{ ( as_timestamp(state_attr('sun.sun','next_rising')) + ( 60 * 20 ) ) | timestamp_utc  }}"
+      device_class: 'timestamp'
+
+    - name: 'Sun Rise 25min After'
+      state : "{{ ( as_timestamp(state_attr('sun.sun','next_rising')) + ( 60 * 25 ) ) | timestamp_utc  }}"
+      device_class: 'timestamp'
+
+    - name: 'Sun Rise 30min After'
+      state : "{{ ( as_timestamp(state_attr('sun.sun','next_rising')) + ( 60 * 30 ) ) | timestamp_utc  }}"
+      device_class: 'timestamp'
+
+    - name: 'Sun Rise 35min After'
+      state : "{{ ( as_timestamp(state_attr('sun.sun','next_rising')) + ( 60 * 35 ) ) | timestamp_utc  }}"
+      device_class: 'timestamp'
+
+    - name: 'Sun Rise 40min After'
+      state : "{{ ( as_timestamp(state_attr('sun.sun','next_rising')) + ( 60 * 40 ) ) | timestamp_utc  }}"
+      device_class: 'timestamp'
+
+    - name: 'Sun Rise 45min After'
+      state : "{{ ( as_timestamp(state_attr('sun.sun','next_rising')) + ( 60 * 45 ) ) | timestamp_utc  }}"
+      device_class: 'timestamp'
+
+    - name: 'Sun Rise 50min After'
+      state : "{{ ( as_timestamp(state_attr('sun.sun','next_rising')) + ( 60 * 50 ) ) | timestamp_utc  }}"
+      device_class: 'timestamp'
+
+    - name: 'Sun Rise 55min After'
+      state : "{{ ( as_timestamp(state_attr('sun.sun','next_rising')) + ( 60 * 55 ) ) | timestamp_utc  }}"
+      device_class: 'timestamp'
+
+    - name: 'Sun Rise 60min After'
+      state : "{{ ( as_timestamp(state_attr('sun.sun','next_rising')) + ( 60 * 60 ) ) | timestamp_utc  }}"
+      device_class: 'timestamp'
+
+    - name: 'Sun Set'
+      state : "{{ as_timestamp(state_attr('sun.sun','next_setting')) | timestamp_utc  }}"
+      device_class: 'timestamp'
+
+    - name: 'Sun Set 1min Before'
+      state : "{{ ( as_timestamp(state_attr('sun.sun','next_setting')) - ( 60 * 1 ) ) | timestamp_utc  }}"
+      device_class: 'timestamp'
+
+    - name: 'Sun Set 5min Before'
+      state : "{{ ( as_timestamp(state_attr('sun.sun','next_setting')) - ( 60 * 5 ) ) | timestamp_utc  }}"
+      device_class: 'timestamp'
+
+    - name: 'Sun Set 10min Before'
+      state : "{{ ( as_timestamp(state_attr('sun.sun','next_setting')) - ( 60 * 10 ) ) | timestamp_utc  }}"
+      device_class: 'timestamp'
+
+    - name: 'Sun Set 15min Before'
+      state : "{{ ( as_timestamp(state_attr('sun.sun','next_setting')) - ( 60 * 15 ) ) | timestamp_utc  }}"
+      device_class: 'timestamp'
+
+    - name: 'Sun Set 20min Before'
+      state : "{{ ( as_timestamp(state_attr('sun.sun','next_setting')) - ( 60 * 20 ) ) | timestamp_utc  }}"
+      device_class: 'timestamp'
+
+    - name: 'Sun Set 25min Before'
+      state : "{{ ( as_timestamp(state_attr('sun.sun','next_setting')) - ( 60 * 25 ) ) | timestamp_utc  }}"
+      device_class: 'timestamp'
+
+    - name: 'Sun Set 30min Before'
+      state : "{{ ( as_timestamp(state_attr('sun.sun','next_setting')) - ( 60 * 30 ) ) | timestamp_utc  }}"
+      device_class: 'timestamp'
+
+    - name: 'Sun Set 35min Before'
+      state : "{{ ( as_timestamp(state_attr('sun.sun','next_setting')) - ( 60 * 35 ) ) | timestamp_utc  }}"
+      device_class: 'timestamp'
+
+    - name: 'Sun Set 40min Before'
+      state : "{{ ( as_timestamp(state_attr('sun.sun','next_setting')) - ( 60 * 40 ) ) | timestamp_utc  }}"
+      device_class: 'timestamp'
+
+    - name: 'Sun Set 45min Before'
+      state : "{{ ( as_timestamp(state_attr('sun.sun','next_setting')) - ( 60 * 45 ) ) | timestamp_utc  }}"
+      device_class: 'timestamp'
+
+    - name: 'Sun Set 50min Before'
+      state : "{{ ( as_timestamp(state_attr('sun.sun','next_setting')) - ( 60 * 50 ) ) | timestamp_utc  }}"
+      device_class: 'timestamp'
+
+    - name: 'Sun Set 55min Before'
+      state : "{{ ( as_timestamp(state_attr('sun.sun','next_setting')) - ( 60 * 55 ) ) | timestamp_utc  }}"
+      device_class: 'timestamp'
+
+    - name: 'Sun Set 60min Before'
+      state : "{{ ( as_timestamp(state_attr('sun.sun','next_setting')) - ( 60 * 60 ) ) | timestamp_utc  }}"
+      device_class: 'timestamp'
+
+    - name: 'Sun Set 1min After'
+      state : "{{ ( as_timestamp(state_attr('sun.sun','next_setting')) + ( 60 * 1 ) ) | timestamp_utc  }}"
+      device_class: 'timestamp'
+
+    - name: 'Sun Set 5min After'
+      state : "{{ ( as_timestamp(state_attr('sun.sun','next_setting')) + ( 60 * 5 ) ) | timestamp_utc  }}"
+      device_class: 'timestamp'
+
+    - name: 'Sun Set 10min After'
+      state : "{{ ( as_timestamp(state_attr('sun.sun','next_setting')) + ( 60 * 10 ) ) | timestamp_utc  }}"
+      device_class: 'timestamp'
+
+    - name: 'Sun Set 15min After'
+      state : "{{ ( as_timestamp(state_attr('sun.sun','next_setting')) + ( 60 * 15 ) ) | timestamp_utc  }}"
+      device_class: 'timestamp'
+
+    - name: 'Sun Set 20min After'
+      state : "{{ ( as_timestamp(state_attr('sun.sun','next_setting')) + ( 60 * 20 ) ) | timestamp_utc  }}"
+      device_class: 'timestamp'
+
+    - name: 'Sun Set 25min After'
+      state : "{{ ( as_timestamp(state_attr('sun.sun','next_setting')) + ( 60 * 25 ) ) | timestamp_utc  }}"
+      device_class: 'timestamp'
+
+    - name: 'Sun Set 30min After'
+      state : "{{ ( as_timestamp(state_attr('sun.sun','next_setting')) + ( 60 * 30 ) ) | timestamp_utc  }}"
+      device_class: 'timestamp'
+
+    - name: 'Sun Set 35min After'
+      state : "{{ ( as_timestamp(state_attr('sun.sun','next_setting')) + ( 60 * 35 ) ) | timestamp_utc  }}"
+      device_class: 'timestamp'
+
+    - name: 'Sun Set 40min After'
+      state : "{{ ( as_timestamp(state_attr('sun.sun','next_setting')) + ( 60 * 40 ) ) | timestamp_utc  }}"
+      device_class: 'timestamp'
+
+    - name: 'Sun Set 45min After'
+      state : "{{ ( as_timestamp(state_attr('sun.sun','next_setting')) + ( 60 * 45 ) ) | timestamp_utc  }}"
+      device_class: 'timestamp'
+
+    - name: 'Sun Set 50min After'
+      state : "{{ ( as_timestamp(state_attr('sun.sun','next_setting')) + ( 60 * 50 ) ) | timestamp_utc  }}"
+      device_class: 'timestamp'
+
+    - name: 'Sun Set 55min After'
+      state : "{{ ( as_timestamp(state_attr('sun.sun','next_setting')) + ( 60 * 55 ) ) | timestamp_utc  }}"
+      device_class: 'timestamp'
+
+    - name: 'Sun Set 60min After'
+      state : "{{ ( as_timestamp(state_attr('sun.sun','next_setting')) + ( 60 * 60 ) ) | timestamp_utc  }}"
+      device_class: 'timestamp'

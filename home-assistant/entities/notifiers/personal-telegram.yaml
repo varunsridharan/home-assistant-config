@@ -1,0 +1,3 @@
+platform: telegram
+name: Personal (Super Admin)
+chat_id: !secret chatid_personal

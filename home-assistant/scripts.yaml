@@ -1,0 +1,82 @@
+light_handler:
+  alias: 💡Light Handler
+  mode: parallel
+  icon: mdi:alarm-light
+  max: 20
+  fields:
+    light:
+      required: true
+      name: Light
+      selector:
+        target:
+          entity:
+            domain: light
+    power_mode:
+      required: true
+      name: Power Mode
+      selector:
+        select:
+          options:
+          - 'On'
+          - 'Off'
+          - White Lamp
+          - Outdoor Night Lamp
+          - Indoor Night Lamp
+    brightness:
+      required: true
+      name: Brightness
+      selector:
+        number:
+          min: 1
+          max: 100
+          step: 5
+          unit_of_measurement: '%'
+          mode: slider
+  sequence:
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: '{{ power_mode == "On" }}'
+      sequence:
+      - service: light.turn_on
+        data:
+          color_temp: 153
+          brightness_pct: '{{ brightness }}'
+        target: '{{ light }}'
+    - conditions:
+      - condition: template
+        value_template: '{{ power_mode == "Off" }}'
+      sequence:
+      - service: light.turn_off
+        target: '{{ light }}'
+    - conditions:
+      - condition: template
+        value_template: '{{ power_mode == "White Lamp" }}'
+      sequence:
+      - service: light.turn_on
+        data:
+          color_temp: 153
+          brightness_pct: '{{ brightness }}'
+        target: '{{ light }}'
+    - conditions:
+      - condition: template
+        value_template: '{{ power_mode == "Outdoor Night Lamp" }}'
+      sequence:
+      - service: light.turn_on
+        data:
+          color_temp: 454
+          brightness_pct: '{{ brightness }}'
+        target: '{{ light }}'
+    - conditions:
+      - condition: template
+        value_template: '{{ power_mode == "Indoor Night Lamp" }}'
+      sequence:
+      - service: light.turn_on
+        data:
+          rgb_color:
+          - 64
+          - 64
+          - 255
+          brightness_pct: '{{ brightness }}'
+        target: '{{ light }}'
+    default: []

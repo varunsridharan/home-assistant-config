@@ -1,0 +1,6 @@
+platform: group
+name: Gate Lights
+entities:
+    - light.gate_light_1
+    - light.gate_light_2
+unique_id: 754ac0de-1afc-46bc-b3d9-3d338166e93f

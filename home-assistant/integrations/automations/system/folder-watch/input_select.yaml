@@ -1,0 +1,24 @@
+alias: 'HA 📂 Folder Watch : /config/entities/input_select'
+
+mode: restart
+
+id: da5993dc-04d3-4e20-b70e-c8413b278086
+
+trigger:
+  - platform: event
+    event_type: folder_watcher
+
+condition:
+  - condition: template
+    value_template: "{{ 'input_select' in  trigger.event.data.folder }}"
+
+action:
+  - delay:
+      milliseconds: 25
+
+  - service: input_select.reload
+
+  - service: notify.persistent_notification
+    data:
+      title: Input Select
+      message: 'Reloaded'

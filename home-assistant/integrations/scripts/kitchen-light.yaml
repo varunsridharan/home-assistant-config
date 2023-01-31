@@ -1,0 +1,88 @@
+kitchen_light:
+    alias: "💡Kitchen Light Handler"
+
+    mode: restart
+
+    icon: mdi:lightbulb
+
+    variables:
+        light_entity:
+            entity_id: light.kitchen_9w
+
+    fields:
+        action:
+            name: "Action"
+            required: true
+            selector:
+                select:
+                    options:
+                        - Power On
+                        - Power Off
+                        - Power 75%
+                        - Power 50%
+                        - Power 25%
+                        - Night Mode
+    sequence:
+        choose:
+            # Power On
+            - conditions:
+                  - condition: template
+                    value_template: "{{ action == 'Power On' }}"
+              sequence:
+                  - service: light.turn_on
+                    target: "{{ light_entity }}"
+                    data:
+                        color_temp: 153
+                        brightness_pct: 100
+
+            # Power Off Given Lights
+            - conditions:
+                  - condition: template
+                    value_template: "{{ action == 'Power Off' }}"
+              sequence:
+                  - service: light.turn_off
+                    target: "{{ light_entity }}"
+
+            # Power 75%
+            - conditions:
+                  - condition: template
+                    value_template: "{{ action == 'Power 75%' }}"
+              sequence:
+                  - service: light.turn_on
+                    target: "{{ light_entity }}"
+                    data:
+                        color_temp: 153
+                        brightness_pct: 75
+
+            # Power 50%
+            - conditions:
+                  - condition: template
+                    value_template: "{{ action == 'Power 70%' }}"
+              sequence:
+                  - service: light.turn_on
+                    target: "{{ light_entity }}"
+                    data:
+                        color_temp: 153
+                        brightness_pct: 50
+
+            # Power 25%
+            - conditions:
+                  - condition: template
+                    value_template: "{{ action == 'Power 25%' }}"
+              sequence:
+                  - service: light.turn_on
+                    target: "{{ light_entity }}"
+                    data:
+                        color_temp: 153
+                        brightness_pct: 25
+
+            # Night Mode
+            - conditions:
+                  - condition: template
+                    value_template: "{{ action == 'Night Mode' }}"
+              sequence:
+                  - service: light.turn_on
+                    target: "{{ light_entity }}"
+                    data:
+                        color_temp: 453
+                        brightness_pct: 10

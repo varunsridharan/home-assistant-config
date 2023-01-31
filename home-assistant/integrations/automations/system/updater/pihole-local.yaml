@@ -1,0 +1,54 @@
+alias: '🆙 Updater : 🤏 Pi-Hole - Local'
+
+id: bed3eded-061f-4c52-8e3a-6874bb3ca799
+
+mode: queued
+
+trigger:
+  - platform: state
+    entity_id:
+      - update.pi_hole_local_core_update_available
+      - update.pi_hole_local_web_update_available
+      - update.pi_hole_local_ftl_update_available
+    to: 'on'
+    from: 'off'
+
+
+action:
+  - service: shell_command.pihole_updater
+    data:
+      identity: local
+
+  - delay:
+      hours: 0
+      minutes: 5
+      seconds: 0
+      milliseconds: 0
+
+  - service: homeassistant.reload_config_entry
+    target:
+      device_id: 756913894ddc640bfdbbbfccc13cb09a
+
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 5
+      milliseconds: 0
+
+  - if:
+      - condition: template
+        value_template: >-
+          {{ is_state('update.pi_hole_local_core_update_available', 'off') and
+          is_state('update.pi_hole_local_web_update_available', 'off') and
+          is_state('update.pi_hole_local_ftl_update_available', 'off') }}
+    then:
+      - service: notify.persistent_notification
+        data:
+          title: ✅ Pi-Hole - Local
+          message: Updated & Restarted
+    else:
+      - service: notify.persistent_notification
+        data:
+          title: ‼️Pi-Hole - Local
+          message: Update Failed / Unknown Error Occured
+

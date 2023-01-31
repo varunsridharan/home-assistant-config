@@ -1,0 +1,24 @@
+alias: 'HA 📂 Folder Watch : /config/entities/input_text'
+
+mode: restart
+
+id: 34c9f6d5-2923-4938-8f31-e514f90376b9
+
+trigger:
+  - platform: event
+    event_type: folder_watcher
+
+condition:
+  - condition: template
+    value_template: "{{ 'input_text' in  trigger.event.data.folder }}"
+
+action:
+  - delay:
+      milliseconds: 25
+
+  - service: input_text.reload
+
+  - service: notify.persistent_notification
+    data:
+      title: Input Text
+      message: 'Reloaded'

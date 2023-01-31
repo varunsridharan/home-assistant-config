@@ -1,0 +1,16 @@
+homeassistant:
+
+    # Load packages
+    packages: !include_dir_named ./packages/
+    allowlist_external_dirs:
+        - /config/
+        - /config/integrations/cron/
+        - /config/integrations/shell_scripts/
+        - /config/integrations/automations/
+        - /config/integrations/scripts/
+        - /config/entities/input_boolean/
+        - /config/entities/input_button/
+        - /config/entities/input_datetime/
+        - /config/entities/input_number/
+        - /config/entities/input_select/
+        - /config/entities/input_text/
