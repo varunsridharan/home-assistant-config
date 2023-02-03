@@ -570,6 +570,7 @@
       data:
         command: turn_on
       message: command_high_accuracy_mode
+    enabled: false
   - service: notify.mobile_app_galaxy_m32
     data:
       message: command_high_accuracy_mode
@@ -584,6 +585,7 @@
   - service: notify.mobile_app_varun_sridharan
     data:
       message: request_location_update
+    enabled: false
   - service: notify.mobile_app_galaxy_m32
     data:
       message: request_location_update
@@ -592,6 +594,7 @@
       data:
         command: turn_off
       message: command_high_accuracy_mode
+    enabled: false
   - service: notify.mobile_app_galaxy_m32
     data:
       message: command_high_accuracy_mode
@@ -600,6 +603,8 @@
     data:
       message: command_high_accuracy_mode
       title: turn_off
+  - service: script.mobile_location_update
+    data: {}
   mode: single
 - id: '1666230010825'
   alias: "\U0001F3E2 Office - Mosquito Machine"
