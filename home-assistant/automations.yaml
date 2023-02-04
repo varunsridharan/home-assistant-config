@@ -671,3 +671,43 @@
       labels:
       - person
       cooldown: 59
+- id: '1675414426751'
+  alias: "\U0001F4F2 Personal Mobile"
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - sensor.varun_sridharan_last_used_app
+    to: com.instagram.android
+    id: opened-instagram
+    alias: 'Instagram : Opened'
+  - platform: state
+    entity_id:
+    - sensor.varun_sridharan_last_used_app
+    id: closed-instagram
+    from: com.instagram.android
+    alias: 'Instagram : Closed'
+  condition: []
+  action:
+  - if:
+    - condition: trigger
+      id: opened-instagram
+    then:
+    - service: notify.mobile_app_varun_sridharan
+      data:
+        message: command_volume_level
+        data:
+          media_stream: music_stream
+          command: 1
+  - if:
+    - condition: trigger
+      id: closed-instagram
+    then:
+    - service: notify.mobile_app_varun_sridharan
+      data:
+        message: command_volume_level
+        data:
+          media_stream: music_stream
+          command: 20
+  mode: queued
+  max: 10
