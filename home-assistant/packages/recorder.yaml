@@ -1,7 +1,7 @@
 ---
 # The recorder integration is responsible for storing details in a database,
 # which then are handled by the history integration.
-#
+# SELECT entity_id, COUNT(*) AS cnt FROM states GROUP BY entity_id ORDER BY COUNT(*) DESC; 
 
 # https://www.home-assistant.io/integrations/recorder/
 #
@@ -16,9 +16,42 @@ recorder:
             - sensor.cryptoinfo_portfolio_*
             - sensor.haos_*
             - sensor.gigaworld_memory_*
+            - sensor.*_camera_*
+            - sensor.gigaworld_*
+            - sensor.front_camera_*
+            - sensor.entrance_*
+            - sensor.garage_*
+            - sensor.left_camera_*
+            - sensor.main_gate_*
+            
+            - binary_sensor.front_camera_*
+            - binary_sensor.entrance_*
+            - binary_sensor.garage_*
+            - binary_sensor.left_*
+            - binary_sensor.main_gate_*
+          
+            - switch.left_camera_*
+            - switch.front_camera_*
+            
+            - camera.front_camera
+            - camera.front_camera_*
+            - camera.left_camera
+            - camera.left_camera_*
+            - camera.nvr_*
+
 
         entities:
             #- sun.sun
+            - sensor.iss
+            - sensor.cpu1_inference_speed
+            - sensor.cpu2_inference_speed
+            - sensor.cpu3_inference_speed
             - sensor.date
             - sensor.time
+            - media_player.sribhuvanlaptop
+            - sensor.sribhuvan_laptop_lastactive
+            - sensor.detection_fps
             #- sensor.office_fan_speed
+
+
+
