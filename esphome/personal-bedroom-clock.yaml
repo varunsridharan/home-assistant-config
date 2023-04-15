@@ -22,6 +22,12 @@ wifi:
 
 captive_portal:
 
+globals:
+  - id: display_status
+    type: bool
+    restore_value: no
+    initial_value: 'true'
+
 text_sensor:
   - platform: version
     name: "Firmware Version"
@@ -45,11 +51,44 @@ switch:
   - platform: shutdown
     name: "Device : Shutdown"
 
+  - platform: template
+    name: "Display"
+    lambda: |-
+      if (id(display_status) == true) {
+        return true;
+      } else {
+        return false;
+      }
+    turn_on_action:
+      - globals.set:
+          id: display_status
+          value: 'true'
+    turn_off_action:
+      - globals.set:
+          id: display_status
+          value: 'false'
+
+i2c:
+  sda: D5
+  scl: D6
+  scan: true
+  id: i2c_bus_bmp280
+  
 sensor:
   - platform: wifi_signal
     name: "WiFi Signal"
     id: personal_bedroom_clock_wifi_signal
     update_interval: 60s
+
+  - platform: bmp280
+    i2c_id: i2c_bus_bmp280
+    temperature:
+      name: "bmp280 Temperature"
+      oversampling: 16x
+    pressure:
+      name: "Air Pressure"
+    address: 0x76
+    update_interval: 120s
 
 time:
   - platform: homeassistant
@@ -64,9 +103,13 @@ display:
   intensity: 0
   update_interval: 500ms
   lambda: |-
-      static int i = 0;
-      i++;
-      if ((i % 2) == 0)
-        it.strftime("%I.%M", id(homeassistant_time).now());
-      else
-        it.strftime("%I%M", id(homeassistant_time).now());
+      if (id(display_status) == true) {
+        static int i = 0;
+        i++;
+        if ((i % 2) == 0)
+          it.strftime("%I.%M", id(homeassistant_time).now());
+        else
+          it.strftime("%I%M", id(homeassistant_time).now());
+      } else {
+          it.strftime("%I%M", id(homeassistant_time).now());
+      }
