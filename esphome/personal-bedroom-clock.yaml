@@ -47,6 +47,7 @@ text_sensor:
 number:
     - platform: template
       name: "Display intensity"
+      id: display_intensity
       optimistic: true
       min_value: 0
       max_value: 7
@@ -116,6 +117,15 @@ display:
   intensity: 0
   update_interval: 500ms
   lambda: |-
+
+      static int dints = 0;
+
+      if( dints != id(display_intensity).state){
+        it.set_intensity(id(display_intensity).state);
+        dints = id(display_intensity).state;
+      }
+
+
       if (id(display_status) == true) {
         static int i = 0;
         i++;
