@@ -1,0 +1,3 @@
+platform: telegram
+name: DEmo Channel
+chat_id: !secret demo_tg_chatid
