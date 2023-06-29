@@ -741,3 +741,55 @@
       target:
         entity_id: fan.office_fan_atomberg
   mode: single
+- id: '1687919244583'
+  alias: "\U0001F4FD️ Youtube Video TG Notification"
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - sensor.aanmeega_saaral_latest_upload
+    attribute: video_id
+    id: aanmeegasaaral
+  - platform: state
+    entity_id:
+    - sensor.kaliyuga_bhakthi_latest_upload
+    attribute: video_id
+    id: kaliyugabhakthi
+  - platform: state
+    entity_id:
+    - sensor.namadhu_paarvai_latest_upload
+    attribute: video_id
+    id: namadhupaarvai
+    enabled: false
+  condition: []
+  action:
+  - if:
+    - condition: trigger
+      id: aanmeegasaaral
+    then:
+    - service: notify.aanmeegasaaral_telegram
+      data:
+        message: https://youtube.com/watch?v={{ state_attr('sensor.aanmeega_saaral_latest_upload','video_id')
+          }}
+        title: '{{ states(''sensor.aanmeega_saaral_latest_upload'') }}'
+  - if:
+    - condition: trigger
+      id: kaliyugabhakthi
+    then:
+    - service: notify.kaliyuga_bakthi_telegram
+      data:
+        message: https://youtube.com/watch?v={{ state_attr('sensor.kaliyuga_bhakthi_latest_upload','video_id')
+          }}
+        title: '{{ states(''sensor.kaliyuga_bhakthi_latest_upload'') }}'
+  - if:
+    - condition: trigger
+      id: namadhupaarvai
+    then:
+    - service: notify.kaliyuga_bakthi_telegram
+      data:
+        message: https://youtube.com/watch?v={{ state_attr('sensor.namadhu_paarvai_latest_upload','video_id')
+          }}
+        title: '{{ states(''sensor.namadhu_paarvai_latest_upload'') }}'
+    enabled: false
+  mode: parallel
+  max: 10

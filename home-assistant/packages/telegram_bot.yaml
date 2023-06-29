@@ -3,3 +3,6 @@ telegram_bot:
     api_key: !secret botkey
     allowed_chat_ids:
       - !secret chatid_personal
+      - !secret chatid_npyoutube
+      - !secret chatid_kaliyugabakthi
+      - !secret chatid_aanmeegasaaral

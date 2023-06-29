@@ -1,0 +1,3 @@
+platform: telegram
+name: Namadhu Paarvai Telegram
+chat_id: !secret chatid_npyoutube

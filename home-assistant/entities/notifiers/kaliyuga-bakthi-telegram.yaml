@@ -1,0 +1,3 @@
+platform: telegram
+name: Kaliyuga Bakthi Telegram
+chat_id: !secret chatid_kaliyugabakthi
