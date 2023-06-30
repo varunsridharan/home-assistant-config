@@ -769,6 +769,8 @@
     then:
     - service: notify.aanmeegasaaral_telegram
       data:
+        data:
+          parse_mode: html
         message: https://youtube.com/watch?v={{ state_attr('sensor.aanmeega_saaral_latest_upload','video_id')
           }}
         title: '{{ states(''sensor.aanmeega_saaral_latest_upload'') }}'
@@ -778,6 +780,8 @@
     then:
     - service: notify.kaliyuga_bakthi_telegram
       data:
+        data:
+          parse_mode: html
         message: https://youtube.com/watch?v={{ state_attr('sensor.kaliyuga_bhakthi_latest_upload','video_id')
           }}
         title: '{{ states(''sensor.kaliyuga_bhakthi_latest_upload'') }}'
