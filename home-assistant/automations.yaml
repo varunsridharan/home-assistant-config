@@ -469,6 +469,7 @@
     - service: script.kitchen_light
       data:
         action: Power Off
+      enabled: false
   mode: single
 - id: '1639739782881'
   alias: "\U0001F3E0 House :\U0001F4A1 Parents Bedroom Lights"
