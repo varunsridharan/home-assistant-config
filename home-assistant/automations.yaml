@@ -812,3 +812,23 @@
     target:
       entity_id: light.house_garage
   mode: single
+- id: '1701070250002'
+  alias: Aanmeegasaaral Livestream Server
+  description: Auto Setup Live Server
+  trigger:
+  - platform: state
+    entity_id:
+    - input_boolean.aanmeegasaaral_live_stream_server
+  condition: []
+  action:
+  - if:
+    - condition: state
+      entity_id: input_boolean.aanmeegasaaral_live_stream_server
+      state: 'on'
+    then:
+    - service: rest_command.setup_livestream_server
+      data: {}
+    else:
+    - service: rest_command.delete_livestream_server
+      data: {}
+  mode: single

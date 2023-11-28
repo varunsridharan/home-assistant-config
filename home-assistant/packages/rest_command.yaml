@@ -1,0 +1,5 @@
+rest_command:
+  delete_livestream_server: 
+    url: "https://robot.sva.run/webhook/6ed627d2-0922-4d6d-af0c-728f771c947e"
+  setup_livestream_server:
+    url: "https://robot.sva.run/webhook/fa7a1af6-f90e-482b-90b9-e641c52d288a"
