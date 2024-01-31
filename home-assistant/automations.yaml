@@ -659,7 +659,7 @@
         entity_id: switch.sp_office_mosquito_plug
   mode: restart
 - id: '1673936316227'
-  alias: Frigate Notification (0.10.0)
+  alias: "\U0001F3A5 Front Camera Motion Detection"
   description: ''
   use_blueprint:
     path: hunterjm/frigate_0.10_notification.yaml
@@ -668,10 +668,12 @@
       update_thumbnail: true
       critical: true
       camera: front_camera
-      loiter_timer: 7
-      labels:
-      - person
+      loiter_timer: 0
+      labels: {}
       cooldown: 59
+      notify_group: house-frontcamera
+      zones:
+      - person
 - id: '1675414426751'
   alias: "\U0001F4F2 Personal Mobile"
   description: ''

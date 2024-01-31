@@ -80,20 +80,3 @@ light_handler:
           brightness_pct: '{{ brightness }}'
         target: '{{ light }}'
     default: []
-mobile_location_update:
-  alias: Divya Mobile Location Update
-  sequence:
-  - service: notify.mobile_app_divya_mobile
-    data:
-      data:
-        command: turn_on
-      message: command_high_accuracy_mode
-  - service: notify.mobile_app_divya_mobile
-    data:
-      message: request_location_update
-  - service: notify.mobile_app_divya_mobile
-    data:
-      message: command_high_accuracy_mode
-      data:
-        command: turn_off
-  mode: single
