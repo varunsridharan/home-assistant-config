@@ -668,12 +668,11 @@
       update_thumbnail: true
       critical: true
       camera: front_camera
-      loiter_timer: 0
-      labels: {}
-      cooldown: 59
-      notify_group: house-frontcamera
-      zones:
+      loiter_timer: 95
+      labels:
       - person
+      cooldown: 20
+      zones: {}
 - id: '1675414426751'
   alias: "\U0001F4F2 Personal Mobile"
   description: ''
@@ -834,3 +833,18 @@
     - service: rest_command.delete_livestream_server
       data: {}
   mode: single
+- id: '1706775038285'
+  alias: Frigate Notifications (0.12.0.2)
+  description: ''
+  use_blueprint:
+    path: SgtBatten/Stable.yaml
+    input:
+      critical: 'true'
+      camera: camera.front_camera
+      notify_device: 1501dfb511ffa98a4b648856db029190
+      update_thumbnail: true
+      color: amber
+      channel: cctv-notify
+      loiter_timer: 10
+      silence_timer: 1
+      cooldown: 20
