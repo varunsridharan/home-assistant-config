@@ -4,12 +4,6 @@
       - "time"
       - "date"
 
-# https://www.home-assistant.io/integrations/waqi/
-- platform: waqi
-  token: !secret waqi
-  locations:
-      - Chennai
-
 # https://www.home-assistant.io/integrations/integration#energy
 #- platform: integration
 #  #source: sensor.sp_vault_1_nas_watts
