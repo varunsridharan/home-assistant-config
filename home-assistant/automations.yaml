@@ -794,3 +794,5 @@
       loiter_timer: 10
       silence_timer: 1
       cooldown: 20
+      labels:
+      - person
