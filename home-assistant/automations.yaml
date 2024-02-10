@@ -604,21 +604,6 @@
       target:
         entity_id: switch.sp_office_mosquito_plug
   mode: restart
-- id: '1673936316227'
-  alias: "\U0001F3A5 Front Camera Motion Detection"
-  description: ''
-  use_blueprint:
-    path: hunterjm/frigate_0.10_notification.yaml
-    input:
-      notify_device: 1501dfb511ffa98a4b648856db029190
-      update_thumbnail: true
-      critical: true
-      camera: front_camera
-      loiter_timer: 95
-      labels:
-      - person
-      cooldown: 20
-      zones: {}
 - id: '1675414426751'
   alias: "\U0001F4F2 Personal Mobile"
   description: ''
@@ -793,6 +778,6 @@
       channel: cctv-notify
       loiter_timer: 10
       silence_timer: 1
-      cooldown: 20
+      cooldown: 40
       labels:
       - person
