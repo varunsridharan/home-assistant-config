@@ -50,7 +50,7 @@ trigger:
 
 action:
     - choose:
-          # AC Power On
+          # AC Power On hswing-1
           - conditions:
                 - condition: trigger
                   id: ac-power-on
@@ -63,7 +63,7 @@ action:
                       command:
                           - power-on
                           - >-
-                              mode-cool-temp-{{ states("input_number.office_ac_temp") | int }}-fan-{{states("input_number.office_ac_fan_speed") | int }}
+                              mode-cool-temp-{{ states("input_number.office_ac_temp") | int }}-fan-{{states("input_number.office_ac_fan_speed") | int }}-hswing-1
 
           # AC Power Off
           - conditions:
