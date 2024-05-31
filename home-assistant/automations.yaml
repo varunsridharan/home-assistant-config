@@ -730,20 +730,6 @@
     enabled: false
   mode: parallel
   max: 10
-- id: '1690903978617'
-  alias: 'Garrage '
-  description: ''
-  trigger:
-  - platform: state
-    entity_id:
-    - light.house_garage
-  condition: []
-  action:
-  - service: light.turn_off
-    data: {}
-    target:
-      entity_id: light.house_garage
-  mode: single
 - id: '1701070250002'
   alias: Aanmeegasaaral Livestream Server
   description: Auto Setup Live Server
