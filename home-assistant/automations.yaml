@@ -767,3 +767,71 @@
       cooldown: 40
       labels:
       - person
+- id: '1718448505920'
+  alias: On UPS Power Management
+  description: Auto turn off & On when UPS On battery
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.office_apc_ups_online_status
+    from: 'on'
+    to: 'off'
+    id: office-ups-on-battery
+  - platform: state
+    entity_id:
+    - binary_sensor.office_apc_ups_online_status
+    from: 'off'
+    to: 'on'
+    id: office-ups-on-line
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id:
+        - office-ups-on-line
+      sequence:
+      - service: switch.turn_off
+        metadata: {}
+        data: {}
+        target:
+          entity_id:
+          - switch.front_camera_2_detect
+          - switch.front_camera_2_motion
+          - switch.front_camera_2_improve_contrast
+          - switch.front_camera_2_recordings
+          - switch.front_camera_2_snapshots
+          - switch.front_camera_detect
+          - switch.front_camera_recordings
+          - switch.front_camera_snapshots
+          - switch.left_camera_detect
+          - switch.left_camera_recordings
+          - switch.left_camera_snapshots
+          - switch.left_camera_poe
+          - switch.front_camera_poe
+          - switch.front_camera_2_poe
+    - conditions:
+      - condition: trigger
+        id:
+        - office-ups-on-battery
+      sequence:
+      - service: switch.turn_on
+        metadata: {}
+        data: {}
+        target:
+          entity_id:
+          - switch.front_camera_2_detect
+          - switch.front_camera_2_motion
+          - switch.front_camera_2_improve_contrast
+          - switch.front_camera_2_recordings
+          - switch.front_camera_2_snapshots
+          - switch.front_camera_detect
+          - switch.front_camera_recordings
+          - switch.front_camera_snapshots
+          - switch.left_camera_detect
+          - switch.left_camera_recordings
+          - switch.left_camera_snapshots
+          - switch.left_camera_poe
+          - switch.front_camera_poe
+          - switch.front_camera_2_poe
+  mode: single
