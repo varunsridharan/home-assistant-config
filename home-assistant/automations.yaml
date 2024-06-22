@@ -764,7 +764,7 @@
       channel: cctv-notify
       loiter_timer: 10
       silence_timer: 1
-      cooldown: 40
+      cooldown: 65
       labels:
       - person
 - id: '1718448505920'
@@ -789,7 +789,7 @@
     - conditions:
       - condition: trigger
         id:
-        - office-ups-on-line
+        - office-ups-on-battery
       sequence:
       - service: switch.turn_off
         metadata: {}
@@ -813,7 +813,7 @@
     - conditions:
       - condition: trigger
         id:
-        - office-ups-on-battery
+        - office-ups-on-line
       sequence:
       - service: switch.turn_on
         metadata: {}
