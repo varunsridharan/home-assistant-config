@@ -1,0 +1,60 @@
+esphome:
+  name: sump-motor
+  friendly_name: sump-motor
+
+esp8266:
+  board: nodemcuv2
+
+logger:
+
+api:
+  encryption:
+    key: !secret api_key
+
+ota:
+  - platform: esphome
+    password: !secret ota_key
+
+wifi:
+  ssid: !secret wifi_ssid_internal
+  password: !secret wifi_password
+  use_address: 10.0.7.26
+
+  ap:
+    ssid: "Sump-Motor Fallback Hotspot"
+    password: !secret wifi_fallback_password
+
+captive_portal:
+
+
+sensor: 
+  - platform: adc
+    pin: VCC
+    name: "Chip Voltage"
+    entity_category: diagnostic
+
+binary_sensor:
+  - platform: gpio
+    pin:
+      number: GPIO13
+      inverted: true
+      mode: INPUT_PULLUP
+    name: "Override Switch"
+    on_press:
+      then:
+        - switch.turn_on: relay
+    on_release:
+      then:
+        - switch.turn_off: relay
+    device_class: power
+
+switch:
+  - platform: gpio
+    pin: 
+      number: GPIO14
+      mode:
+        output: true
+
+    id: relay
+    name: "On / Off"
+    icon: "mdi:scent"

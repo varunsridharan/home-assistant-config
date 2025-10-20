@@ -6,7 +6,7 @@ trigger:
   - platform: state
     id: power-restored
     entity_id:
-      - light.hall_9w_philips_light
+      - light.hall_9w
     from: unavailable
     to: 'on'
 
@@ -70,7 +70,7 @@ action:
       - service: script.light_handler
         data:
           light:
-            entity_id: light.hall_9w_philips_light
+            entity_id: light.hall_9w
           power_mode: 'On'
           brightness: 100
 
@@ -91,7 +91,7 @@ action:
       - service: script.light_handler
         data:
           light:
-            entity_id: light.hall_9w_philips_light
+            entity_id: light.hall_9w
           power_mode: Indoor Night Lamp
           brightness: 25
 
@@ -111,6 +111,6 @@ action:
       - service: script.light_handler
         data:
           light:
-            entity_id: light.hall_9w_philips_light
+            entity_id: light.hall_9w
           power_mode: 'Off'
           brightness: 1

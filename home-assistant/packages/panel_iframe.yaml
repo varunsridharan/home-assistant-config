@@ -6,23 +6,3 @@
 #
 # https://www.home-assistant.io/integrations/panel_iframe/
 #
-
-panel_iframe:
-
-    esphome:
-        title: "ESPHome"
-        icon: mdi:car-esp
-        url: !secret iframe_url_esphome
-        require_admin: true
-
-    portainer:
-        title: "Portainer"
-        icon: mdi:docker
-        url: !secret iframe_url_portainer
-        require_admin: true
-
-    proxy_manager:
-        title: "Proxy Manager"
-        icon: mdi:arrow-decision-auto
-        url: !secret iframe_url_proxy_manager
-        require_admin: true

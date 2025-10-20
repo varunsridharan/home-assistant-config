@@ -9,7 +9,7 @@ mode: restart
 trigger:
   - platform: state
     entity_id:
-      - light.dining_9w_philips_light
+      - light.dining_9w
     from: unavailable
     to: "on"
     id: back-online
@@ -43,7 +43,7 @@ action:
       - service: script.light_handler
         data:
           light:
-            entity_id: light.dining_9w_philips_light
+            entity_id: light.dining_9w
           power_mode: "On"
           brightness: "100"
   - if:
@@ -55,7 +55,7 @@ action:
       - service: script.light_handler
         data:
           light:
-            entity_id: light.dining_9w_philips_light
+            entity_id: light.dining_9w
           power_mode: Indoor Night Lamp
           brightness: "10"
   - if:
@@ -76,6 +76,6 @@ action:
       - service: script.light_handler
         data:
           light:
-            entity_id: light.dining_9w_philips_light
+            entity_id: light.dining_9w
           power_mode: "Off"
     alias: 6AM - 5PM & Back Online

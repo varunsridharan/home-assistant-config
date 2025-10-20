@@ -1,0 +1,7 @@
+# Network Settings
+mdns:
+  disabled: false
+
+# Disable IPV6
+network:
+    enable_ipv6: false

@@ -34,5 +34,3 @@ logger:
     custom_components.localtuya: warning
     homeassistant.components.wiz_light: warning
     homeassistant.components.shell_command: debug
-    custom_components.localtuya: debug
-    custom_components.localtuya.pytuya: debug

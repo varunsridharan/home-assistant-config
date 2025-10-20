@@ -1,0 +1,31 @@
+esphome:
+  name: ffffs
+  friendly_name: ffffs
+
+esp32:
+  board: esp32-s2-saola-1
+  framework:
+    type: arduino
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+  encryption:
+    key: "jDm8SXPcgdDBBfkII46UwLx+oiCbWu4dX7DbKpCLHZM="
+
+ota:
+  password: "e60331a90d0dfd80de1372d4a5c6c829"
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "Ffffs Fallback Hotspot"
+    password: "DHfPQ7ux7X9g"
+
+captive_portal:
+    

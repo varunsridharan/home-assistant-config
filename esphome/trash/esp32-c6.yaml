@@ -1,0 +1,109 @@
+esphome:
+  name: esp32-c6
+  friendly_name: ESP32-C6
+
+esp32:
+  board: esp32-c3-devkitm-1
+  framework:
+    type: arduino
+
+# Enable logging
+logger: 
+  
+# Enable Home Assistant API
+api:
+  encryption:
+    key: !secret api_key
+
+ota:
+  - platform: esphome
+    password: !secret ota_key
+
+wifi:
+  ssid: !secret wifi_ssid_internal
+  password: !secret wifi_password
+
+  ap:
+    ssid: "Bedroom2 Air Freshener Hotspot"
+    password: !secret wifi_fallback_password
+
+ble_client:
+  - mac_address: A4:C1:38:4F:B6:81
+    id: bedroom_air_freshener
+
+
+captive_portal:
+  
+button:
+  - platform: template
+    name: "Refill Reset"
+    on_press:
+      - lambda: |-
+          id(refill_counter) = 0;
+
+globals:
+  - id: refill_counter
+    type: int
+    restore_value: true  # Ensures the value is retained across reboots
+    initial_value: '0'
+  
+  - id: lifetime_counter
+    type: int
+    restore_value: true  # Ensures the value is retained across reboots
+    initial_value: '0'
+
+sensor:
+  - platform: wifi_signal
+    name: "WiFi Signal"
+    update_interval: 60s
+
+text_sensor:
+  - platform: template
+    name: "Refill Counter"
+    id: bedroom_airfreshner_refill_counter
+    lambda: |-
+      return to_string(id(refill_counter));
+    update_interval: 25s
+
+  - platform: template
+    name: "Lifetime Counter"
+    id: bedroom_airfreshner_lifetime_counter
+    lambda: |-
+      return to_string(id(lifetime_counter));
+    update_interval: 25s
+
+  - platform: version
+    name: "Firmware Version"
+    hide_timestamp: true
+
+  - platform: wifi_info
+    ip_address:
+      name: IP Address
+    ssid:
+      name: Connected SSID
+    bssid:
+      name: Connected BSSID
+    mac_address:
+      name: Mac Address
+
+switch:
+  - platform: restart
+    name: "Device : Restart"
+
+  - platform: shutdown
+    name: "Device : Shutdown"
+
+  - platform: template
+    name: "Refresh"
+    turn_on_action:
+      - lambda: |-
+          id(refill_counter) += 1;
+          id(lifetime_counter) += 1;
+
+      - ble_client.ble_write:
+          id: bedroom_air_freshener
+          service_uuid: 6E400000-B5A3-F393-E0A9-E50E24DCCA9E
+          characteristic_uuid: 6E400003-B5A3-F393-E0A9-E50E24DCCA9E
+          value: [0xbf, 0x62, 0x6d, 0x54, 0x18, 0x68, 0x62, 0x6d, 0x4e, 0x18, 0x9a, 0x62, 0x72, 0x49, 0x00, 0xff]
+
+  

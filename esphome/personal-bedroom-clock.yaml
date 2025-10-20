@@ -53,6 +53,11 @@ number:
       max_value: 7
       step: 1
 
+ble_client:
+  - mac_address: A4:C1:38:4F:B6:89
+    id: office_godrej_aer
+
+
 # Example configuration entry
 binary_sensor:
   - platform: status
@@ -81,7 +86,16 @@ switch:
       - globals.set:
           id: display_status
           value: 'false'
-
+  
+  - platform: template
+    name: "Office Air Freshner"
+    turn_on_action:
+      - ble_client.ble_write:
+          id: office_godrej_aer
+          service_uuid: 6E400000-B5A3-F393-E0A9-E50E24DCCA9E
+          characteristic_uuid: 6E400003-B5A3-F393-E0A9-E50E24DCCA9E
+          value: [0xbf, 0x62, 0x6d, 0x54, 0x18, 0x68, 0x62, 0x6d, 0x4e, 0x18, 0x9a, 0x62, 0x72, 0x49, 0x00, 0xff]
+  
 i2c:
   sda: D3
   scl: D2

@@ -16,4 +16,4 @@ weather:
     condition_template: "{{ states('weather.openweathermap') }}"
     temperature_template: "{{ states('sensor.weather_station_temperature') | float }}"
     humidity_template: "{{ states('sensor.weather_station_humidity') | float }}"
-    forecast_template: "{{ state_attr('weather.openweathermap', 'forecast') }}"
+    #forecast_template: "{{ state_attr('weather.openweathermap', 'forecast') }}"

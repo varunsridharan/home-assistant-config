@@ -1,18 +1,27 @@
 esphome:
   name: backcorridor
-
+  friendly_name: "Back Corridor"
+  
 esp8266:
   board: nodemcuv2
 
 logger:
-  level: VERY_VERBOSE
-  
+
+# Safe Mode
+safe_mode:
+  disabled: false
+  reboot_timeout: 5min
+  num_attempts: 5
+
+
+# Enable Home Assistant API
 api:
   encryption:
     key: !secret api_key
 
 ota:
-  password: !secret ota_key
+  - platform: esphome
+    password: !secret ota_key
 
 wifi:
   ssid: !secret wifi_ssid_internal
@@ -24,11 +33,17 @@ wifi:
     password: !secret wifi_fallback_password
 
 captive_portal:
-    
+
 binary_sensor:
+
+  - platform: status
+    name: Status
+    icon: mdi:network-pos
+    disabled_by_default: false
+
   - platform: gpio
     pin:
-      number: D2
+      number: GPIO5
       mode:
         input: true
         pullup: true
@@ -37,7 +52,7 @@ binary_sensor:
     
   - platform: gpio
     pin:
-      number: D3
+      number: GPIO4
       mode:
         input: true
         pullup: true
@@ -48,8 +63,13 @@ sensor:
   - platform: wifi_signal
     name: "WiFi Signal"
     id: personal_bedroom_clock_wifi_signal
-    update_interval: 60s
-    
+  
+  - platform: adc
+    pin: VCC
+    name: "Chip Voltage"
+    entity_category: diagnostic
+    disabled_by_default: False
+
 text_sensor:
   - platform: version
     name: "Firmware Version"
