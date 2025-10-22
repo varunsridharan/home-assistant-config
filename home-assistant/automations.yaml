@@ -504,7 +504,8 @@
   - at: '22:25:00'
     id: power-25
     trigger: time
-  - at: '22:30:00'
+    enabled: false
+  - at: '22:00:00'
     id: night-mode
     trigger: time
   - at: 06:00:00
@@ -852,3 +853,85 @@
         entity_id: climate.office_ac
   mode: parallel
   max: 10
+- id: '1761059250213'
+  alias: Sump Motor
+  description: Auto Turn on / Off Sump Motor
+  triggers:
+  - trigger: time
+    at: '17:30:00'
+    id: 530pm
+    weekday:
+    - sun
+    - mon
+    - tue
+    - wed
+    - thu
+    - fri
+    - sat
+  - trigger: time
+    at: '17:00:00'
+    id: 5pm
+    weekday:
+    - sun
+    - mon
+    - tue
+    - wed
+    - thu
+    - fri
+    - sat
+  - trigger: state
+    entity_id:
+    - switch.sump_motor_on_off
+    from: 'off'
+    to: 'on'
+    id: sumpon-30
+    for:
+      hours: 0
+      minutes: 28
+      seconds: 0
+  - trigger: state
+    entity_id:
+    - switch.sump_motor_on_off
+    from: unavailable
+    to: 'on'
+    id: sump-black-to-on
+    for:
+      hours: 0
+      minutes: 0
+      seconds: 0
+  conditions: []
+  actions:
+  - if:
+    - condition: trigger
+      id:
+      - 5pm
+    then:
+    - action: switch.turn_on
+      metadata: {}
+      data: {}
+      target:
+        entity_id: switch.sump_motor_on_off
+    alias: Turn on  @ 5PM
+  - alias: 'Turn off @ 530PM '
+    if:
+    - condition: trigger
+      id:
+      - 530pm
+    then:
+    - action: switch.turn_off
+      metadata: {}
+      data: {}
+      target:
+        entity_id: switch.sump_motor_on_off
+  - alias: Turn off Auto
+    if:
+    - condition: trigger
+      id:
+      - sumpon-30
+    then:
+    - action: switch.turn_off
+      metadata: {}
+      data: {}
+      target:
+        entity_id: switch.sump_motor_on_off
+  mode: restart
