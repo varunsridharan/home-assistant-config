@@ -935,3 +935,38 @@
       target:
         entity_id: switch.sump_motor_on_off
   mode: restart
+- id: '1761146066391'
+  alias: "Server Rack : \U0001F321️ Temp Control"
+  description: Temp Control Inside Server Rack
+  triggers:
+  - trigger: state
+    entity_id:
+    - sensor.universal_remote_control_temperature
+    from:
+    to:
+    id: temp-change
+  conditions: []
+  actions:
+  - alias: High Temp
+    if:
+    - condition: template
+      value_template: '{{ float(states("sensor.universal_remote_control_temperature"))
+        >= 31.5 }}'
+    then:
+    - action: switch.turn_on
+      metadata: {}
+      data: {}
+      target:
+        entity_id: switch.live_system_3_plug
+  - alias: Low Temp
+    if:
+    - condition: template
+      value_template: '{{ float(states("sensor.universal_remote_control_temperature"))
+        <= 25.75 }}'
+    then:
+    - action: switch.turn_off
+      metadata: {}
+      data: {}
+      target:
+        entity_id: switch.live_system_3_plug
+  mode: restart
