@@ -655,32 +655,55 @@
 - id: '1678183490302'
   alias: "\U0001F3E2 Office :  Fan"
   description: ''
-  trigger:
-  - platform: time
-    at: 06:00:00
+  triggers:
+  - at: 06:00:00
     id: morning
-  - platform: time
-    at: '22:00:00'
+    trigger: time
+  - at: '22:00:00'
     id: night
-  condition: []
-  action:
+    trigger: time
+  - trigger: state
+    entity_id:
+    - switch.office_fan_boost
+    id: booted-30min
+    from: 'off'
+    to: 'on'
+    for:
+      hours: 0
+      minutes: 2
+      seconds: 0
+  conditions: []
+  actions:
   - if:
     - condition: trigger
       id: morning
     then:
-    - service: fan.turn_on
-      data:
+    - data:
         percentage: 100
       target:
-        entity_id: fan.office_fan_atomberg
+        entity_id: fan.office_fan
+      action: fan.turn_on
+    alias: Morning Turn On
   - if:
     - condition: trigger
       id: night
     then:
-    - service: fan.turn_off
+    - data: {}
+      target:
+        entity_id: fan.office_fan
+      action: fan.turn_off
+    alias: Night Turn Off
+  - alias: Auto Boost Mode - Off
+    if:
+    - condition: trigger
+      id:
+      - booted-30min
+    then:
+    - action: switch.turn_off
+      metadata: {}
       data: {}
       target:
-        entity_id: fan.office_fan_atomberg
+        entity_id: switch.office_fan_boost
   mode: single
 - id: '1706775038285'
   alias: Frigate Notifications (0.12.0.2)
@@ -951,7 +974,7 @@
     if:
     - condition: template
       value_template: '{{ float(states("sensor.universal_remote_control_temperature"))
-        >= 31.5 }}'
+        >= 32 }}'
     then:
     - action: switch.turn_on
       metadata: {}
@@ -962,7 +985,7 @@
     if:
     - condition: template
       value_template: '{{ float(states("sensor.universal_remote_control_temperature"))
-        <= 25.75 }}'
+        <= 31.5 }}'
     then:
     - action: switch.turn_off
       metadata: {}
