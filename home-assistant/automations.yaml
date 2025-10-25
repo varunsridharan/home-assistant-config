@@ -179,10 +179,6 @@
   alias: "\U0001F3E2 Office : \U0001F4A1Lights"
   description: Handles Office Light Automation
   triggers:
-  - at: '22:00:00'
-    id: power-down
-    trigger: time
-    enabled: false
   - at: 05:45:00
     id: power-on-all
     trigger: time
@@ -561,57 +557,6 @@
         action: Power 75%
       action: script.parents_bedroom_light
   mode: single
-- id: '1666230010825'
-  alias: "\U0001F3E2 Office - Mosquito Machine"
-  description: ''
-  trigger:
-  - platform: time_pattern
-    minutes: /20
-    id: loop-on-or-off
-    enabled: false
-  - platform: time
-    at: 07:00:00
-    id: turn-off
-  - platform: time
-    at: 05:30:00
-    id: turn-on
-  - platform: time
-    at: '22:00:00'
-    id: turn-off
-  - platform: time
-    at: '17:45:00'
-    id: turn-on
-  condition: []
-  action:
-  - if:
-    - condition: trigger
-      id: turn-on
-    then:
-    - service: switch.turn_on
-      data: {}
-      target:
-        entity_id: switch.sp_office_mosquito_plug
-  - if:
-    - condition: trigger
-      id: loop-on-or-off
-    - condition: time
-      before: 07:25:00
-      after: '18:00:00'
-    then:
-    - service: switch.toggle
-      data: {}
-      target:
-        entity_id: switch.sp_office_mosquito_plug
-    enabled: false
-  - if:
-    - condition: trigger
-      id: turn-off
-    then:
-    - service: switch.turn_off
-      data: {}
-      target:
-        entity_id: switch.sp_office_mosquito_plug
-  mode: restart
 - id: '1675414426751'
   alias: "\U0001F4F2 Personal Mobile"
   description: ''
@@ -665,12 +610,12 @@
   - trigger: state
     entity_id:
     - switch.office_fan_boost
-    id: booted-30min
+    id: boost-mode-off
     from: 'off'
     to: 'on'
     for:
       hours: 0
-      minutes: 2
+      minutes: 20
       seconds: 0
   conditions: []
   actions:
@@ -697,7 +642,7 @@
     if:
     - condition: trigger
       id:
-      - booted-30min
+      - boost-mode-off
     then:
     - action: switch.turn_off
       metadata: {}
@@ -757,82 +702,6 @@
       - metadata: {}
         data: {}
         action: switch.turn_on
-  mode: single
-- id: '1728990822693'
-  alias: Room Freshener
-  description: ''
-  triggers:
-  - trigger: time_pattern
-    minutes: /15
-    hours: '*'
-  conditions:
-  - condition: time
-    after: 07:29:00
-    before: '20:32:00'
-    weekday:
-    - sat
-    - fri
-    - thu
-    - wed
-    - tue
-    - mon
-    - sun
-  actions:
-  - if:
-    - condition: time
-      after: 05:55:00
-      before: '11:00:00'
-    then:
-    - action: switch.turn_on
-      metadata: {}
-      data: {}
-      target:
-        entity_id: switch.bedroom_airfreshener_office_refresh
-    - delay:
-        hours: 0
-        minutes: 0
-        seconds: 5
-        milliseconds: 0
-      enabled: false
-    - action: switch.turn_on
-      metadata: {}
-      data: {}
-      target:
-        entity_id: switch.bedroom_airfreshener_office_refresh
-      enabled: false
-  - if:
-    - condition: time
-      after: '11:15:00'
-      before: '15:00:00'
-    then:
-    - action: switch.turn_on
-      metadata: {}
-      data: {}
-      target:
-        entity_id: switch.bedroom_airfreshener_office_refresh
-    enabled: false
-  - if:
-    - condition: time
-      after: '15:10:00'
-      before: '20:30:00'
-    then:
-    - action: switch.turn_on
-      metadata: {}
-      data: {}
-      target:
-        entity_id: switch.bedroom_airfreshener_office_refresh
-    - delay:
-        hours: 0
-        minutes: 0
-        seconds: 10
-        milliseconds: 0
-      enabled: false
-    - action: switch.turn_on
-      metadata: {}
-      data: {}
-      target:
-        entity_id: switch.bedroom_airfreshener_office_refresh
-      enabled: false
   mode: single
 - id: '1742921110082'
   alias: New automation
@@ -958,38 +827,71 @@
       target:
         entity_id: switch.sump_motor_on_off
   mode: restart
-- id: '1761146066391'
-  alias: "Server Rack : \U0001F321️ Temp Control"
-  description: Temp Control Inside Server Rack
+- id: rack_fans_on_hot_10m
+  alias: Rack Fans ON (≥32°C for 10m)
+  description: ''
   triggers:
-  - trigger: state
-    entity_id:
-    - sensor.universal_remote_control_temperature
-    from:
-    to:
-    id: temp-change
-  conditions: []
+  - entity_id: sensor.universal_remote_control_temperature
+    above: 32
+    for: 00:10:00
+    trigger: numeric_state
+  conditions:
+  - condition: state
+    entity_id: switch.live_system_3_plug
+    state: 'off'
   actions:
-  - alias: High Temp
-    if:
-    - condition: template
-      value_template: '{{ float(states("sensor.universal_remote_control_temperature"))
-        >= 32 }}'
-    then:
-    - action: switch.turn_on
-      metadata: {}
-      data: {}
-      target:
-        entity_id: switch.live_system_3_plug
-  - alias: Low Temp
-    if:
-    - condition: template
-      value_template: '{{ float(states("sensor.universal_remote_control_temperature"))
-        <= 31.5 }}'
-    then:
-    - action: switch.turn_off
-      metadata: {}
-      data: {}
-      target:
-        entity_id: switch.live_system_3_plug
+  - target:
+      entity_id: switch.live_system_3_plug
+    action: switch.turn_on
+    data: {}
+  mode: restart
+- id: rack_fans_off_when_stable
+  alias: Rack Fans OFF (stable 10m)
+  description: ''
+  triggers:
+  - entity_id: binary_sensor.rack_temp_stable_10m
+    to: 'on'
+    trigger: state
+  conditions:
+  - condition: state
+    entity_id: switch.live_system_3_plug
+    state: 'on'
+  actions:
+  - target:
+      entity_id: switch.live_system_3_plug
+    action: switch.turn_off
+  mode: single
+- id: '1761282692068'
+  alias: Rack Fans OFF (stable 10m)
+  description: Rack Fans OFF (stable 10m)
+  triggers:
+  - entity_id: binary_sensor.rack_temp_stable_10m
+    to: 'on'
+    trigger: state
+  conditions:
+  - condition: state
+    entity_id: switch.live_system_3_plug
+    state: 'on'
+  actions:
+  - target:
+      entity_id: switch.live_system_3_plug
+    action: switch.turn_off
+    data: {}
+  mode: restart
+- id: '1761282769213'
+  alias: Rack Fans ON (≥32°C for 10m)
+  description: ''
+  triggers:
+  - entity_id: sensor.universal_remote_control_temperature
+    above: 32
+    for: 00:10:00
+    trigger: numeric_state
+  conditions:
+  - condition: state
+    entity_id: switch.live_system_3_plug
+    state: 'off'
+  actions:
+  - target:
+      entity_id: switch.live_system_3_plug
+    action: switch.turn_on
   mode: restart
