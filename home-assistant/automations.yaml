@@ -890,6 +890,13 @@
   - condition: state
     entity_id: switch.live_system_3_plug
     state: 'off'
+  - condition: state
+    entity_id: binary_sensor.rack_temp_stable_10m
+    state: 'off'
+    for:
+      hours: 0
+      minutes: 10
+      seconds: 0
   actions:
   - target:
       entity_id: switch.live_system_3_plug
