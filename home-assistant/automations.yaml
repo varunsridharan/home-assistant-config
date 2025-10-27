@@ -897,6 +897,7 @@
       hours: 0
       minutes: 10
       seconds: 0
+    enabled: false
   actions:
   - target:
       entity_id: switch.live_system_3_plug
