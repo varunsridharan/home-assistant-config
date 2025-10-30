@@ -816,7 +816,7 @@
   triggers:
   - entity_id:
     - sensor.universal_remote_control_temperature
-    above: 31
+    above: 32
     for:
       hours: 0
       minutes: 10
