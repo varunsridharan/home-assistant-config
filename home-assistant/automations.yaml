@@ -711,7 +711,7 @@
     id: sumpon-30
     for:
       hours: 0
-      minutes: 28
+      minutes: 35
       seconds: 0
   - trigger: state
     entity_id:
