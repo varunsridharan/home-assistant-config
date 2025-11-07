@@ -436,6 +436,10 @@
   - at: '22:00:00'
     id: night-mode
     trigger: time
+    enabled: false
+  - at: 01:00:00
+    id: night-mode2
+    trigger: time
   - at: 06:00:00
     id: power-off
     trigger: time
@@ -479,7 +483,9 @@
         action: script.parents_bedroom_light
     - conditions:
       - condition: trigger
-        id: night-mode
+        id:
+        - night-mode
+        - night-mode2
       sequence:
       - data:
           action: Night Mode
