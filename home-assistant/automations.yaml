@@ -173,7 +173,7 @@
           id: office_light_2_on
       - condition: time
         after: '22:00:00'
-        before: 05:40:00
+        before: 05:00:00
       sequence:
       - data:
           action: Power Off
