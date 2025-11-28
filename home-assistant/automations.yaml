@@ -436,7 +436,7 @@
   - at: '22:00:00'
     id: night-mode
     trigger: time
-    enabled: false
+    enabled: true
   - at: 01:00:00
     id: night-mode2
     trigger: time
