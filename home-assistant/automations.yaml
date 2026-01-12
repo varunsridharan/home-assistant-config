@@ -669,12 +669,20 @@
   - trigger: time
     at: '22:35:00'
     id: 10pm-off
+  - trigger: time
+    at: 00:35:00
+    id: 12am-off
+  - trigger: time
+    at: '23:35:00'
+    id: 11pm-off
   conditions: []
   actions:
   - if:
     - condition: trigger
       id:
       - 10pm-off
+      - 12am-off
+      - 11pm-off
     then:
     - action: climate.turn_off
       metadata: {}
