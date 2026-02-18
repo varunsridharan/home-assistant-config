@@ -495,46 +495,6 @@
         action: Power 75%
       action: script.parents_bedroom_light
   mode: single
-- id: '1675414426751'
-  alias: "\U0001F4F2 Personal Mobile"
-  description: ''
-  trigger:
-  - platform: state
-    entity_id:
-    - sensor.varun_sridharan_last_used_app
-    to: com.instagram.android
-    id: opened-instagram
-    alias: 'Instagram : Opened'
-  - platform: state
-    entity_id:
-    - sensor.varun_sridharan_last_used_app
-    id: closed-instagram
-    from: com.instagram.android
-    alias: 'Instagram : Closed'
-  condition: []
-  action:
-  - if:
-    - condition: trigger
-      id: opened-instagram
-    then:
-    - service: notify.mobile_app_varun_sridharan
-      data:
-        message: command_volume_level
-        data:
-          media_stream: music_stream
-          command: 1
-  - if:
-    - condition: trigger
-      id: closed-instagram
-    then:
-    - service: notify.mobile_app_varun_sridharan
-      data:
-        message: command_volume_level
-        data:
-          media_stream: music_stream
-          command: 20
-  mode: queued
-  max: 10
 - id: '1678183490302'
   alias: "\U0001F3E2 Office :  Fan"
   description: ''
@@ -588,23 +548,6 @@
       target:
         entity_id: switch.office_fan_boost
   mode: single
-- id: '1706775038285'
-  alias: Frigate Notifications (0.12.0.2)
-  description: ''
-  use_blueprint:
-    path: SgtBatten/Stable.yaml
-    input:
-      critical: 'true'
-      camera: camera.front_camera
-      notify_device: 1501dfb511ffa98a4b648856db029190
-      update_thumbnail: true
-      color: amber
-      channel: cctv-notify
-      loiter_timer: 10
-      silence_timer: 1
-      cooldown: 65
-      labels:
-      - person
 - id: '1718448505920'
   alias: On UPS Power Management
   description: Auto turn off & On when UPS On battery
