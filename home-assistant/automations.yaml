@@ -612,14 +612,14 @@
   - trigger: time
     at: '22:35:00'
     id: 10pm-off
-    enabled: true
+    enabled: false
   - trigger: time
     at: 00:35:00
     id: 12am-off
   - trigger: time
     at: '23:35:00'
     id: 11pm-off
-    enabled: true
+    enabled: false
   conditions: []
   actions:
   - if:
