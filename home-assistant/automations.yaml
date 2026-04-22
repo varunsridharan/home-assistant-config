@@ -432,7 +432,7 @@
   - at: '22:25:00'
     id: power-25
     trigger: time
-    enabled: false
+    enabled: true
   - at: '22:55:00'
     id: night-mode
     trigger: time
