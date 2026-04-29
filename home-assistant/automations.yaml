@@ -619,7 +619,7 @@
   - trigger: time
     at: '23:35:00'
     id: 11pm-off
-    enabled: false
+    enabled: true
   conditions: []
   actions:
   - if:
