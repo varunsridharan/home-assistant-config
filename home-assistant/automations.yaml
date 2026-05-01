@@ -612,7 +612,7 @@
   - trigger: time
     at: '22:35:00'
     id: 10pm-off
-    enabled: false
+    enabled: true
   - trigger: time
     at: 00:35:00
     id: 12am-off
