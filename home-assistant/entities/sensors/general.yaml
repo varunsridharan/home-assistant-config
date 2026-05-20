@@ -30,3 +30,126 @@
 #  name: SP - Proxmox Backup - W To kWh
 #  unit_prefix: k
 #  round: 2
+
+- platform: hp_ilo
+  host: 10.0.100.50
+  username: hassio
+  password: 9L8WY7pUPynrwLzGd9u
+  monitored_variables:
+  # -------------------------
+  # Basic Server Info
+  # -------------------------
+  - name: DL20 iLO Server Name
+    sensor_type: server_name
+
+  - name: DL20 iLO Server FQDN
+    sensor_type: server_fqdn
+
+  - name: DL20 iLO UID Status
+    sensor_type: server_uid_status
+
+  # -------------------------
+  # Power Status / Uptime
+  # -------------------------
+  - name: DL20 iLO Power Status
+    sensor_type: server_power_status
+
+  - name: DL20 iLO Power On Time
+    sensor_type: server_power_on_time
+    unit_of_measurement: "min"
+
+  # -------------------------
+  # Power Readings
+  # -------------------------
+  - name: DL20 iLO Present Power
+    sensor_type: server_power_readings
+    unit_of_measurement: "W"
+    value_template: "{{ ilo_data.present_power_reading[0] }}"
+
+  - name: DL20 iLO Average Power
+    sensor_type: server_power_readings
+    unit_of_measurement: "W"
+    value_template: "{{ ilo_data.average_power_reading[0] }}"
+
+  - name: DL20 iLO Minimum Power
+    sensor_type: server_power_readings
+    unit_of_measurement: "W"
+    value_template: "{{ ilo_data.minimum_power_reading[0] }}"
+
+  - name: DL20 iLO Maximum Power
+    sensor_type: server_power_readings
+    unit_of_measurement: "W"
+    value_template: "{{ ilo_data.maximum_power_reading[0] }}"
+
+  # -------------------------
+  # Overall Health
+  # -------------------------
+  - name: DL20 iLO Fans Health
+    sensor_type: server_health
+    value_template: "{{ ilo_data.health_at_a_glance.fans.status | default('unknown') }}"
+
+  - name: DL20 iLO Temperature Health
+    sensor_type: server_health
+    value_template: "{{ ilo_data.health_at_a_glance.temperature.status | default('unknown') }}"
+
+  - name: DL20 iLO Power Supplies Health
+    sensor_type: server_health
+    value_template: "{{ ilo_data.health_at_a_glance.power_supplies.status | default('unknown') }}"
+
+  - name: DL20 iLO Processor Health
+    sensor_type: server_health
+    value_template: "{{ ilo_data.health_at_a_glance.processor.status | default('unknown') }}"
+
+  - name: DL20 iLO Memory Health
+    sensor_type: server_health
+    value_template: "{{ ilo_data.health_at_a_glance.memory.status | default('unknown') }}"
+
+  - name: DL20 iLO Network Health
+    sensor_type: server_health
+    value_template: "{{ ilo_data.health_at_a_glance.network.status | default('unknown') }}"
+
+  - name: DL20 iLO Storage Health
+    sensor_type: server_health
+    value_template: "{{ ilo_data.health_at_a_glance.storage.status | default('unknown') }}"
+
+  # -------------------------
+  # Temperature Sensors
+  # Sensor names may vary by server/iLO version.
+  # First enable the raw health dump below, then adjust names if needed.
+  # -------------------------
+  - name: DL20 iLO Inlet Ambient Temperature
+    sensor_type: server_health
+    unit_of_measurement: "°C"
+    value_template: "{{ ilo_data.temperature['01-Inlet Ambient'].currentreading[0] | default('unknown') }}"
+
+  - name: DL20 iLO CPU 1 Temperature
+    sensor_type: server_health
+    unit_of_measurement: "°C"
+    value_template: "{{ ilo_data.temperature['02-CPU 1'].currentreading[0] | default('unknown') }}"
+
+  # -------------------------
+  # Fan Sensors
+  # Fan names may vary: Fan 1, Fan 2, Fan 3, etc.
+  # -------------------------
+  - name: DL20 iLO Fan 1 Speed
+    sensor_type: server_health
+    unit_of_measurement: "%"
+    value_template: "{{ ilo_data.fans['Fan 1'].speed[0] | default('unknown') }}"
+
+  - name: DL20 iLO Fan 2 Speed
+    sensor_type: server_health
+    unit_of_measurement: "%"
+    value_template: "{{ ilo_data.fans['Fan 2'].speed[0] | default('unknown') }}"
+
+  - name: DL20 iLO Fan 3 Speed
+    sensor_type: server_health
+    unit_of_measurement: "%"
+    value_template: "{{ ilo_data.fans['Fan 3'].speed[0] | default('unknown') }}"
+
+  - name: DL20 iLO Fan 4 Speed
+    sensor_type: server_health
+    unit_of_measurement: "%"
+    value_template: "{{ ilo_data.fans['Fan 4'].speed[0] | default('unknown') }}"
+
+  - name: DL20 iLO OA Info Raw
+    sensor_type: server_oa_info
