@@ -1,0 +1,26 @@
+alias: "🚨 CrowdSec - New Ban Alert"
+id: crowdsec_new_ban_alert
+description: "Send alert when CrowdSec bans a new IP"
+trigger:
+  - platform: event
+    event_type: crowdsec_new_decision
+action:
+  - action: notify.send_message
+    target:
+      entity_id: notify.varun_notify_all
+    data:
+      message: |
+        🚨 CrowdSec Ban Alert
+
+        🌐 IP: {{ trigger.event.data.value }}
+        ⚠️ Reason: {{ trigger.event.data.scenario }}
+        ⏱️ Duration: {{ trigger.event.data.duration }}
+        🔒 Type: {{ trigger.event.data.type }}
+  - action: notify.mailgun_relay
+    data:
+      title: "🚨 CrowdSec Ban Alert"
+      message: |
+        🌐 IP: {{ trigger.event.data.value }}
+        ⚠️ Reason: {{ trigger.event.data.scenario }}
+        ⏱️ Duration: {{ trigger.event.data.duration }}
+        🔒 Type: {{ trigger.event.data.type }}

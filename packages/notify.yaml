@@ -1,2 +1,12 @@
 # https://www.home-assistant.io/integrations/notify/
+# Telegram notify entities are auto-created by the Telegram Bot integration
+# Notification groups are configured via UI: Settings -> Integrations -> Notification group
+#
+# Available notifiers:
+# - notify.varun_personal (group: Telegram personal)
+# - notify.email (SMTP relay)
+#
+# To add new notification services:
+# 1. Add the integration in HA UI
+# 2. Add to notification group via Settings -> Integrations -> Notification group
 notify: !include_dir_list ../entities/notifiers
