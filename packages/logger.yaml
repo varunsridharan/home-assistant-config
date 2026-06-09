@@ -1,0 +1,18 @@
+# https://www.home-assistant.io/integrations/logger/
+logger:
+  default: warning
+  logs:
+    hacs: warning
+    custom_components.hacs: warning
+    custom_components.miraie: warning
+    custom_components.crowdsec: warning
+    custom_components.watchman: warning
+    custom_components.idrac_power: warning
+    custom_components.npm_switches: warning
+    custom_components.panasonic_miraie: warning
+    custom_components.ha_miraie_ac: warning
+    homeassistant.components.wiz: warning
+    homeassistant.components.tplink: warning
+    homeassistant.components.unifi: warning
+    homeassistant.components.proxmoxve: warning
+    homeassistant.components.opnsense: warning

@@ -1,0 +1,5 @@
+homeassistant:
+  packages: !include_dir_named ./packages/
+  allowlist_external_dirs:
+    - /config/integrations/shell_scripts/
+    - /config/integrations/cron/

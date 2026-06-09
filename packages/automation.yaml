@@ -1,0 +1,5 @@
+# https://www.home-assistant.io/docs/automation/
+# WARNING: Never create automations via the UI editor.
+# Always write YAML files in integrations/automations/ and commit to GitHub.
+automation: !include ../automations.yaml
+automation split: !include_dir_list ../integrations/automations

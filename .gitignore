@@ -1,0 +1,40 @@
+# Secrets - never commit
+secrets.yaml
+
+# HA runtime files
+home-assistant.log
+home-assistant.log.*
+home-assistant_v2.db
+home-assistant_v2.db-shm
+home-assistant_v2.db-wal
+*.db-journal
+ip_bans.yaml
+known_devices.yaml
+.HA_VERSION
+
+# HA managed folders - ignore contents, keep folder structure
+deps/*
+!deps/.gitkeep
+tts/*
+!tts/.gitkeep
+www/*
+!www/.gitkeep
+!www/community/.gitkeep
+!www/tmp/.gitkeep
+image/*
+!image/.gitkeep
+backups/
+custom_components/*
+!custom_components/.gitkeep
+
+# HA internal folders
+.storage/
+.cloud/
+.cache/
+
+# Misc
+*.pyc
+__pycache__/
+.deploy-keys/
+.ha_run.lock
+watchman_report.txt
