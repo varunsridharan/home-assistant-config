@@ -1,0 +1,9 @@
+name: "MailGun Relay"
+platform: smtp
+sender: "ha@sva.run"
+recipient: "varunsridharan23@gmail.com"
+server: 10.0.100.13
+sender_name: "Home Assistant"
+verify_ssl: false
+port: 25
+encryption: none
