@@ -1,0 +1,194 @@
+alias: "💡 Back Corridor Light"
+id: back_corridor_light_schedule
+description: "Manages back corridor light schedule, door sensor override and power cut recovery."
+mode: restart
+
+triggers:
+  - trigger: time
+    at: "05:30:00"
+    id: schedule_530am
+  - trigger: time
+    at: "05:45:00"
+    id: schedule_545am
+  - trigger: time
+    at: "20:00:00"
+    id: schedule_8pm
+  - trigger: time
+    at: "20:30:00"
+    id: schedule_830pm
+  - trigger: state
+    entity_id: binary_sensor.back_corridor_hall_rear_door
+    id: door_sensor
+  - trigger: state
+    entity_id: light.back_corridor
+    from: unavailable
+    to: "on"
+    id: power_recovery
+
+actions:
+  - choose:
+
+      # ===========================
+      # Schedule: 5:30 AM - 100% White (only if door closed)
+      # ===========================
+      - conditions:
+          - condition: trigger
+            id: schedule_530am
+          - condition: state
+            entity_id: binary_sensor.back_corridor_hall_rear_door
+            state: "off"
+        sequence:
+          - action: light.turn_on
+            target:
+              entity_id: light.back_corridor
+            data:
+              color_temp_kelvin: 6500
+              brightness_pct: 100
+
+      # ===========================
+      # Schedule: 5:45 AM - Turn Off (unconditional)
+      # ===========================
+      - conditions:
+          - condition: trigger
+            id: schedule_545am
+        sequence:
+          - action: light.turn_off
+            target:
+              entity_id: light.back_corridor
+
+      # ===========================
+      # Schedule: 8:00 PM - 100% White (only if door closed)
+      # ===========================
+      - conditions:
+          - condition: trigger
+            id: schedule_8pm
+          - condition: state
+            entity_id: binary_sensor.back_corridor_hall_rear_door
+            state: "off"
+        sequence:
+          - action: light.turn_on
+            target:
+              entity_id: light.back_corridor
+            data:
+              color_temp_kelvin: 6500
+              brightness_pct: 100
+
+      # ===========================
+      # Schedule: 8:30 PM - Night Mode (only if door closed)
+      # ===========================
+      - conditions:
+          - condition: trigger
+            id: schedule_830pm
+          - condition: state
+            entity_id: binary_sensor.back_corridor_hall_rear_door
+            state: "off"
+        sequence:
+          - action: light.turn_on
+            target:
+              entity_id: light.back_corridor
+            data:
+              color_temp_kelvin: 2000
+              brightness_pct: 15
+
+      # ===========================
+      # Door Sensor (7:30 PM - 5:30 AM)
+      # ===========================
+      - conditions:
+          - condition: trigger
+            id: door_sensor
+          - condition: time
+            after: "19:30:00"
+            before: "05:30:00"
+        sequence:
+          - choose:
+              # Door opened - 100% White
+              - conditions:
+                  - condition: state
+                    entity_id: binary_sensor.back_corridor_hall_rear_door
+                    state: "on"
+                sequence:
+                  - action: light.turn_on
+                    target:
+                      entity_id: light.back_corridor
+                    data:
+                      color_temp_kelvin: 6500
+                      brightness_pct: 100
+              # Door closed between 7:30 PM - 8:30 PM - 100% White
+              - conditions:
+                  - condition: state
+                    entity_id: binary_sensor.back_corridor_hall_rear_door
+                    state: "off"
+                  - condition: time
+                    after: "19:30:00"
+                    before: "20:30:00"
+                sequence:
+                  - action: light.turn_on
+                    target:
+                      entity_id: light.back_corridor
+                    data:
+                      color_temp_kelvin: 6500
+                      brightness_pct: 100
+              # Door closed between 8:30 PM - 5:30 AM - Night Mode
+              - conditions:
+                  - condition: state
+                    entity_id: binary_sensor.back_corridor_hall_rear_door
+                    state: "off"
+                  - condition: time
+                    after: "20:30:00"
+                    before: "05:30:00"
+                sequence:
+                  - action: light.turn_on
+                    target:
+                      entity_id: light.back_corridor
+                    data:
+                      color_temp_kelvin: 2000
+                      brightness_pct: 15
+
+      # ===========================
+      # Power Cut Recovery
+      # ===========================
+      - conditions:
+          - condition: trigger
+            id: power_recovery
+        sequence:
+          - choose:
+              # 5:45 AM - 7:30 PM - Turn off
+              - conditions:
+                  - condition: time
+                    after: "05:45:00"
+                    before: "19:30:00"
+                sequence:
+                  - action: light.turn_off
+                    target:
+                      entity_id: light.back_corridor
+              # 7:30 PM - 5:30 AM - Check door state
+              - conditions:
+                  - condition: time
+                    after: "19:30:00"
+                    before: "05:30:00"
+                sequence:
+                  - choose:
+                      # Door open - 100% White
+                      - conditions:
+                          - condition: state
+                            entity_id: binary_sensor.back_corridor_hall_rear_door
+                            state: "on"
+                        sequence:
+                          - action: light.turn_on
+                            target:
+                              entity_id: light.back_corridor
+                            data:
+                              color_temp_kelvin: 6500
+                              brightness_pct: 100
+                      # Door closed - Night Mode
+                      - conditions:
+                          - condition: state
+                            entity_id: binary_sensor.back_corridor_hall_rear_door
+                            state: "off"
+                        sequence:
+                          - action: light.turn_on
+                            target:
+                              entity_id: light.back_corridor
+                            data:
+                              color_temp_kelvin: 2000
+                              brightness_pct: 15

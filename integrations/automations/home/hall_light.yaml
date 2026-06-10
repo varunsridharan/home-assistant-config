@@ -1,0 +1,140 @@
+alias: "💡 Hall Light"
+id: hall_light_schedule
+description: "Manages hall light schedule, night mode and power cut recovery."
+mode: restart
+
+triggers:
+  - trigger: time
+    at: "05:30:00"
+    id: schedule_530am
+  - trigger: time
+    at: "05:45:00"
+    id: schedule_545am
+  - trigger: time
+    at: "17:00:00"
+    id: schedule_5pm
+  - trigger: time
+    at: "18:00:00"
+    id: schedule_6pm
+  - trigger: time
+    at: "20:00:00"
+    id: schedule_8pm
+  - trigger: time
+    at: "20:30:00"
+    id: schedule_830pm
+  - trigger: state
+    entity_id: light.hall_9w
+    from: unavailable
+    to: "on"
+    id: power_recovery
+
+actions:
+  - choose:
+
+      # ===========================
+      # Schedule: 5:30 AM - 100% White
+      # ===========================
+      - conditions:
+          - condition: trigger
+            id: schedule_530am
+        sequence:
+          - action: light.turn_on
+            target:
+              entity_id: light.hall_9w
+            data:
+              color_temp_kelvin: 6500
+              brightness_pct: 100
+
+      # ===========================
+      # Schedule: 5:45 AM - Turn Off
+      # ===========================
+      - conditions:
+          - condition: trigger
+            id: schedule_545am
+        sequence:
+          - action: light.turn_off
+            target:
+              entity_id: light.hall_9w
+
+      # ===========================
+      # Schedule: 5:00 PM - 100% White
+      # ===========================
+      - conditions:
+          - condition: trigger
+            id: schedule_5pm
+        sequence:
+          - action: light.turn_on
+            target:
+              entity_id: light.hall_9w
+            data:
+              color_temp_kelvin: 6500
+              brightness_pct: 100
+
+      # ===========================
+      # Schedule: 6:00 PM - Turn Off
+      # ===========================
+      - conditions:
+          - condition: trigger
+            id: schedule_6pm
+        sequence:
+          - action: light.turn_off
+            target:
+              entity_id: light.hall_9w
+
+      # ===========================
+      # Schedule: 8:00 PM - 100% White
+      # ===========================
+      - conditions:
+          - condition: trigger
+            id: schedule_8pm
+        sequence:
+          - action: light.turn_on
+            target:
+              entity_id: light.hall_9w
+            data:
+              color_temp_kelvin: 6500
+              brightness_pct: 100
+
+      # ===========================
+      # Schedule: 8:30 PM - Night Mode
+      # ===========================
+      - conditions:
+          - condition: trigger
+            id: schedule_830pm
+        sequence:
+          - action: light.turn_on
+            target:
+              entity_id: light.hall_9w
+            data:
+              color_temp_kelvin: 2000
+              brightness_pct: 15
+
+      # ===========================
+      # Power Cut Recovery
+      # ===========================
+      - conditions:
+          - condition: trigger
+            id: power_recovery
+        sequence:
+          - choose:
+              # 8:31 PM to 5:30 AM - Night Mode
+              - conditions:
+                  - condition: time
+                    after: "20:31:00"
+                    before: "05:30:00"
+                sequence:
+                  - action: light.turn_on
+                    target:
+                      entity_id: light.hall_9w
+                    data:
+                      color_temp_kelvin: 2000
+                      brightness_pct: 15
+              # 5:45 AM to 4:55 PM - Turn Off
+              - conditions:
+                  - condition: time
+                    after: "05:45:00"
+                    before: "16:55:00"
+                sequence:
+                  - action: light.turn_off
+                    target:
+                      entity_id: light.hall_9w

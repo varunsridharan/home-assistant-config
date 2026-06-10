@@ -1,0 +1,33 @@
+alias: "🔐 HA - Login Failure Alert"
+id: ha_login_failure_alert
+description: "Sends an alert when Home Assistant detects multiple failed login attempts. Triggers on HA's built-in brute force protection notification."
+mode: single
+triggers:
+  - trigger: event
+    event_type: call_service
+    event_data:
+      domain: persistent_notification
+      service: create
+conditions:
+  - condition: template
+    value_template: >
+      {{ 'Login attempt' in trigger.event.data.service_data.get('message', '') or
+         'Too many' in trigger.event.data.service_data.get('message', '') }}
+actions:
+  - action: notify.send_message
+    target:
+      entity_id: notify.varun_notify_all
+    data:
+      message: |
+        🔐 HA Login Failure Alert
+
+        ⚠️ {{ trigger.event.data.service_data.get('message', 'Multiple failed login attempts detected') }}
+        🕒 Time: {{ now().strftime('%d/%m/%Y %H:%M:%S') }}
+
+        Check Home Assistant logs for more details.
+  - action: notify.mailgun_relay
+    data:
+      title: "🔐 HA Login Failure Alert"
+      message: |
+        {{ trigger.event.data.service_data.get('message', 'Multiple failed login attempts detected') }}
+        Time: {{ now().strftime('%d/%m/%Y %H:%M:%S') }}

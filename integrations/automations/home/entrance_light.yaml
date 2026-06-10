@@ -1,0 +1,181 @@
+alias: "💡 Entrance Light"
+id: entrance_light_schedule
+description: "Manages house entrance light schedule using sun-based triggers, night mode at 10 PM and power cut recovery."
+mode: single
+
+triggers:
+  - trigger: sun
+    event: sunset
+    offset: "-00:10:00"
+    id: schedule_sunset
+  - trigger: sun
+    event: sunset
+    offset: "+01:00:00"
+    id: schedule_sunset_1h
+  - trigger: sun
+    event: sunset
+    offset: "+01:30:00"
+    id: schedule_sunset_1h30
+  - trigger: sun
+    event: sunset
+    offset: "+02:00:00"
+    id: schedule_sunset_2h
+  - trigger: time
+    at: "22:00:00"
+    id: schedule_night_mode
+  - trigger: sun
+    event: sunrise
+    offset: "-00:30:00"
+    id: schedule_sunrise_30
+  - trigger: sun
+    event: sunrise
+    offset: "+00:01:00"
+    id: schedule_sunrise_off
+  - trigger: state
+    entity_id: light.house_entrance
+    from: unavailable
+    to: "on"
+    id: power_recovery
+
+actions:
+  - choose:
+
+      # ===========================
+      # Sunset - 10 mins: 100% White
+      # ===========================
+      - conditions:
+          - condition: trigger
+            id: schedule_sunset
+        sequence:
+          - action: light.turn_on
+            target:
+              entity_id: light.house_entrance
+            data:
+              color_temp_kelvin: 6500
+              brightness_pct: 100
+
+      # ===========================
+      # Sunset + 1 hour: 75% White
+      # ===========================
+      - conditions:
+          - condition: trigger
+            id: schedule_sunset_1h
+        sequence:
+          - action: light.turn_on
+            target:
+              entity_id: light.house_entrance
+            data:
+              color_temp_kelvin: 6500
+              brightness_pct: 75
+
+      # ===========================
+      # Sunset + 1.5 hours: 50% White
+      # ===========================
+      - conditions:
+          - condition: trigger
+            id: schedule_sunset_1h30
+        sequence:
+          - action: light.turn_on
+            target:
+              entity_id: light.house_entrance
+            data:
+              color_temp_kelvin: 6500
+              brightness_pct: 50
+
+      # ===========================
+      # Sunset + 2 hours: 25% White
+      # ===========================
+      - conditions:
+          - condition: trigger
+            id: schedule_sunset_2h
+        sequence:
+          - action: light.turn_on
+            target:
+              entity_id: light.house_entrance
+            data:
+              color_temp_kelvin: 6500
+              brightness_pct: 25
+
+      # ===========================
+      # 10:00 PM: Night Mode
+      # ===========================
+      - conditions:
+          - condition: trigger
+            id: schedule_night_mode
+        sequence:
+          - action: light.turn_on
+            target:
+              entity_id: light.house_entrance
+            data:
+              color_temp_kelvin: 2000
+              brightness_pct: 15
+
+      # ===========================
+      # Sunrise - 30 mins: 100% White
+      # ===========================
+      - conditions:
+          - condition: trigger
+            id: schedule_sunrise_30
+        sequence:
+          - action: light.turn_on
+            target:
+              entity_id: light.house_entrance
+            data:
+              color_temp_kelvin: 6500
+              brightness_pct: 100
+
+      # ===========================
+      # Sunrise + 1 min: Turn Off
+      # ===========================
+      - conditions:
+          - condition: trigger
+            id: schedule_sunrise_off
+        sequence:
+          - action: light.turn_off
+            target:
+              entity_id: light.house_entrance
+
+      # ===========================
+      # Power Cut Recovery
+      # ===========================
+      - conditions:
+          - condition: trigger
+            id: power_recovery
+        sequence:
+          - choose:
+              # Sun below horizon + after 10 PM = Night Mode
+              - conditions:
+                  - condition: state
+                    entity_id: sun.sun
+                    state: below_horizon
+                  - condition: time
+                    after: "22:00:00"
+                    before: "05:00:00"
+                sequence:
+                  - action: light.turn_on
+                    target:
+                      entity_id: light.house_entrance
+                    data:
+                      color_temp_kelvin: 2000
+                      brightness_pct: 15
+              # Sun below horizon + before 10 PM = 100% White
+              - conditions:
+                  - condition: state
+                    entity_id: sun.sun
+                    state: below_horizon
+                sequence:
+                  - action: light.turn_on
+                    target:
+                      entity_id: light.house_entrance
+                    data:
+                      color_temp_kelvin: 6500
+                      brightness_pct: 100
+              # Sun above horizon = Turn Off
+              - conditions:
+                  - condition: state
+                    entity_id: sun.sun
+                    state: above_horizon
+                sequence:
+                  - action: light.turn_off
+                    target:
+                      entity_id: light.house_entrance

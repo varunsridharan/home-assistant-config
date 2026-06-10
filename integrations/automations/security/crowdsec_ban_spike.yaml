@@ -1,0 +1,48 @@
+alias: "🚨 CrowdSec - Ban Spike Alert"
+id: crowdsec_ban_spike_alert
+description: "Sends a high priority alert when 10+ bans occur within 10 minutes. Throttled to max 1 alert per 10 minutes."
+mode: single
+max_exceeded: silent
+triggers:
+  - trigger: event
+    event_type: crowdsec_new_decision
+conditions:
+  - condition: template
+    value_template: >
+      {{ states('sensor.crowdsec_active_decisions') | int >= 10 }}
+actions:
+  - action: notify.send_message
+    target:
+      entity_id: notify.varun_notify_all
+    data:
+      message: |
+        🚨 CrowdSec Ban Spike Detected!
+
+        📊 Active Bans: {{ states('sensor.crowdsec_active_decisions') }}
+        🕒 Time: {{ now().strftime('%d/%m/%Y %H:%M:%S') }}
+        ⚠️ Top Scenario: {{ state_attr('sensor.crowdsec_active_decisions', 'decisions')[0].scenario }}
+
+        🌐 Banned IPs:
+        {% for d in state_attr('sensor.crowdsec_active_decisions', 'decisions')[:10] %}
+        • {{ d.value }} — {{ d.scenario }}
+        {% endfor %}
+        {% if state_attr('sensor.crowdsec_active_decisions', 'decisions') | length > 10 %}
+        ... and {{ state_attr('sensor.crowdsec_active_decisions', 'decisions') | length - 10 }} more
+        {% endif %}
+  - action: notify.mailgun_relay
+    data:
+      title: "🚨 CrowdSec Ban Spike Detected"
+      message: |
+        Active Bans: {{ states('sensor.crowdsec_active_decisions') }}
+        Time: {{ now().strftime('%d/%m/%Y %H:%M:%S') }}
+        Top Scenario: {{ state_attr('sensor.crowdsec_active_decisions', 'decisions')[0].scenario }}
+
+        Banned IPs:
+        {% for d in state_attr('sensor.crowdsec_active_decisions', 'decisions')[:10] %}
+        - {{ d.value }} — {{ d.scenario }}
+        {% endfor %}
+        {% if state_attr('sensor.crowdsec_active_decisions', 'decisions') | length > 10 %}
+        ... and {{ state_attr('sensor.crowdsec_active_decisions', 'decisions') | length - 10 }} more
+        {% endif %}
+  - delay:
+      minutes: 10
