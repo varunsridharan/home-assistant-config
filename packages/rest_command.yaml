@@ -1,0 +1,34 @@
+rest_command:
+  send_sms:
+    url: !secret sms_api_host
+    method: POST
+    headers:
+      X-API-Key: !secret sms_api_key
+      Content-Type: application/json
+    payload: "{ \"body\": \"{{ message }}\", \"to\": \"{{ to }}\" }"
+    content_type: application/json
+
+
+  pihole_auth:
+    url: "http://{{ pihole_host }}/api/auth"
+    method: POST
+    content_type: "application/json"
+    payload: '{"password": "{{ pihole_password }}"}'
+
+  pihole_dns_add:
+    url: "http://{{ pihole_host }}/api/config/dns/hosts/10.0.2.1%20{{ domain }}"
+    method: PUT
+    headers:
+      sid: "{{ token }}"
+
+  pihole_dns_remove:
+    url: "http://{{ pihole_host }}/api/config/dns/hosts/10.0.2.1%20{{ domain }}"
+    method: DELETE
+    headers:
+      sid: "{{ token }}"
+
+  pihole_logout:
+    url: "http://{{ pihole_host }}/api/auth"
+    method: DELETE
+    headers:
+      sid: "{{ token }}"

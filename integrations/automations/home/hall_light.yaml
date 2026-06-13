@@ -106,8 +106,11 @@ actions:
             target:
               entity_id: light.hall_9w
             data:
-              color_temp_kelvin: 2000
               brightness_pct: 15
+              rgb_color:
+                - 50
+                - 38
+                - 198
 
       # ===========================
       # Power Cut Recovery
@@ -127,8 +130,11 @@ actions:
                     target:
                       entity_id: light.hall_9w
                     data:
-                      color_temp_kelvin: 2000
                       brightness_pct: 15
+                      rgb_color:
+                        - 50
+                        - 38
+                        - 198
               # 5:45 AM to 4:55 PM - Turn Off
               - conditions:
                   - condition: time

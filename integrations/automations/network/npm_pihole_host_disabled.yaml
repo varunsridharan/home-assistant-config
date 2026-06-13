@@ -1,0 +1,48 @@
+id: npm_pihole_host_disabled
+alias: "⏸️ NPM ↔ Pi-hole: Host disabled → Remove DNS"
+description: "When an NPM reverse proxy host is turned off, remove its Pi-hole DNS record (unless labeled dns-persist)"
+mode: queued
+max: 10
+triggers:
+  - trigger: event
+    event_type: state_changed
+condition:
+  - condition: template
+    value_template: >
+      {{ trigger.event.data.entity_id.startswith('switch.reverse_proxy_') and
+          trigger.event.data.new_state is not none and
+          trigger.event.data.old_state is not none and
+          trigger.event.data.new_state.state == 'off' and
+          trigger.event.data.old_state.state == 'on' and
+          trigger.event.data.entity_id not in label_entities('dns-persist') }}
+action:
+  - variables:
+      domain_raw: "{{ trigger.event.data.new_state.attributes.domain_names }}"
+      domains: "{{ [domain_raw] if domain_raw is string else domain_raw }}"
+
+  - action: rest_command.pihole_auth
+    data:
+      pihole_host: !secret pihole_host
+      pihole_password: !secret pihole_password
+    response_variable: auth_response
+
+  - variables:
+      token: "{{ (auth_response['content'] | from_json).session.sid }}"
+
+  - repeat:
+      for_each: "{{ domains }}"
+      sequence:
+        - action: rest_command.pihole_dns_remove
+          data:
+            pihole_host: !secret pihole_host
+            domain: "{{ repeat.item }}"
+            token: "{{ token }}"
+
+  - action: rest_command.pihole_logout
+    data:
+      pihole_host: !secret pihole_host
+      token: "{{ token }}"
+
+  - action: notify.varun_notify_all
+    data:
+      message: "⏸️ DNS Removed: {{ domains | join(', ') }} (host disabled)"

@@ -1,0 +1,144 @@
+alias: "🌐 WAN Gateway - Down/Up Alert"
+id: wan_gateway_alert
+description: "Alerts when primary or secondary WAN gateway goes down or recovers. SMS used for down alerts since internet may be unavailable."
+mode: parallel
+max: 4
+
+triggers:
+  - trigger: state
+    entity_id: sensor.opnsense_gateway_primary_act_status
+    to: "offline"
+    id: primary_down
+  - trigger: state
+    entity_id: sensor.opnsense_gateway_primary_act_status
+    to: "online"
+    id: primary_up
+  - trigger: state
+    entity_id: sensor.opnsense_gateway_wan2_pppoe_status
+    to: "offline"
+    id: wan2_down
+  - trigger: state
+    entity_id: sensor.opnsense_gateway_wan2_pppoe_status
+    to: "online"
+    id: wan2_up
+
+actions:
+  - choose:
+
+      # ===========================
+      # Primary WAN Down - SMS only
+      # ===========================
+      - conditions:
+          - condition: trigger
+            id: primary_down
+        sequence:
+          - action: rest_command.send_sms
+            data:
+              to: !secret sms_notify_to
+              message: >
+                ALERT: Primary WAN Down!
+                Loss: {{ states('sensor.opnsense_gateway_primary_act_loss') }}%
+                Latency: {{ states('sensor.opnsense_gateway_primary_act_delay') }}ms
+                Time: {{ now().strftime('%d/%m %H:%M') }}
+          - action: persistent_notification.create
+            data:
+              title: "🔴 Primary WAN Down"
+              message: >
+                Gateway Primary_ACT is offline.
+                Loss: {{ states('sensor.opnsense_gateway_primary_act_loss') }}%
+                Latency: {{ states('sensor.opnsense_gateway_primary_act_delay') }}ms
+
+      # ===========================
+      # Primary WAN Recovered - Telegram + Email + SMS
+      # ===========================
+      - conditions:
+          - condition: trigger
+            id: primary_up
+        sequence:
+          - action: notify.send_message
+            target:
+              entity_id: notify.varun_notify_all
+            data:
+              message: |
+                ✅ <b>Primary WAN Restored</b>
+
+                🌐 <b>Gateway:</b> Primary_ACT
+                📉 <b>Packet Loss:</b> {{ states('sensor.opnsense_gateway_primary_act_loss') }}%
+                ⏱️ <b>Latency:</b> {{ states('sensor.opnsense_gateway_primary_act_delay') }}ms
+                ⏳ <b>Downtime:</b> {{ (now() - trigger.from_state.last_changed).seconds // 60 }} mins
+                🕒 <b>Time:</b> {{ now().strftime('%d/%m/%Y %H:%M:%S') }}
+          - action: notify.mailgun_relay
+            data:
+              title: "✅ Primary WAN Restored"
+              message: |
+                Gateway: Primary_ACT
+                Packet Loss: {{ states('sensor.opnsense_gateway_primary_act_loss') }}%
+                Latency: {{ states('sensor.opnsense_gateway_primary_act_delay') }}ms
+                Downtime: {{ (now() - trigger.from_state.last_changed).seconds // 60 }} mins
+                Time: {{ now().strftime('%d/%m/%Y %H:%M:%S') }}
+          - action: rest_command.send_sms
+            data:
+              to: !secret sms_notify_to
+              message: >
+                RESTORED: Primary WAN back online.
+                Down for {{ (now() - trigger.from_state.last_changed).seconds // 60 }} mins.
+                {{ now().strftime('%d/%m %H:%M') }}
+
+      # ===========================
+      # WAN2 Down - SMS only
+      # ===========================
+      - conditions:
+          - condition: trigger
+            id: wan2_down
+        sequence:
+          - action: rest_command.send_sms
+            data:
+              to: !secret sms_notify_to
+              message: >
+                ALERT: WAN2 PPPoE Down!
+                Loss: {{ states('sensor.opnsense_gateway_wan2_pppoe_loss') }}%
+                Latency: {{ states('sensor.opnsense_gateway_wan2_pppoe_delay') }}ms
+                Time: {{ now().strftime('%d/%m %H:%M') }}
+          - action: persistent_notification.create
+            data:
+              title: "🔴 WAN2 PPPoE Down"
+              message: >
+                Gateway WAN2_PPPOE is offline.
+                Loss: {{ states('sensor.opnsense_gateway_wan2_pppoe_loss') }}%
+                Latency: {{ states('sensor.opnsense_gateway_wan2_pppoe_delay') }}ms
+
+      # ===========================
+      # WAN2 Recovered - Telegram + Email + SMS
+      # ===========================
+      - conditions:
+          - condition: trigger
+            id: wan2_up
+        sequence:
+          - action: notify.send_message
+            target:
+              entity_id: notify.varun_notify_all
+            data:
+              message: |
+                ✅ <b>WAN2 (PPPoE) Restored</b>
+
+                🌐 <b>Gateway:</b> WAN2_PPPOE
+                📉 <b>Packet Loss:</b> {{ states('sensor.opnsense_gateway_wan2_pppoe_loss') }}%
+                ⏱️ <b>Latency:</b> {{ states('sensor.opnsense_gateway_wan2_pppoe_delay') }}ms
+                ⏳ <b>Downtime:</b> {{ (now() - trigger.from_state.last_changed).seconds // 60 }} mins
+                🕒 <b>Time:</b> {{ now().strftime('%d/%m/%Y %H:%M:%S') }}
+          - action: notify.mailgun_relay
+            data:
+              title: "✅ WAN2 PPPoE Restored"
+              message: |
+                Gateway: WAN2_PPPOE
+                Packet Loss: {{ states('sensor.opnsense_gateway_wan2_pppoe_loss') }}%
+                Latency: {{ states('sensor.opnsense_gateway_wan2_pppoe_delay') }}ms
+                Downtime: {{ (now() - trigger.from_state.last_changed).seconds // 60 }} mins
+                Time: {{ now().strftime('%d/%m/%Y %H:%M:%S') }}
+          - action: rest_command.send_sms
+            data:
+              to: !secret sms_notify_to
+              message: >
+                RESTORED: WAN2 PPPoE back online.
+                Down for {{ (now() - trigger.from_state.last_changed).seconds // 60 }} mins.
+                {{ now().strftime('%d/%m %H:%M') }}

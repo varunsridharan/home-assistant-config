@@ -1,1 +1,14 @@
-[]
+- id: '1781279505393'
+  alias: Office AC
+  description: ''
+  triggers:
+  - trigger: time
+    at: '22:30:00'
+  conditions: []
+  actions:
+  - action: climate.turn_off
+    metadata: {}
+    target:
+      entity_id: climate.office_ac_control
+    data: {}
+  mode: single

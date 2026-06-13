@@ -11,13 +11,14 @@ actions:
       entity_id: notify.varun_notify_all
     data:
       message: |
-        🚨 CrowdSec New Ban
+        🚨 <b>CrowdSec New Ban</b>
 
-        🌐 IP: {{ trigger.event.data.value }}
-        ⚠️ Scenario: {{ trigger.event.data.scenario }}
-        ⏱️ Duration: {{ trigger.event.data.duration }}
-        🔒 Type: {{ trigger.event.data.type }}
-        📊 Total Active Bans: {{ states('sensor.crowdsec_active_decisions') }}
+        🌐 <b>IP:</b> <code>{{ trigger.event.data.value }}</code>
+        ⚠️ <b>Scenario:</b> {{ trigger.event.data.scenario }}
+        ⏱️ <b>Duration:</b> {{ trigger.event.data.duration }}
+        🔒 <b>Type:</b> {{ trigger.event.data.type }}
+        📊 <b>Total Active Bans:</b> {{ states('sensor.crowdsec_active_decisions') }}
+
   - action: notify.mailgun_relay
     data:
       title: "🚨 CrowdSec New Ban Alert"
